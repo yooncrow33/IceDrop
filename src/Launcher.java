@@ -15,11 +15,12 @@ public class Launcher {
     JButton Start = new JButton("Start >>");
     JButton fux = new JButton("Create password");
     JLabel lable = new JLabel("IceDrop Launcher");
-    JLabel lable2 = new JLabel("alpha 1.1 is now!");
+    JLabel lable2 = new JLabel("alpha is now!");
     JButton recentNews = new JButton("Recent News");
     JButton patchNotes = new JButton("Patch Notes");
     JButton manual = new JButton("Manual");
     JTextArea Area = new JTextArea();
+    JScrollPane p = new JScrollPane(Area);
     JTextArea TitleArea = new JTextArea("Manual");
     //JLabel lable2 = new JLabel("Since it is in the development stage, only the latest version will be executed.");
     String password;
@@ -32,7 +33,11 @@ public class Launcher {
 
     String recent_news = "\n" +
             "이것을 쓴 시점은 런처만 만든 시점임.\n" +
-            "       2025/10/22 -yooncrow-\n" ;
+            "       2025/10/22 -yooncrow-\n" +
+            "\n" +
+            "alpha 1.3!\n" +
+            "   - 내가 똥같이 싼 코드 치우는중...\n" +
+            "       2025/10/28 -yooncrow-\n" ;
 
     String patch_notes = "\n" +
             "alpha 1.0\n" +
@@ -69,7 +74,19 @@ public class Launcher {
             "   [게임내용]\n" +
             "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - 인터페이스를 만들어 GM(그래픽 매니저)와 Main클래스의 결합도를 낮춤.\n" +
+            "   - 인터페이스를 만들어 GM(그래픽 매니저)와 Main클래스의 결합도를 낮춤..\n" +
+            "   [신기능]\n" +
+            "   - 없음.\n" +
+            "\n" +
+            "alpha 1.3\n" +
+            "   [버그 수정]\n" +
+            "   - 마우스의 좌표가 프레임을 포함하여 계산하던 문제 해결..\n" +
+            "   [사용자 편의]\n" +
+            "   - 없음.\n" +
+            "   [게임내용]\n" +
+            "   - 없음.\n" +
+            "   [최적화]\n" +
+            "   - 매 프레임마다 스케일을 계산하던 방식에서 창을 조절하거나 M키를 누르면 계산하도록 최적화...\n" +
             "   [신기능]\n" +
             "   - 없음.\n";
 
@@ -77,19 +94,19 @@ public class Launcher {
             "IceDrop Launcher 사용법\n" +
             "\n" +
             "1. 패스워드 생성\n" +
-            "   - 처음 실행 시,원하는 패스워드를 입력하고 'Create password'\n  버튼을 클릭하여 패스워드를 생성합니다.\n" +
+            "   - 처음 실행 시,원하는 패스워드를 입력하고 'Create password' 버튼을 클릭하여 패스워드를 생성합니다.\n" +
             "   - 패스워드는 이후 게임 실행 시 필요합니다.\n" +
             "\n" +
             "2. 게임 실행\n" +
-            "   - 생성한 패스워드를 입력하고 'Start >>' 버튼을\n   클릭하여 게임을 실행합니다.\n" +
+            "   - 생성한 패스워드를 입력하고 'Start >>' 버튼을 클릭하여 게임을 실행합니다.\n" +
             "   - 올바른 패스워드를 입력해야 게임이 실행됩니다.\n" +
             "\n" +
             "3. 프로필 선택\n" +
-            "   - 드롭다운 메뉴에서 원하는 게임 프로필을\n    선택할 수 있습니다.\n" +
+            "   - 드롭다운 메뉴에서 원하는 게임 프로필을 선택할 수 있습니다.\n" +
             "\n" +
             "4. 최근 소식 및 패치 노트\n" +
-            "   - 'Recent News' 버튼을 클릭하여\n   최신 소식을 확인할 수 있습니다.\n" +
-            "   - 'Patch Notes' 버튼을 클릭하여\n   최신 패치 내용을 확인할 수 있습니다.\n";
+            "   - 'Recent News' 버튼을 클릭하여 최신 소식을 확인할 수 있습니다.\n" +
+            "   - 'Patch Notes' 버튼을 클릭하여 최신 패치 내용을 확인할 수 있습니다.\n";
     /*
 
     패치노트의 기본 양식
@@ -139,7 +156,7 @@ public class Launcher {
         frame.add(fux);
         frame.add(lable);
         frame.add(lable2);
-        frame.add(Area);
+        frame.add(p);
         frame.add(recentNews);
         frame.add(patchNotes);
         frame.add(manual);
@@ -159,10 +176,11 @@ public class Launcher {
         lable2.setHorizontalAlignment(SwingConstants.CENTER);
         TitleArea.setBounds(410,10,380,60);
         TitleArea.setFont(new Font("맑은 고딕", Font.BOLD, 58));
-        TitleArea.setEnabled(true);
-        Area.setBounds(410,70,380,470);
+        TitleArea.setEnabled(false);
+        p.setBounds(410,70,380,470);
         Area.setEditable(false);
         Area.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        Area.setLineWrap(true);
         recentNews.setBounds(410,540,126,10);
         patchNotes.setBounds(536,540,127,10);
         manual.setBounds(663,540,126,10);

@@ -4,9 +4,9 @@ import java.awt.*;
 public class GM {
     public void renderBaseFrame(Graphics g) {
         g.setColor(Color.white);
-        g.fillRect(10,10, Main.VIRTUAL_WIDTH - 20, 10);
-        g.fillRect(10, 1060, Main.VIRTUAL_WIDTH - 20, 10);
-        g.fillRect( 10,10,10, Main.VIRTUAL_HEIGHT - 20);
+        g.fillRect(0,10, Main.VIRTUAL_WIDTH - 10, 10);
+        g.fillRect(0, 1060, Main.VIRTUAL_WIDTH - 10, 10);
+        g.fillRect( 0,10,10, Main.VIRTUAL_HEIGHT - 20);
         g.fillRect(1910,10,10, Main.VIRTUAL_HEIGHT - 20);
         g.fillRect(955,10,10, Main.VIRTUAL_HEIGHT - 20);
     }
@@ -60,7 +60,7 @@ public class GM {
         g.drawString("free memory: " + info.getUsedMemory() + "MB", 980, 470);
         g.drawString("cpu usage: " + info.getCpuPercentage() + "%", 980, 500);
         g.drawString("moveX: " + info.getVirtualMouseX(), 980, 530);
-        g.drawString("moveY: " + info.getVirtualMouseX(), 980, 560);
+        g.drawString("moveY: " + info.getVirtualMouseY(), 980, 560);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {

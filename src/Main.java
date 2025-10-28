@@ -18,7 +18,7 @@ public class Main extends JPanel implements TapData {
     Runtime run = Runtime.getRuntime();
     OperatingSystemMXBean mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
-    JFrame frame = new JFrame("alpha 1.0");
+    JFrame frame = new JFrame("alpha 1.3");
 
     private ScheduledExecutorService executor;
     private long lastTime;
@@ -43,6 +43,9 @@ public class Main extends JPanel implements TapData {
     private long usedMemory;
     private double jvmCpuLoad;
     private int cpuPercentage;
+
+    private double scale;
+    private int xOffset, yOffset;
 
     Font titleFont = new Font("SansSerif", Font.BOLD, 64);
 
@@ -74,7 +77,7 @@ public class Main extends JPanel implements TapData {
         frame.pack();
 
         setBackground(Color.BLACK);
-
+        calculateViewMetrics();
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -106,6 +109,9 @@ public class Main extends JPanel implements TapData {
                     save();
                     System.exit(0);
                 }
+                if (e.getKeyCode() == KeyEvent.VK_M) {
+                    calculateViewMetrics();
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {
@@ -123,7 +129,7 @@ public class Main extends JPanel implements TapData {
             }
         });
 
-        frame.addMouseMotionListener(new MouseMotionAdapter() {
+        this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 mouseX = e.getX();
@@ -164,6 +170,8 @@ public class Main extends JPanel implements TapData {
                         frame.setSize(currentW, newH);
                     }
 
+                    calculateViewMetrics();
+
                     EventQueue.invokeLater(() -> isResizing = false);
                 }
             }
@@ -189,14 +197,6 @@ public class Main extends JPanel implements TapData {
     }
 
     private void update(double deltaTime) {
-        /*
-        if (moveUp) playerY -= 300 * deltaTime;
-        if (moveDown) playerY += 300 * deltaTime;
-        if (moveLeft) playerX -= 300 * deltaTime;
-        if (moveRight) playerX += 300 * deltaTime;
-        checkBounds();
-
-         */
         totalMemory = run.totalMemory();
         freeMemory = run.freeMemory();
         usedMemory = totalMemory - freeMemory;
@@ -328,11 +328,7 @@ public class Main extends JPanel implements TapData {
         return cpuPercentage;
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D d2 = (Graphics2D) g;
-
+    private void calculateViewMetrics() {
         windowWidth = getWidth();
         windowHeight = getHeight();
 
@@ -340,19 +336,27 @@ public class Main extends JPanel implements TapData {
         scaleX = windowWidth / (double) VIRTUAL_WIDTH;
         scaleY = windowHeight / (double) VIRTUAL_HEIGHT;
 
-        // 두 비율 중 작은 걸 선택 (aspect ratio 유지)
-        double scale = Math.min(scaleX, scaleY);
+        // 두 비율 중 작은 걸 선택 (aspect ratio 유지ㄴ
+        scale = Math.min(scaleX, scaleY);
 
         // 중앙 정렬을 위해 여백 계산
-        int xOffset = (int) ((windowWidth - VIRTUAL_WIDTH * scale) / 2);
-        int yOffset = (int) ((windowHeight - VIRTUAL_HEIGHT * scale) / 2);
+        xOffset = (int) ((windowWidth - VIRTUAL_WIDTH * scale) / 2);
+        yOffset = (int) ((windowHeight - VIRTUAL_HEIGHT * scale) / 2);
+
+        currentScale = scale; // Math.min(scaleX, scaleY) 값
+        currentXOffset = xOffset;
+        currentYOffset = yOffset;
+
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D d2 = (Graphics2D) g;
 
         // 스케일 + 이동 적용
         d2.translate(xOffset, yOffset);
         d2.scale(scale, scale);
-
-        int virtualMouseX = (int) ((mouseX - xOffset) / scale);
-        int virtualMouseY = (int) ((mouseY - yOffset) / scale);
 
         g.setColor(Color.white);
         g.setFont(titleFont);
@@ -377,9 +381,10 @@ public class Main extends JPanel implements TapData {
         }
         gm.renderTapBar(g, tap, tapBarXPosition[tap]);
         gm.renderBaseFrame(d2);
-
-        currentScale = scale; // Math.min(scaleX, scaleY) 값
-        currentXOffset = xOffset;
-        currentYOffset = yOffset;
     }
+
+    public static void main(String[] args) {
+        new Main(1);
+    }
+
 }
