@@ -18,7 +18,7 @@ public class Main extends JPanel implements TapData {
     Runtime run = Runtime.getRuntime();
     OperatingSystemMXBean mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
-    JFrame frame = new JFrame("alpha 1.3");
+    JFrame frame = new JFrame("alpha 1.4");
 
     private ScheduledExecutorService executor;
     private long lastTime;
@@ -31,21 +31,14 @@ public class Main extends JPanel implements TapData {
 
     static final int VIRTUAL_WIDTH = 1920;
     static final int VIRTUAL_HEIGHT = 1080;
-    private int windowWidth;
-    private int windowHeight;
-    private double currentScale;
-    private int currentXOffset;
-    private int currentYOffset;
-    private double scaleX;
-    private double scaleY;
+
     private long totalMemory;
     private long freeMemory;
     private long usedMemory;
     private double jvmCpuLoad;
     private int cpuPercentage;
 
-    private double scale;
-    private int xOffset, yOffset;
+    private final ViewMetrics viewMetrics;
 
     Font titleFont = new Font("SansSerif", Font.BOLD, 64);
 
@@ -54,7 +47,6 @@ public class Main extends JPanel implements TapData {
     int tap = 1;
     boolean shiftPressed = false;
 
-    //String alphabet[] = {"empty","A","B","C","D","E","F","G","H","I","K","K","L","M","N","O","P","Q","R","S","T","U","V","W",",X","Y","Z"};
     int tapBarXPosition[] = {0,965,1154,1343,1532,1721,1721};
 
     GM gm = new GM();
@@ -76,8 +68,10 @@ public class Main extends JPanel implements TapData {
         frame.requestFocus();
         frame.pack();
 
+        viewMetrics = new ViewMetrics(this);
+
         setBackground(Color.BLACK);
-        calculateViewMetrics();
+        this.viewMetrics.calculateViewMetrics();
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -110,7 +104,7 @@ public class Main extends JPanel implements TapData {
                     System.exit(0);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_M) {
-                    calculateViewMetrics();
+                    viewMetrics.calculateViewMetrics();
                 }
             }
             @Override
@@ -135,8 +129,8 @@ public class Main extends JPanel implements TapData {
                 mouseX = e.getX();
                 mouseY = e.getY();
 
-                virtualMouseX = getVirtualX(mouseX);
-                virtualMouseY = getVirtualY(mouseY);
+                virtualMouseX = viewMetrics.getVirtualX(mouseX);
+                virtualMouseY = viewMetrics.getVirtualY(mouseY);
 
             }
         });
@@ -170,7 +164,7 @@ public class Main extends JPanel implements TapData {
                         frame.setSize(currentW, newH);
                     }
 
-                    calculateViewMetrics();
+                    viewMetrics.calculateViewMetrics();
 
                     EventQueue.invokeLater(() -> isResizing = false);
                 }
@@ -205,16 +199,6 @@ public class Main extends JPanel implements TapData {
         usedMemory = usedMemory/1048576;
         jvmCpuLoad = mxbean.getCpuLoad();
         cpuPercentage = (int) (jvmCpuLoad * 100);
-    }
-
-    public int getVirtualX(int mouseX) {
-        if (currentScale == 0) return mouseX;
-        return (int) ((mouseX - currentXOffset) / currentScale);
-    }
-
-    public int getVirtualY(int mouseY) {
-        if (currentScale == 0) return mouseY; // 0으로 나누는 것 방지
-        return (int) ((mouseY - currentYOffset) / currentScale);
     }
 
     public void save() {
@@ -269,41 +253,6 @@ public class Main extends JPanel implements TapData {
     }
 
     @Override
-    public int getWindowWidth() {
-        return windowWidth;
-    }
-
-    @Override
-    public int getWindowHeight() {
-        return windowHeight;
-    }
-
-    @Override
-    public double getCurrentScale() {
-        return currentScale;
-    }
-
-    @Override
-    public int getCurrentXOffset() {
-        return currentXOffset;
-    }
-
-    @Override
-    public int getCurrentYOffset() {
-        return currentYOffset;
-    }
-
-    @Override
-    public double getScaleX() {
-        return scaleX;
-    }
-
-    @Override
-    public double getScaleY() {
-        return scaleY;
-    }
-
-    @Override
     public long getTotalMemory() {
         return totalMemory;
     }
@@ -328,35 +277,14 @@ public class Main extends JPanel implements TapData {
         return cpuPercentage;
     }
 
-    private void calculateViewMetrics() {
-        windowWidth = getWidth();
-        windowHeight = getHeight();
-
-        // 기준 해상도와 실제 창 크기 비율
-        scaleX = windowWidth / (double) VIRTUAL_WIDTH;
-        scaleY = windowHeight / (double) VIRTUAL_HEIGHT;
-
-        // 두 비율 중 작은 걸 선택 (aspect ratio 유지ㄴ
-        scale = Math.min(scaleX, scaleY);
-
-        // 중앙 정렬을 위해 여백 계산
-        xOffset = (int) ((windowWidth - VIRTUAL_WIDTH * scale) / 2);
-        yOffset = (int) ((windowHeight - VIRTUAL_HEIGHT * scale) / 2);
-
-        currentScale = scale; // Math.min(scaleX, scaleY) 값
-        currentXOffset = xOffset;
-        currentYOffset = yOffset;
-
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D d2 = (Graphics2D) g;
 
         // 스케일 + 이동 적용
-        d2.translate(xOffset, yOffset);
-        d2.scale(scale, scale);
+        d2.translate(viewMetrics.getCurrentXOffset(), viewMetrics.getCurrentYOffset());
+        d2.scale(viewMetrics.getCurrentScale(), viewMetrics.getCurrentScale());
 
         g.setColor(Color.white);
         g.setFont(titleFont);
@@ -377,7 +305,7 @@ public class Main extends JPanel implements TapData {
         } else if (tap == 5) {
             gm.renderSettingTap(g);
         } else if (tap == 6) {
-            gm.renderDebugTap(g, this);
+            gm.renderDebugTap(g, viewMetrics, this);
         }
         gm.renderTapBar(g, tap, tapBarXPosition[tap]);
         gm.renderBaseFrame(d2);
