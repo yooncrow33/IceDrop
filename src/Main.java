@@ -10,21 +10,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.sun.jdi.connect.Connector;
-import com.sun.management.OperatingSystemMXBean;
-import java.lang.management.ManagementFactory;
+public class Main extends JPanel{
 
-public class Main extends JPanel implements TapData {
-    Runtime run = Runtime.getRuntime();
-    OperatingSystemMXBean mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-
-    JFrame frame = new JFrame("alpha 1.5");
+    JFrame frame = new JFrame("alpha 1.6");
 
     private ScheduledExecutorService executor;
     private long lastTime;
 
     int mouseX, mouseY;
-    private int  virtualMouseX,virtualMouseY;
+    static int  virtualMouseX,virtualMouseY;
 
     private boolean isResizing = false;
     private int currentProfileId;
@@ -39,6 +33,7 @@ public class Main extends JPanel implements TapData {
     private int cpuPercentage;
 
     private final ViewMetrics viewMetrics;
+    private final SystemMonitor systemMonitor;
 
     Font titleFont = new Font("SansSerif", Font.BOLD, 64);
 
@@ -69,6 +64,7 @@ public class Main extends JPanel implements TapData {
         frame.pack();
 
         viewMetrics = new ViewMetrics(this);
+        systemMonitor = new SystemMonitor();
 
         setBackground(Color.BLACK);
         this.viewMetrics.calculateViewMetrics();
@@ -191,14 +187,7 @@ public class Main extends JPanel implements TapData {
     }
 
     private void update(double deltaTime) {
-        totalMemory = run.totalMemory();
-        freeMemory = run.freeMemory();
-        usedMemory = totalMemory - freeMemory;
-        totalMemory = totalMemory/1048576;
-        freeMemory = freeMemory/1048576;
-        usedMemory = usedMemory/1048576;
-        jvmCpuLoad = mxbean.getCpuLoad();
-        cpuPercentage = (int) (jvmCpuLoad * 100);
+        systemMonitor.updateMetrics();
     }
 
     public void save() {
@@ -243,41 +232,6 @@ public class Main extends JPanel implements TapData {
     }
 
     @Override
-    public int getVirtualMouseX() {
-        return virtualMouseX;
-    }
-
-    @Override
-    public int getVirtualMouseY() {
-        return virtualMouseY;
-    }
-
-    @Override
-    public long getTotalMemory() {
-        return totalMemory;
-    }
-
-    @Override
-    public long getFreeMemory() {
-        return freeMemory;
-    }
-
-    @Override
-    public long getUsedMemory() {
-        return usedMemory;
-    }
-
-    @Override
-    public double jvmCpuLoad() {
-        return jvmCpuLoad;
-    }
-
-    @Override
-    public long getCpuPercentage() {
-        return cpuPercentage;
-    }
-
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D d2 = (Graphics2D) g;
@@ -305,7 +259,7 @@ public class Main extends JPanel implements TapData {
         } else if (tap == 5) {
             gm.renderSettingTap(g);
         } else if (tap == 6) {
-            gm.renderDebugTap(g, viewMetrics, this);
+            gm.renderDebugTap(g, viewMetrics, systemMonitor);
         }
         gm.renderTapBar(g, tap, tapBarXPosition[tap]);
         gm.renderBaseFrame(d2);

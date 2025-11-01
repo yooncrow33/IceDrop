@@ -15,7 +15,7 @@ public class SplashScreen {
         logo.setFont(new Font("맑은 고딕", Font.BOLD, 48));
         logo.setForeground(Color.WHITE);
 
-        JLabel powered = new JLabel("powered by yooncrow", SwingConstants.CENTER);
+        JLabel powered = new JLabel("Developed by yooncrow33", SwingConstants.CENTER);
         powered.setFont(new Font("맑은 고딕", Font.BOLD, 36));
         powered.setForeground(Color.WHITE);
 

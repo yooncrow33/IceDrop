@@ -43,24 +43,24 @@ public class GM {
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SETTING Tap", 980, 165);
     }
-    public void renderDebugTap(Graphics g, ViewMetrics info, TapData debugInfo) {
+    public void renderDebugTap(Graphics g, ViewMetrics viewMetrics, SystemMonitor systemMonitor) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("DEBUG Tap", 980, 165);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("windowWidth: " + info.getWindowWidth(), 980, 200);
-        g.drawString("windowHeight: " + info.getWindowHeight(), 980, 230);
-        g.drawString("scaleX: " + info.getScaleX(), 980, 260);
-        g.drawString("scaleY: " + info.getScaleY(), 980, 290);
-        g.drawString("currentScale: " + info.getCurrentScale(), 980, 320);
-        g.drawString("currentXOffset: " + info.getCurrentXOffset(), 980, 350);
-        g.drawString("currentYOffset: " + info.getCurrentYOffset(), 980, 380);
-        g.drawString("used memory: " + debugInfo.getUsedMemory() + "MB", 980, 410);
-        g.drawString("total memory: " + debugInfo.getTotalMemory() + "MB", 980, 440);
-        g.drawString("free memory: " + debugInfo.getUsedMemory() + "MB", 980, 470);
-        g.drawString("cpu usage: " + debugInfo.getCpuPercentage() + "%", 980, 500);
-        g.drawString("moveX: " + debugInfo.getVirtualMouseX(), 980, 530);
-        g.drawString("moveY: " + debugInfo.getVirtualMouseY(), 980, 560);
+        g.drawString("windowWidth: " + viewMetrics.getWindowWidth(), 980, 200);
+        g.drawString("windowHeight: " + viewMetrics.getWindowHeight(), 980, 230);
+        g.drawString("scaleX: " + viewMetrics.getScaleX(), 980, 260);
+        g.drawString("scaleY: " + viewMetrics.getScaleY(), 980, 290);
+        g.drawString("currentScale: " + viewMetrics.getCurrentScale(), 980, 320);
+        g.drawString("currentXOffset: " + viewMetrics.getCurrentXOffset(), 980, 350);
+        g.drawString("currentYOffset: " + viewMetrics.getCurrentYOffset(), 980, 380);
+        g.drawString("used memory: " + systemMonitor.getUsedMemory() + "MB", 980, 410);
+        g.drawString("total memory: " + systemMonitor.getTotalMemory() + "MB", 980, 440);
+        g.drawString("free memory: " + systemMonitor.getFreeMemory() + "MB", 980, 470);
+        g.drawString("cpu usage: " + systemMonitor.getCpuPercentage() + "%", 980, 500);
+        g.drawString("moveX: " + Main.virtualMouseX, 980, 530);
+        g.drawString("moveY: " + Main.virtualMouseY, 980, 560);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {
