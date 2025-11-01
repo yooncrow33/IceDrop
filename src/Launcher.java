@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Launcher {
-    JFrame frame = new JFrame("IceDrop alphs Launcher");
+    JFrame frame = new JFrame("IceDrop Lite Edition Launcher");
     JTextField main = new JTextField("Enter your password here");
     JButton Start = new JButton("Start >>");
     JButton fux = new JButton("Create password");
@@ -101,7 +101,19 @@ public class Launcher {
             "   - Main의 God-class 설계를 해결하기 위해 실험적으로 창크기 조절(ViewMetrics)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "   - 진짜 개 힘들었음 ㄹㅇ 뭐하나 하니까 한번에 빨간줄 뜲...\n" +
             "   [신기능]\n" +
-            "   - 없음.\n";
+            "   - 없음.\n" +
+            "\n" +
+            "alpha 1.5\n" +
+            "   [버그 수정]\n" +
+            "   - 없음.\n" +
+            "   [사용자 편의]\n" +
+            "   - 없음.\n" +
+            "   [게임내용]\n" +
+            "   - 없음.\n" +
+            "   [최적화]\n" +
+            "   - 없음.\n" +
+            "   [신기능]\n" +
+            "   - 게임 실행시 스플래쉬 화면추가...\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +
@@ -251,11 +263,12 @@ public class Launcher {
 
                     // 2. String을 int 값으로 변환하는 함수 또는 로직을 사용합니다.
                     int profileId = getProfileIdFromName(selectedProfileName);
-
+                    JOptionPane.showMessageDialog(null, "Run the IceDrop Lite Version alpha 1.5 this profile :" + selectedVersion  /*"을(를) 실행합니다."*/);
                     // 3. Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
-                    new Main(profileId);
+                    frame.dispose();
+                    SplashScreen.showSplashThenLaunchGame(profileId);
 
-                    JOptionPane.showMessageDialog(null, "Run the " + selectedVersion  /*"을(를) 실행합니다."*/);
+
 
                 } else {
                     JOptionPane.showMessageDialog(null, "The password is wrong.");

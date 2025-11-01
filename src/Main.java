@@ -18,7 +18,7 @@ public class Main extends JPanel implements TapData {
     Runtime run = Runtime.getRuntime();
     OperatingSystemMXBean mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
-    JFrame frame = new JFrame("alpha 1.4");
+    JFrame frame = new JFrame("alpha 1.5");
 
     private ScheduledExecutorService executor;
     private long lastTime;
