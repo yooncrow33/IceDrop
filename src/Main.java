@@ -11,21 +11,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 //2025년 11월 02일 오후 6시 9분 윈도우 노트북에서 푸쉬
 
-public class Main extends JPanel{
+public class Main extends JPanel implements ISize{
+    JFrame frame = new JFrame("alpha 1.8");
 
-    JFrame frame = new JFrame("alpha 1.7");
-
-    private ScheduledExecutorService executor;
     private long lastTime;
 
-    int mouseX, mouseY;
-    static int  virtualMouseX,virtualMouseY;
-
     private boolean isResizing = false;
-    private int currentProfileId;
 
-    static final int VIRTUAL_WIDTH = 1920;
-    static final int VIRTUAL_HEIGHT = 1080;
+    public final int currentProfileId;
 
     private final ViewMetrics viewMetrics;
     private final SystemMonitor systemMonitor;
@@ -33,81 +26,34 @@ public class Main extends JPanel{
 
     Font titleFont = new Font("SansSerif", Font.BOLD, 64);
 
-    int test = 0;
-
-    int tap = 1;
-    boolean shiftPressed = false;
-
-    int tapBarXPosition[] = {0,965,1154,1343,1532,1721,1721};
-
     GraphicsManager graphicsManager = new GraphicsManager();
 
     Main(int profileId) {
-
-        this.currentProfileId = profileId;
-        load();
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
 
         frame.setPreferredSize((new Dimension(1280,720)));
         setFocusable(true);
 
+        viewMetrics = new ViewMetrics(this);
+        systemMonitor = new SystemMonitor();
+        currentProfileId = profileId;
+        gameModel = new GameModel(profileId);
+
         frame.add(this);
         frame.setVisible(true);
         frame.setFocusable(true);
         frame.requestFocus();
         frame.pack();
+        InputHandler inputHandler = new InputHandler(viewMetrics, gameModel);
 
-        viewMetrics = new ViewMetrics(this);
-        systemMonitor = new SystemMonitor();
-        gameModel = new GameModel();
+        gameModel.load(currentProfileId);
 
         setBackground(Color.BLACK);
-        this.viewMetrics.calculateViewMetrics();
-        frame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    if (shiftPressed) {
-                        if (tap != 6) {
-                            tap = 6;
-                            return;
-                        }
-                    }
-                    if (tap >= 5) {
-                        tap = 1;
-                    } else {
-                        tap++;
-                    }
-                }
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    if (tap <= 1) {
-                        tap = 5;
-                    } else {
-                        tap--;
-                    }
-                }
-                if (key == KeyEvent.VK_SHIFT) {
-                    shiftPressed = true;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    save();
-                    System.exit(0);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_M) {
-                    viewMetrics.calculateViewMetrics();
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-                int key = e.getKeyCode();
-                if (key == KeyEvent.VK_SHIFT) {
-                    shiftPressed = false;
-                }
-            }
-        });
+
+        viewMetrics.calculateViewMetrics();
+
+        frame.addKeyListener(inputHandler);
 
         frame.addMouseListener(new MouseAdapter() {
             @Override
@@ -119,12 +65,7 @@ public class Main extends JPanel{
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-
-                virtualMouseX = viewMetrics.getVirtualX(mouseX);
-                virtualMouseY = viewMetrics.getVirtualY(mouseY);
-
+                viewMetrics.updateVirtualMouse(e.getX(),e.getY());
             }
         });
 
@@ -144,13 +85,10 @@ public class Main extends JPanel{
 
                     isResizing = true;
 
-                    // 가로 기준 새로운 높이 계산
                     int newH = (int) (currentW / targetRatio);
 
-                    // 세로 기준 새로운 가로 계산 (어떤 것을 기준으로 할지 선택)
                     int newW = (int) (currentH * targetRatio);
 
-                    // 현재 가로/세로 중 더 큰 편차를 기준으로 조정합니다.
                     if (Math.abs(currentW - newW) > Math.abs(currentH - newH)) {
                         frame.setSize(newW, currentH);
                     } else {
@@ -158,7 +96,6 @@ public class Main extends JPanel{
                     }
 
                     viewMetrics.calculateViewMetrics();
-
                     EventQueue.invokeLater(() -> isResizing = false);
                 }
             }
@@ -168,7 +105,7 @@ public class Main extends JPanel{
     }
 
     private void startGameLoop() {
-        executor = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         lastTime = System.nanoTime();
 
         executor.scheduleAtFixedRate(() -> {
@@ -188,45 +125,14 @@ public class Main extends JPanel{
         gameModel.update();
     }
 
-    public void save() {
-        Properties props = new Properties();
-        props.setProperty("test", String.valueOf(test));
-        String homeDir = System.getProperty("user.home");
-
-        String fullPath1 = homeDir + File.separator + "IceDropSaveProfile1.properties";
-        String fullPath2 = homeDir + File.separator + "IceDropSaveProfile2.properties";
-        String fullPath3 = homeDir + File.separator + "IceDropSaveProfile3.properties";
-
-        String paths[] = {"empty", fullPath1, fullPath2, fullPath3};
-
-        // 4. 파일 저장 시도
-        try (FileOutputStream out = new FileOutputStream(paths[currentProfileId])) {
-            props.store(out, "User Save Data - ID is not included");
-
-        } catch (IOException e) {
-            // 저장 실패 시 사용자에게 알림
-            JOptionPane.showMessageDialog(null, "저장 실패: " + e.getMessage() + "\n경로: " + paths[currentProfileId]);
-        }
-
+    @Override
+    public int getComponentWidth() {
+        return this.getWidth();
     }
 
-    public void load() {
-        Properties props = new Properties();
-        String homeDir = System.getProperty("user.home");
-
-        String fullPath1 = homeDir + File.separator + "IceDropSaveProfile1.properties";
-        String fullPath2 = homeDir + File.separator + "IceDropSaveProfile2.properties";
-        String fullPath3 = homeDir + File.separator + "IceDropSaveProfile3.properties";
-
-        String paths[] = {"empty", fullPath1, fullPath2, fullPath3};
-
-
-        try (FileInputStream in = new FileInputStream(paths[currentProfileId])) {
-            props.load(in);
-            test = Integer.parseInt(props.getProperty("test", "1"));
-        } catch (IOException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "저장파일 인식 실패");
-        }
+    @Override
+    public int getComponentHeight() {
+        return this.getHeight();
     }
 
     @Override
@@ -234,32 +140,29 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D d2 = (Graphics2D) g;
 
-        // 스케일 + 이동 적용
         d2.translate(viewMetrics.getCurrentXOffset(), viewMetrics.getCurrentYOffset());
         d2.scale(viewMetrics.getCurrentScale(), viewMetrics.getCurrentScale());
 
         g.setColor(Color.white);
         g.setFont(titleFont);
         g.drawString("Coin : 60 / Level : 70 ", 980, 90);
-        g.setColor(Color.red);
-        g.fillRect(965,140,945,800);
 
         graphicsManager.renderTapFrame(g);
 
-        if (tap == 1) {
+        if (gameModel.getTap() == 1) {
             graphicsManager.renderInfoTap(g);
-        } else if (tap == 2) {
+        } else if (gameModel.getTap() == 2) {
             graphicsManager.renderShopTap(g);
-        } else if (tap == 3) {
+        } else if (gameModel.getTap() == 3) {
             graphicsManager.renderSkillPointTap(g);
-        } else if (tap == 4) {
+        } else if (gameModel.getTap() == 4) {
             graphicsManager.renderQuestsTap(g);
-        } else if (tap == 5) {
+        } else if (gameModel.getTap() == 5) {
             graphicsManager.renderSettingTap(g);
-        } else if (tap == 6) {
+        } else if (gameModel.getTap() == 6) {
             graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor);
         }
-        graphicsManager.renderTapBar(g, tap, tapBarXPosition[tap]);
+        graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
         graphicsManager.renderBaseFrame(d2);
     }
 

@@ -33,11 +33,14 @@ public class Launcher {
 
     String recent_news = "\n" +
             "이것을 쓴 시점은 런처만 만든 시점임.\n" +
-            "       2025/10/22 -yooncrow-\n" +
+            "       2025/10/22 -yooncrow33-\n" +
             "\n" +
             "alpha 1.3!\n" +
             "   - 내가 똥같이 싼 코드 치우는중...\n" +
-            "       2025/10/28 -yooncrow-\n" ;
+            "       2025/10/28 -yooncrow33-\n"  +
+            "alpha 1.8!\n" +
+            "   - 정신 나갈거 같음.\n" +
+            "       2025/11/02 -yooncrow33-\n" ;
 
     String patch_notes = "\n" +
             "alpha 1.0\n" +
@@ -99,7 +102,6 @@ public class Launcher {
             "   - 없음.\n" +
             "   [최적화]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 실험적으로 창크기 조절(ViewMetrics)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
-            "   - 진짜 개 힘들었음 ㄹㅇ 뭐하나 하니까 한번에 빨간줄 뜲...\n" +
             "   [신기능]\n" +
             "   - 없음.\n" +
             "\n" +
@@ -137,7 +139,22 @@ public class Launcher {
             "   [최적화]\n" +
             "   - 없음.\n" +
             "   [신기능]\n" +
-            "   - Main의 God-class 설계를 해결하기 위해 게임내용(GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n";
+            "   - Main의 God-class 설계를 해결하기 위해 게임내용(GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "alpha 1.8\n" +
+            "   [버그 수정]\n" +
+            "   - 없음.\n" +
+            "   [사용자 편의]\n" +
+            "   - 없음.\n" +
+            "   [게임내용]\n" +
+            "   - 없음.\n" +
+            "   [최적화]\n" +
+            "   - 없음.\n" +
+            "   [신기능]\n" +
+            "   - Main에서 viewMetrics를 초기화할때 아예 this로 자신을 넘겨 결합도를 높이던 문제를 인터페이스(ISize)를 넘기는 것으로 개선\n" +
+            "   - Main에 있던 거대한 키어댑터를 자체 클래스(InputHandler)로 분리\n" +
+            "   - Main에서 부담 하던 저장/불러오기 기능을 GameModel클래스로 이전\n" +
+            "   - 키어댑터에서 다 계산하던 tap값을 tapMoveRight(),tapMoveLeft() 생성하고 매서드를 GameModel클래스로 이동\n" +
+            "   - debug창을 그릴떄 GM에서 Main의 static int를 참조하여 결합도를 높이는 문제를 viewMetrics로 이전해 결합도 해결\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +

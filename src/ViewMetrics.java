@@ -1,7 +1,6 @@
 import javax.swing.*;
 
 public class ViewMetrics implements IViewMetrics {
-    private JComponent targetComponent;
     int windowWidth;
     private int windowHeight;
     private double currentScale;
@@ -10,15 +9,19 @@ public class ViewMetrics implements IViewMetrics {
     private double scaleX;
     private double scaleY;
     private double scale;
+    private int virtualMouseX,virtualMouseY = 0;
     private int xOffset, yOffset;
     final int VIRTUAL_WIDTH = 1920;
     final int VIRTUAL_HEIGHT = 1080;
-    public ViewMetrics(JComponent target) {
-        this.targetComponent = target;
+
+    private ISize size;
+
+    public ViewMetrics(ISize size) {
+        this.size = size;
     }
         public void calculateViewMetrics() {
-            windowWidth = targetComponent.getWidth();
-            windowHeight = targetComponent.getHeight();
+            windowWidth = size.getComponentWidth();
+            windowHeight = size.getComponentHeight();
 
             // 기준 해상도와 실제 창 크기 비율
             scaleX = windowWidth / (double) VIRTUAL_WIDTH;
@@ -55,6 +58,16 @@ public class ViewMetrics implements IViewMetrics {
         if (scale <= 0) return mouseY;
         return (int) (adjustedY / scale);
     }
+
+    public void updateVirtualMouse(int mouseX, int mouseY) {
+        // 기존의 getVirtualX/Y 로직을 활용하여 계산하고 저장합니다.
+        virtualMouseX = getVirtualX(mouseX);
+        virtualMouseY = getVirtualY(mouseY);
+    }
+
+
+    @Override public int getVirtualMouseX() { return virtualMouseX; }
+    @Override public int getVirtualMouseY() { return virtualMouseY; }
     @Override public int getWindowWidth() { return windowWidth; };
     @Override public int getWindowHeight() { return windowHeight; };
     @Override public double getScaleX() { return scaleX;}

@@ -1,13 +1,17 @@
 import java.awt.*;
 
 public class GraphicsManager {
+
+    final int VIRTUAL_WIDTH = 1920;
+    final int VIRTUAL_HEIGHT = 1080;
+
     public void renderBaseFrame(Graphics g) {
         g.setColor(Color.white);
-        g.fillRect(0,10, Main.VIRTUAL_WIDTH - 10, 10);
-        g.fillRect(0, 1060, Main.VIRTUAL_WIDTH - 10, 10);
-        g.fillRect( 0,10,10, Main.VIRTUAL_HEIGHT - 20);
-        g.fillRect(1910,10,10, Main.VIRTUAL_HEIGHT - 20);
-        g.fillRect(955,10,10, Main.VIRTUAL_HEIGHT - 20);
+        g.fillRect(0,10, VIRTUAL_WIDTH - 10, 10);
+        g.fillRect(0, 1060, VIRTUAL_WIDTH - 10, 10);
+        g.fillRect( 0,10,10, VIRTUAL_HEIGHT - 20);
+        g.fillRect(1910,10,10, VIRTUAL_HEIGHT - 20);
+        g.fillRect(955,10,10, VIRTUAL_HEIGHT - 20);
     }
 
     public void renderTapFrame(Graphics g) {
@@ -58,8 +62,8 @@ public class GraphicsManager {
         g.drawString("total memory: " + systemMonitor.getTotalMemory() + "MB", 980, 440);
         g.drawString("free memory: " + systemMonitor.getFreeMemory() + "MB", 980, 470);
         g.drawString("cpu usage: " + systemMonitor.getCpuPercentage() + "%", 980, 500);
-        g.drawString("moveX: " + Main.virtualMouseX, 980, 530);
-        g.drawString("moveY: " + Main.virtualMouseY, 980, 560);
+        g.drawString("moveX: " + viewMetrics.getVirtualMouseX(), 980, 530);
+        g.drawString("moveY: " + viewMetrics.getVirtualMouseY(), 980, 560);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {
