@@ -9,10 +9,11 @@ import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+//2025년 11월 02일 오후 6시 9분 윈도우 노트북에서 푸쉬
 
 public class Main extends JPanel{
 
-    JFrame frame = new JFrame("alpha 1.6");
+    JFrame frame = new JFrame("alpha 1.7");
 
     private ScheduledExecutorService executor;
     private long lastTime;
@@ -26,14 +27,9 @@ public class Main extends JPanel{
     static final int VIRTUAL_WIDTH = 1920;
     static final int VIRTUAL_HEIGHT = 1080;
 
-    private long totalMemory;
-    private long freeMemory;
-    private long usedMemory;
-    private double jvmCpuLoad;
-    private int cpuPercentage;
-
     private final ViewMetrics viewMetrics;
     private final SystemMonitor systemMonitor;
+    private final GameModel gameModel;
 
     Font titleFont = new Font("SansSerif", Font.BOLD, 64);
 
@@ -44,7 +40,7 @@ public class Main extends JPanel{
 
     int tapBarXPosition[] = {0,965,1154,1343,1532,1721,1721};
 
-    GM gm = new GM();
+    GraphicsManager graphicsManager = new GraphicsManager();
 
     Main(int profileId) {
 
@@ -65,6 +61,7 @@ public class Main extends JPanel{
 
         viewMetrics = new ViewMetrics(this);
         systemMonitor = new SystemMonitor();
+        gameModel = new GameModel();
 
         setBackground(Color.BLACK);
         this.viewMetrics.calculateViewMetrics();
@@ -188,6 +185,7 @@ public class Main extends JPanel{
 
     private void update(double deltaTime) {
         systemMonitor.updateMetrics();
+        gameModel.update();
     }
 
     public void save() {
@@ -246,23 +244,23 @@ public class Main extends JPanel{
         g.setColor(Color.red);
         g.fillRect(965,140,945,800);
 
-        gm.renderTapFrame(g);
+        graphicsManager.renderTapFrame(g);
 
         if (tap == 1) {
-            gm.renderInfoTap(g);
+            graphicsManager.renderInfoTap(g);
         } else if (tap == 2) {
-            gm.renderShopTap(g);
+            graphicsManager.renderShopTap(g);
         } else if (tap == 3) {
-            gm.renderSkillPointTap(g);
+            graphicsManager.renderSkillPointTap(g);
         } else if (tap == 4) {
-            gm.renderQuestsTap(g);
+            graphicsManager.renderQuestsTap(g);
         } else if (tap == 5) {
-            gm.renderSettingTap(g);
+            graphicsManager.renderSettingTap(g);
         } else if (tap == 6) {
-            gm.renderDebugTap(g, viewMetrics, systemMonitor);
+            graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor);
         }
-        gm.renderTapBar(g, tap, tapBarXPosition[tap]);
-        gm.renderBaseFrame(d2);
+        graphicsManager.renderTapBar(g, tap, tapBarXPosition[tap]);
+        graphicsManager.renderBaseFrame(d2);
     }
 
     public static void main(String[] args) {

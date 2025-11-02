@@ -1,7 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 
-public class GM {
+public class GraphicsManager {
     public void renderBaseFrame(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0,10, Main.VIRTUAL_WIDTH - 10, 10);

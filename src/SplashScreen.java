@@ -12,11 +12,11 @@ public class SplashScreen {
 
         // 1. JLabel 설정
         JLabel logo = new JLabel("IceDrop Lite Edition", SwingConstants.CENTER);
-        logo.setFont(new Font("맑은 고딕", Font.BOLD, 48));
+        logo.setFont(new Font("맑은 고딕", Font.BOLD, 72));
         logo.setForeground(Color.WHITE);
 
         JLabel powered = new JLabel("Developed by yooncrow33", SwingConstants.CENTER);
-        powered.setFont(new Font("맑은 고딕", Font.BOLD, 36));
+        powered.setFont(new Font("맑은 고딕", Font.ITALIC, 36));
         powered.setForeground(Color.WHITE);
 
         // 2. 레이아웃 설정 (BoxLayout 사용)
@@ -46,7 +46,7 @@ public class SplashScreen {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                alpha -= 0.01f; // 점차 투명하게
+                alpha -= 0.008f; // 점차 투명하게
 
                 if (alpha <= 0.0f) {
                     alpha = 0.0f;

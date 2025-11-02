@@ -125,7 +125,19 @@ public class Launcher {
             "   [최적화]\n" +
             "   - 없음.\n" +
             "   [신기능]\n" +
-            "   - Main의 God-class 설계를 해결하기 위해 디버그 및 성능정보(SystemMonitor)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n";
+            "   - Main의 God-class 설계를 해결하기 위해 디버그 및 성능정보(SystemMonitor)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "\n" +
+            "alpha 1.7\n" +
+            "   [버그 수정]\n" +
+            "   - 프로필 드롭다운 메뉴의 잘못된 크기 수정.\n" +
+            "   [사용자 편의]\n" +
+            "   - 없음.\n" +
+            "   [게임내용]\n" +
+            "   - 없음.\n" +
+            "   [최적화]\n" +
+            "   - 없음.\n" +
+            "   [신기능]\n" +
+            "   - Main의 God-class 설계를 해결하기 위해 게임내용(GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +
@@ -180,7 +192,7 @@ public class Launcher {
         String[] profile = {"profile1", "profile2", "profile3"};
         JComboBox<String> versionBox = new JComboBox<>(profile);
         frame.add(versionBox);
-        versionBox.setBounds(10, 430, 392, 40);
+        versionBox.setBounds(10, 430, 390, 40);
 
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -212,7 +224,7 @@ public class Launcher {
         lable2.setFont(new Font("맑은 고딕", Font.PLAIN, 26));//원래 36
         lable2.setHorizontalAlignment(SwingConstants.CENTER);
         TitleArea.setBounds(410,10,380,60);
-        TitleArea.setFont(new Font("맑은 고딕", Font.BOLD, 58));
+        TitleArea.setFont(new Font("맑은 고딕", Font.BOLD, 48));
         TitleArea.setEnabled(false);
         p.setBounds(410,70,380,470);
         Area.setEditable(false);
@@ -275,7 +287,7 @@ public class Launcher {
 
                     // 2. String을 int 값으로 변환하는 함수 또는 로직을 사용합니다.
                     int profileId = getProfileIdFromName(selectedProfileName);
-                    JOptionPane.showMessageDialog(null, "Run the IceDrop Lite Version alpha 1.5 this profile :" + selectedVersion  /*"을(를) 실행합니다."*/);
+                    //JOptionPane.showMessageDialog(null, "Run the IceDrop Lite Edition profile : " + selectedVersion  /*"을(를) 실행합니다."*/);
                     // 3. Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
                     frame.dispose();
                     SplashScreen.showSplashThenLaunchGame(profileId);
