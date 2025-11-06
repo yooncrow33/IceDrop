@@ -90,8 +90,6 @@ public class Launcher {
             "   - 없음.\n" +
             "   [최적화]\n" +
             "   - 매 프레임마다 스케일을 계산하던 방식에서 창을 조절하거나 M키를 누르면 계산하도록 최적화...\n" +
-            "   [신기능]\n" +
-            "   - 없음.\n" +
             "\n" +
             "alpha 1.4\n" +
             "   [버그 수정]\n" +
@@ -102,8 +100,6 @@ public class Launcher {
             "   - 없음.\n" +
             "   [최적화]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 실험적으로 창크기 조절(ViewMetrics)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
-            "   [신기능]\n" +
-            "   - 없음.\n" +
             "\n" +
             "alpha 1.5\n" +
             "   [버그 수정]\n" +
@@ -111,11 +107,9 @@ public class Launcher {
             "   [사용자 편의]\n" +
             "   - 없음.\n" +
             "   [게임내용]\n" +
-            "   - 없음.\n" +
+            "   - 게임 실행시 스플래쉬 화면추가...\n" +
             "   [최적화]\n" +
             "   - 없음.\n" +
-            "   [신기능]\n" +
-            "   - 게임 실행시 스플래쉬 화면추가...\n" +
             "\n" +
             "alpha 1.6\n" +
             "   [버그 수정]\n" +
@@ -125,8 +119,6 @@ public class Launcher {
             "   [게임내용]\n" +
             "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - 없음.\n" +
-            "   [신기능]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 디버그 및 성능정보(SystemMonitor)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
             "alpha 1.7\n" +
@@ -137,9 +129,8 @@ public class Launcher {
             "   [게임내용]\n" +
             "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - 없음.\n" +
-            "   [신기능]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 게임내용(GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "\n" +
             "alpha 1.8\n" +
             "   [버그 수정]\n" +
             "   - 없음.\n" +
@@ -148,13 +139,21 @@ public class Launcher {
             "   [게임내용]\n" +
             "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - 없음.\n" +
-            "   [신기능]\n" +
             "   - Main에서 viewMetrics를 초기화할때 아예 this로 자신을 넘겨 결합도를 높이던 문제를 인터페이스(ISize)를 넘기는 것으로 개선\n" +
             "   - Main에 있던 거대한 키어댑터를 자체 클래스(InputHandler)로 분리\n" +
             "   - Main에서 부담 하던 저장/불러오기 기능을 GameModel클래스로 이전\n" +
             "   - 키어댑터에서 다 계산하던 tap값을 tapMoveRight(),tapMoveLeft() 생성하고 매서드를 GameModel클래스로 이동\n" +
-            "   - debug창을 그릴떄 GM에서 Main의 static int를 참조하여 결합도를 높이는 문제를 viewMetrics로 이전해 결합도 해결\n";
+            "   - debug창을 그릴떄 GM에서 Main의 static int를 참조하여 결합도를 높이는 문제를 viewMetrics로 이전해 결합도 해결\n" +
+            "\n" +
+            "alpha 1.9\n" +
+            "   [버그 수정]\n" +
+            "   - 없음.\n" +
+            "   [사용자 편의]\n" +
+            "   - 없음.\n" +
+            "   [게임내용]\n" +
+            "   - 드디어! Ice가 드롭됨..\n" +
+            "   [최적화]\n" +
+            "   - 없음.\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +

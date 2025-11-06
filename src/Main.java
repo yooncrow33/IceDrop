@@ -11,8 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 //2025년 11월 02일 오후 6시 9분 윈도우 노트북에서 푸쉬
 
-public class Main extends JPanel implements ISize{
-    JFrame frame = new JFrame("alpha 1.8");
+public class Main extends JPanel implements ISize {
+    JFrame frame = new JFrame("alpha 1.9");
 
     private long lastTime;
 
@@ -160,9 +160,12 @@ public class Main extends JPanel implements ISize{
         } else if (gameModel.getTap() == 5) {
             graphicsManager.renderSettingTap(g);
         } else if (gameModel.getTap() == 6) {
-            graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor);
+            graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor, gameModel);
         }
         graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
+
+        gameModel.renderIces(g);
+
         graphicsManager.renderBaseFrame(d2);
     }
 

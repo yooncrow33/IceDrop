@@ -46,7 +46,7 @@ public class GraphicsManager {
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SETTING Tap", 980, 165);
     }
-    public void renderDebugTap(Graphics g, ViewMetrics viewMetrics, SystemMonitor systemMonitor) {
+    public void renderDebugTap(Graphics g, ViewMetrics viewMetrics, SystemMonitor systemMonitor, GameModel gameModel) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("DEBUG Tap", 980, 165);
@@ -64,6 +64,9 @@ public class GraphicsManager {
         g.drawString("cpu usage: " + systemMonitor.getCpuPercentage() + "%", 980, 500);
         g.drawString("moveX: " + viewMetrics.getVirtualMouseX(), 980, 530);
         g.drawString("moveY: " + viewMetrics.getVirtualMouseY(), 980, 560);
+        g.drawString("Ice_Basic Count: " + gameModel.getIce_BasicCount(), 980, 590);
+        g.drawString("Ice_Rare Count: " + gameModel.getIce_RareCount(), 980, 620);
+        g.drawString("Ice_Legendary Count: " + gameModel.getIce_LegendaryCount(), 980, 650);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {
