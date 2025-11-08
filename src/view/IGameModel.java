@@ -1,3 +1,5 @@
+package view;
+
 public interface IGameModel {
     int getCoin();
     int getLevel();
@@ -6,4 +8,5 @@ public interface IGameModel {
     int getIce_BasicCount();
     int getIce_RareCount();
     int getIce_LegendaryCount();
+    boolean getClickable();
 }

@@ -1,3 +1,7 @@
+package base;
+
+import view.IGameModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -6,13 +10,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Random;
 
-public class GameModel implements IGameModel{
+import model.Ice_Basic;
+import model.Ice_Legendary;
+import model.Ice_Rare;
+import view.IMouse;
+
+public class GameModel implements IGameModel {
     private int coin;
     private int level;
     private int tap = 1;
     boolean shiftPressed = false;
+    boolean clicked = false;
     final int currentProfileId;
 
 
@@ -27,52 +36,76 @@ public class GameModel implements IGameModel{
 
     int tapBarPosition[] = {0,965,1154,1343,1532,1721,1721};
 
-    public GameModel(int profileId) {
+    IMouse iMouse;
+
+    public GameModel(int profileId, IMouse iMouse) {
         this.currentProfileId = profileId;
+        this.iMouse = iMouse;
     }
 
-    Random random = new Random();
-
     public void update() {
-
         //basic
         if (Math.random() < ice_BasicCurrentSpawnChance) {
             iceBasics.add(new Ice_Basic());
         }
-        for (int i = 0; i < iceBasics.size(); i++) {
-            Ice_Basic iceBasic = iceBasics.get(i);
-            iceBasic.update();
-            if (iceBasic.shouldBeRemoved()) {
-                iceBasics.remove(i);
-                i--;
-            }
-        }
-
         //rare
         if (Math.random() < ice_RareCurrentSpawnChance) {
             iceRares.add(new Ice_Rare());
         }
-        for (int i = 0; i < iceRares.size(); i++) {
-            Ice_Rare iceRare = iceRares.get(i);
-            iceRare.update();
-            if (iceRare.shouldBeRemoved()) {
-                iceRares.remove(i);
-                i--;
-            }
-        }
-
         //legendary
         if (Math.random() < ice_LegendaryCurrentSpawnChance) {
             iceLegendaries.add(new Ice_Legendary());
         }
-        for (int i = 0; i < iceLegendaries.size(); i++) {
+
+        //basic
+        for (int i = iceBasics.size() - 1; i >= 0; i--) {
+            Ice_Basic iceBasic = iceBasics.get(i);
+            iceBasic.update();
+            if (iceBasic.shouldBeRemoved()) {
+                iceBasics.remove(i);
+                continue;
+            }
+            if (clicked) {
+                if (iceBasic.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY())) {
+                    iceBasics.remove(i);
+                    coin ++;
+                }
+            }
+        }
+
+        //rare
+        for (int i = iceRares.size() - 1; i >= 0; i--) {
+            Ice_Rare iceRare = iceRares.get(i);
+            iceRare.update();
+            if (iceRare.shouldBeRemoved()) {
+                iceRares.remove(i);
+                continue;
+            }
+            if (clicked) {
+                if (iceRare.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY())) {
+                    iceRares.remove(i);
+                    coin += 5;
+                }
+            }
+        }
+
+        //legendary
+        for (int i = iceLegendaries.size() - 1; i >= 0; i--) {
             Ice_Legendary iceLegendary = iceLegendaries.get(i);
             iceLegendary.update();
             if (iceLegendary.shouldBeRemoved()) {
                 iceLegendaries.remove(i);
-                i--;
+                continue;
+            }
+            if (clicked) {
+                if (iceLegendary.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY())) {
+                    iceLegendaries.remove(i);
+                    coin += 10;
+                }
             }
         }
+
+        clicked = false;
     }
 
     public void renderIces(Graphics g) {
@@ -109,6 +142,10 @@ public class GameModel implements IGameModel{
         } else {
             tap--;
         }
+    }
+
+    public void clicked(boolean clicked) {
+        this.clicked = clicked;
     }
 
     public void setShiftPressed(boolean pressed) {
@@ -160,11 +197,12 @@ public class GameModel implements IGameModel{
         }
     }
 
-    @Override public int getLevel() { return coin; }
-    @Override public int getCoin() { return level; }
+    @Override public int getLevel() { return level; }
+    @Override public int getCoin() { return coin; }
     @Override public int getTap() { return tap; }
     @Override public int getTapBarPosition() { return tapBarPosition[tap]; }
     @Override public int getIce_BasicCount() { return iceBasics.size(); }
     @Override public int getIce_RareCount() { return iceRares.size(); }
     @Override public int getIce_LegendaryCount() { return iceLegendaries.size(); }
+    @Override public boolean getClickable() { return clicked; }
 }

@@ -1,16 +1,20 @@
+package model;
+
+import view.IMouse;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Ice_Rare {
+public class Ice_Legendary {
     private final int WIDTH = 30;
     private final int HEIGHT = 30;
     private int x;
     private int y;
-    private  final int FALL_SPEED = 10;
+    private  final int FALL_SPEED = 20;
 
     Random random = new Random();
 
-    public Ice_Rare() {
+    public Ice_Legendary() {
         x = random.nextInt(915) + 10;
         y = 10;
     }
@@ -23,8 +27,12 @@ public class Ice_Rare {
         return y > 1040;
     }
 
+    public boolean shouldBeCollected(int mouseX, int mouseY) {
+        return mouseX + 20 >= x && mouseX - 20 <= x + WIDTH && mouseY + 60 >= y && mouseY - 60 <= y + HEIGHT;
+    }
+
     public void draw(Graphics g) {
-        g.setColor(Color.CYAN);
+        g.setColor(Color.RED);
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
 }

@@ -1,3 +1,5 @@
+package base;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,7 @@ public class Launcher {
     JButton Start = new JButton("Start >>");
     JButton fux = new JButton("Create password");
     JLabel lable = new JLabel("IceDrop Launcher");
-    JLabel lable2 = new JLabel("alpha is now!");
+    JLabel lable2 = new JLabel("I fucking hate god-class...");
     JButton recentNews = new JButton("Recent News");
     JButton patchNotes = new JButton("Patch Notes");
     JButton manual = new JButton("Manual");
@@ -44,116 +46,60 @@ public class Launcher {
 
     String patch_notes = "\n" +
             "alpha 1.0\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
             "   [게임내용]\n" +
-            "   - 없음.\n" +
-            "   [최적화]\n" +
-            "   - 없음.\n" +
-            "   [신기능]\n" +
             "   - 창의 비율조절 고정\n"+
             "\n" +
             "alpha 1.1\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
             "   - Gm클래스의 Main클래스 의존문제 해결..\n" +
             "   - static 변수 대거 삭제, 대량 캡슐화.\n" +
             "   - if else if 의 더러운 구조 정리...\n" +
-            "   [신기능]\n" +
+            "   [게임내용]\n" +
             "   - 프로필 기능.\n" +
             "\n" +
             "alpha 1.2\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
             "   - 인터페이스를 만들어 GM(그래픽 매니저)와 Main클래스의 결합도를 낮춤..\n" +
-            "   [신기능]\n" +
-            "   - 없음.\n" +
             "\n" +
             "alpha 1.3\n" +
             "   [버그 수정]\n" +
             "   - 마우스의 좌표가 프레임을 포함하여 계산하던 문제 해결..\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
             "   - 매 프레임마다 스케일을 계산하던 방식에서 창을 조절하거나 M키를 누르면 계산하도록 최적화...\n" +
             "\n" +
             "alpha 1.4\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - Main의 God-class 설계를 해결하기 위해 실험적으로 창크기 조절(ViewMetrics)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "   - Main의 God-class 설계를 해결하기 위해 실험적으로 창크기 조절(a02.base.ViewMetrics)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
             "alpha 1.5\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
             "   [게임내용]\n" +
             "   - 게임 실행시 스플래쉬 화면추가...\n" +
-            "   [최적화]\n" +
-            "   - 없음.\n" +
             "\n" +
             "alpha 1.6\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - Main의 God-class 설계를 해결하기 위해 디버그 및 성능정보(SystemMonitor)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "   - Main의 God-class 설계를 해결하기 위해 디버그 및 성능정보(a02.base.SystemMonitor)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
             "alpha 1.7\n" +
             "   [버그 수정]\n" +
             "   - 프로필 드롭다운 메뉴의 잘못된 크기 수정.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - Main의 God-class 설계를 해결하기 위해 게임내용(GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "   - Main의 God-class 설계를 해결하기 위해 게임내용(a02.base.GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
             "alpha 1.8\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
-            "   [게임내용]\n" +
-            "   - 없음.\n" +
             "   [최적화]\n" +
-            "   - Main에서 viewMetrics를 초기화할때 아예 this로 자신을 넘겨 결합도를 높이던 문제를 인터페이스(ISize)를 넘기는 것으로 개선\n" +
-            "   - Main에 있던 거대한 키어댑터를 자체 클래스(InputHandler)로 분리\n" +
+            "   - Main에서 viewMetrics를 초기화할때 아예 this로 자신을 넘겨 결합도를 높이던 문제를 인터페이스(a01_model.ISize)를 넘기는 것으로 개선\n" +
+            "   - Main에 있던 거대한 키어댑터를 자체 클래스(a02.base.InputHandler)로 분리\n" +
             "   - Main에서 부담 하던 저장/불러오기 기능을 GameModel클래스로 이전\n" +
             "   - 키어댑터에서 다 계산하던 tap값을 tapMoveRight(),tapMoveLeft() 생성하고 매서드를 GameModel클래스로 이동\n" +
             "   - debug창을 그릴떄 GM에서 Main의 static int를 참조하여 결합도를 높이는 문제를 viewMetrics로 이전해 결합도 해결\n" +
             "\n" +
             "alpha 1.9\n" +
-            "   [버그 수정]\n" +
-            "   - 없음.\n" +
-            "   [사용자 편의]\n" +
-            "   - 없음.\n" +
             "   [게임내용]\n" +
             "   - 드디어! Ice가 드롭됨..\n" +
-            "   [최적화]\n" +
-            "   - 없음.\n";
+            "\n" +
+            "alpha 1.9.1\n" +
+            "   [게임내용]\n" +
+            "   - Ice를 클릭으로 수집가능.\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +
@@ -295,7 +241,7 @@ public class Launcher {
 
                     /*JOptionPane.showMessageDialog(null, "Run the Speed Click sc.25.8.4.mon");
                     frame.dispose();
-                    SplashScreen.showSplashThenLaunchGame();*/
+                    base.SplashScreen.showSplashThenLaunchGame();*/
                     //new IceDash();
 
                     // 1. 콤보 박스에서 선택된 String 값을 가져옵니다.
@@ -304,7 +250,7 @@ public class Launcher {
                     // 2. String을 int 값으로 변환하는 함수 또는 로직을 사용합니다.
                     int profileId = getProfileIdFromName(selectedProfileName);
                     //JOptionPane.showMessageDialog(null, "Run the IceDrop Lite Edition profile : " + selectedVersion  /*"을(를) 실행합니다."*/);
-                    // 3. Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
+                    // 3. a02.base.Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
                     frame.dispose();
                     SplashScreen.showSplashThenLaunchGame(profileId);
 

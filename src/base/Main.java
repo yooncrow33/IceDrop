@@ -1,18 +1,16 @@
+package base;
+
+import view.IFrameSize;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-//2025년 11월 02일 오후 6시 9분 윈도우 노트북에서 푸쉬
 
-public class Main extends JPanel implements ISize {
-    JFrame frame = new JFrame("alpha 1.9");
+public class Main extends JPanel implements IFrameSize {
+    JFrame frame = new JFrame("alpha 1.9.1");
 
     private long lastTime;
 
@@ -24,11 +22,11 @@ public class Main extends JPanel implements ISize {
     private final SystemMonitor systemMonitor;
     private final GameModel gameModel;
 
-    Font titleFont = new Font("SansSerif", Font.BOLD, 64);
+    Font titleFont = new Font("SansSerif", Font.BOLD, 56);
 
     GraphicsManager graphicsManager = new GraphicsManager();
 
-    Main(int profileId) {
+    public Main(int profileId) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
 
@@ -38,7 +36,7 @@ public class Main extends JPanel implements ISize {
         viewMetrics = new ViewMetrics(this);
         systemMonitor = new SystemMonitor();
         currentProfileId = profileId;
-        gameModel = new GameModel(profileId);
+        gameModel = new GameModel(profileId, viewMetrics);
 
         frame.add(this);
         frame.setVisible(true);
@@ -55,10 +53,10 @@ public class Main extends JPanel implements ISize {
 
         frame.addKeyListener(inputHandler);
 
-        frame.addMouseListener(new MouseAdapter() {
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                //if (e.getButton() == MouseEvent.BUTTON1);
+                gameModel.clicked(true);
             }
         });
 
@@ -145,7 +143,7 @@ public class Main extends JPanel implements ISize {
 
         g.setColor(Color.white);
         g.setFont(titleFont);
-        g.drawString("Coin : 60 / Level : 70 ", 980, 90);
+        g.drawString("Coin : " + gameModel.getCoin() + "/ Level : null ", 980, 90);
 
         graphicsManager.renderTapFrame(g);
 
@@ -160,7 +158,7 @@ public class Main extends JPanel implements ISize {
         } else if (gameModel.getTap() == 5) {
             graphicsManager.renderSettingTap(g);
         } else if (gameModel.getTap() == 6) {
-            graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor, gameModel);
+            graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor, gameModel, viewMetrics);
         }
         graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
 

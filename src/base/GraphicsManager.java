@@ -1,3 +1,7 @@
+package base;
+
+import view.*;
+
 import java.awt.*;
 
 public class GraphicsManager {
@@ -46,7 +50,7 @@ public class GraphicsManager {
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SETTING Tap", 980, 165);
     }
-    public void renderDebugTap(Graphics g, ViewMetrics viewMetrics, SystemMonitor systemMonitor, GameModel gameModel) {
+    public void renderDebugTap(Graphics g, IViewMetrics viewMetrics, ISystemMonitor systemMonitor, IGameModel gameModel, IMouse mouse) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("DEBUG Tap", 980, 165);
@@ -62,11 +66,12 @@ public class GraphicsManager {
         g.drawString("total memory: " + systemMonitor.getTotalMemory() + "MB", 980, 440);
         g.drawString("free memory: " + systemMonitor.getFreeMemory() + "MB", 980, 470);
         g.drawString("cpu usage: " + systemMonitor.getCpuPercentage() + "%", 980, 500);
-        g.drawString("moveX: " + viewMetrics.getVirtualMouseX(), 980, 530);
-        g.drawString("moveY: " + viewMetrics.getVirtualMouseY(), 980, 560);
-        g.drawString("Ice_Basic Count: " + gameModel.getIce_BasicCount(), 980, 590);
-        g.drawString("Ice_Rare Count: " + gameModel.getIce_RareCount(), 980, 620);
-        g.drawString("Ice_Legendary Count: " + gameModel.getIce_LegendaryCount(), 980, 650);
+        g.drawString("moveX: " + mouse.getVirtualMouseX(), 980, 530);
+        g.drawString("moveY: " + mouse.getVirtualMouseY(), 980, 560);
+        g.drawString("model.Ice_Basic Count: " + gameModel.getIce_BasicCount(), 980, 590);
+        g.drawString("model.Ice_Rare Count: " + gameModel.getIce_RareCount(), 980, 620);
+        g.drawString("model.Ice_Legendary Count: " + gameModel.getIce_LegendaryCount(), 980, 650);
+        g.drawString("clicked: " + gameModel.getClickable(), 980, 680);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {

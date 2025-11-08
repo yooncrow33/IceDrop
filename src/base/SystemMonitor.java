@@ -1,7 +1,10 @@
+package base;
+
+import view.ISystemMonitor;
 import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
 
-public class SystemMonitor implements ISystemMonitor{
+public class SystemMonitor implements ISystemMonitor {
     Runtime run = Runtime.getRuntime();
     private final OperatingSystemMXBean mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 

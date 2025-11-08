@@ -1,3 +1,5 @@
+package base;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -63,7 +65,7 @@ public class SplashScreen {
         fadeTimer.start();
     }
 
-    // 예시 실행을 위한 main과 Main 클래스 더미
+    // 예시 실행을 위한 main과 a02.base.Main 클래스 더미
     public static void main(String[] args) {
         showSplashThenLaunchGame(1);
     }

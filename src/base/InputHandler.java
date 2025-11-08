@@ -1,10 +1,12 @@
+package base;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class InputHandler extends KeyAdapter{
     private final ViewMetrics viewMetrics;
     private final GameModel gameModel;
-    public InputHandler(ViewMetrics viewMetrics,GameModel gameModel) {
+    public InputHandler(ViewMetrics viewMetrics, GameModel gameModel) {
         this.gameModel = gameModel;
         this.viewMetrics = viewMetrics;
     }
@@ -27,6 +29,9 @@ public class InputHandler extends KeyAdapter{
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
             viewMetrics.calculateViewMetrics();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+            gameModel.clicked(true);
         }
     }
     @Override

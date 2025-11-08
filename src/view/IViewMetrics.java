@@ -1,3 +1,5 @@
+package view;
+
 public interface IViewMetrics {
     int getWindowWidth();
     int getWindowHeight();
@@ -6,6 +8,4 @@ public interface IViewMetrics {
     double getCurrentScale();
     int getCurrentXOffset();
     int getCurrentYOffset();
-    int getVirtualMouseX();
-    int getVirtualMouseY();
 }

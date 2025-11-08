@@ -1,6 +1,10 @@
-import javax.swing.*;
+package base;
 
-public class ViewMetrics implements IViewMetrics {
+import view.IFrameSize;
+import view.IMouse;
+import view.IViewMetrics;
+
+public class ViewMetrics implements IViewMetrics, IMouse {
     int windowWidth;
     private int windowHeight;
     private double currentScale;
@@ -14,9 +18,9 @@ public class ViewMetrics implements IViewMetrics {
     final int VIRTUAL_WIDTH = 1920;
     final int VIRTUAL_HEIGHT = 1080;
 
-    private ISize size;
+    private IFrameSize size;
 
-    public ViewMetrics(ISize size) {
+    public ViewMetrics(IFrameSize size) {
         this.size = size;
     }
         public void calculateViewMetrics() {
@@ -65,9 +69,11 @@ public class ViewMetrics implements IViewMetrics {
         virtualMouseY = getVirtualY(mouseY);
     }
 
-
+    // IMouse 인터페이스 메서드 구현
     @Override public int getVirtualMouseX() { return virtualMouseX; }
     @Override public int getVirtualMouseY() { return virtualMouseY; }
+
+    // IViewMetrics 인터페이스 메서드 구현
     @Override public int getWindowWidth() { return windowWidth; };
     @Override public int getWindowHeight() { return windowHeight; };
     @Override public double getScaleX() { return scaleX;}
