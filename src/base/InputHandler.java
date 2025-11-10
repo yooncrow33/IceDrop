@@ -1,14 +1,19 @@
 package base;
 
+import view.IExit;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class InputHandler extends KeyAdapter{
     private final ViewMetrics viewMetrics;
     private final GameModel gameModel;
-    public InputHandler(ViewMetrics viewMetrics, GameModel gameModel) {
+    private final IExit iExit;
+
+    public InputHandler(ViewMetrics viewMetrics, GameModel gameModel, IExit iExit) {
         this.gameModel = gameModel;
         this.viewMetrics = viewMetrics;
+        this.iExit = iExit;
     }
 
     @Override
@@ -24,8 +29,7 @@ public class InputHandler extends KeyAdapter{
             gameModel.setShiftPressed(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            gameModel.save(gameModel.currentProfileId);
-            System.exit(0);
+            iExit.exitApplication();
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
             viewMetrics.calculateViewMetrics();

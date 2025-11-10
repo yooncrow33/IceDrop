@@ -4,11 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class SplashScreen {
-    // static 변수는 이 로직에서 크게 중요하지 않아 그대로 두었습니다.
-    static int startTime = 4;
-    static int cool = 2; // cool 변수는 setOpacity 방식에서는 불필요하지만 일단 유지
-
+public class StartSplashScreen {
     public static void showSplashThenLaunchGame(int profileId) {
         JWindow splash = new JWindow();
 
@@ -48,7 +44,7 @@ public class SplashScreen {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                alpha -= 0.008f; // 점차 투명하게
+                alpha -= 0.025f; // 점차 투명하게
 
                 if (alpha <= 0.0f) {
                     alpha = 0.0f;
@@ -63,10 +59,5 @@ public class SplashScreen {
             }
         });
         fadeTimer.start();
-    }
-
-    // 예시 실행을 위한 main과 a02.base.Main 클래스 더미
-    public static void main(String[] args) {
-        showSplashThenLaunchGame(1);
     }
 }

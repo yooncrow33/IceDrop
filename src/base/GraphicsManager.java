@@ -23,12 +23,22 @@ public class GraphicsManager {
         g.fillRect(965,120,945,820);
         g.setColor(Color.black);
         g.fillRect(970,125,935,810);
+
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("   INFO              SHOP       SKILLPOINT     QUESTS        SETTING", 1000, 1010);
     }
 
-    public void renderInfoTap(Graphics g) {
+    public void renderInfoTap(Graphics g, IGameModel iGameModel) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("INFO Tap", 980, 165);
+
+        g.setFont(new Font("맑은 고딕", Font.BOLD, 50));
+        g.setColor(Color.yellow);
+        g.drawString("current profile : " + iGameModel.getProfile(), 980, 220);
+        g.drawString("total played time : " + iGameModel.getLast() + " min", 980, 290);
+        g.drawString("session played time : " + iGameModel.getSessionPlayTime() + " min", 980, 360);
     }
     public void renderShopTap(Graphics g) {
         g.setColor(Color.white);
@@ -40,17 +50,97 @@ public class GraphicsManager {
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SKILL POINT Tap", 980, 165);
     }
-    public void renderQuestsTap(Graphics g) {
+    public void renderQuestsTap(Graphics g, IGameModel iGameModel) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("QUESTS Tap", 980, 165);
+
+        g.setColor(Color.gray);
+        g.fillRect(980,180,915,240);
+        g.fillRect(980,430,915,240);
+        g.fillRect(980,680,915,240);
+
+        g.setColor(Color.black);
+        g.fillRect( 985,185,905,230);
+        g.fillRect( 985,435,905,230);
+        g.fillRect( 985,685,905,230);
+
+        g.setColor(Color.white);
+        g.drawString("Session Quest", 1000, 230);
+        g.drawString("Session Quest", 1000, 480);
+        g.drawString("Long Time Quest", 1000, 730);
+
+        g.setColor(Color.yellow);
+        g.drawString(iGameModel.getFirstQuestExplanation(), 1000, 280);
+        g.drawString(iGameModel.getSecondQuestExplanation(), 1000, 530);
+        g.drawString("Collect 5000 Ice_Basic", 1000, 780);
+
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        g.setColor(Color.CYAN);
+        g.drawString("Reward : " + iGameModel.getFirstQuestReward() + " Coins", 1000, 320);
+        g.drawString("Reward : " + iGameModel.getSecondQuestReward() + " Coins", 1000, 570);
+        g.drawString("Reward : " + "Permanently grants +5 Gold per Ice collected. and 1000 coins.", 1000, 820);
+
+        if (iGameModel.firstQuestCompleted()) {
+            if (iGameModel.firstQuestRewarded()) {
+                g.setColor(Color.green);
+                g.drawString("Rewarded", 1000, 350);
+            } else {
+                g.setColor(Color.yellow);
+                g.drawString("Not Rewarded", 1000, 350);
+            }
+        } else if (!iGameModel.firstQuestCompleted()) {
+            g.setColor(Color.red);
+            g.drawString("Not Completed", 1000, 350);
+        }
+
+        if (iGameModel.secondQuestCompleted()) {
+            if (iGameModel.secondQuestRewarded()) {
+                g.setColor(Color.green);
+                g.drawString("Rewarded", 1000, 600);
+            } else {
+                g.setColor(Color.yellow);
+                g.drawString("Not Rewarded", 1000, 600);
+            }
+        } else if (!iGameModel.secondQuestCompleted()) {
+            g.setColor(Color.red);
+            g.drawString("Not Completed", 1000, 600);
+        }
+
+        if (iGameModel.thirdQuestCompleted()) {
+            if (iGameModel.thirdQuestRewarded()) {
+                g.setColor(Color.green);
+                g.drawString("Rewarded", 1000, 850);
+            } else {
+                g.setColor(Color.yellow);
+                g.drawString("Not Rewarded", 1000, 850);
+            }
+        } else if (!iGameModel.thirdQuestCompleted()) {
+            g.setColor(Color.red);
+            g.drawString("Not Completed", 1000, 850);
+        }
+
+        int firstQuestProgress = (int) ((iGameModel.getFirstQuestProgress() / (float) iGameModel.getFirstQuestGoal()) * 905);
+        int secondQuestProgress = (int) ((iGameModel.getSecondQuestProgress() / (float) iGameModel.getSecondQuestGoal()) * 905);
+        int thirdQuestProgress = (int) ((iGameModel.getThirdQuestProgress() / (float) iGameModel.getThirdQuestGoal()) * 905);
+        if (firstQuestProgress >= 905) firstQuestProgress = 905;
+        if (secondQuestProgress >= 905) secondQuestProgress = 905;
+        if (thirdQuestProgress >= 905) thirdQuestProgress = 905;
+
+        g.setColor(Color.green);
+        g.fillRect(985,395,firstQuestProgress, 20);
+        g.fillRect(985, 645,secondQuestProgress, 20);
+        g.fillRect(985, 895,thirdQuestProgress, 20);
+
+        //
+
     }
     public void renderSettingTap(Graphics g) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SETTING Tap", 980, 165);
     }
-    public void renderDebugTap(Graphics g, IViewMetrics viewMetrics, ISystemMonitor systemMonitor, IGameModel gameModel, IMouse mouse) {
+    public void renderDebugTap(Graphics g, IViewMetrics viewMetrics, ISystemMonitor systemMonitor, IGameModelDebug gameModelDebug, IMouse mouse) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("DEBUG Tap", 980, 165);
@@ -68,10 +158,10 @@ public class GraphicsManager {
         g.drawString("cpu usage: " + systemMonitor.getCpuPercentage() + "%", 980, 500);
         g.drawString("moveX: " + mouse.getVirtualMouseX(), 980, 530);
         g.drawString("moveY: " + mouse.getVirtualMouseY(), 980, 560);
-        g.drawString("model.Ice_Basic Count: " + gameModel.getIce_BasicCount(), 980, 590);
-        g.drawString("model.Ice_Rare Count: " + gameModel.getIce_RareCount(), 980, 620);
-        g.drawString("model.Ice_Legendary Count: " + gameModel.getIce_LegendaryCount(), 980, 650);
-        g.drawString("clicked: " + gameModel.getClickable(), 980, 680);
+        g.drawString("model.Ice_Basic Count: " + gameModelDebug.getIce_BasicCount(), 980, 590);
+        g.drawString("model.Ice_Rare Count: " + gameModelDebug.getIce_RareCount(), 980, 620);
+        g.drawString("model.Ice_Legendary Count: " + gameModelDebug.getIce_LegendaryCount(), 980, 650);
+        g.drawString("playTicks: " + gameModelDebug.getPlayTick(), 980, 680);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {

@@ -5,18 +5,12 @@ import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
 
 public class SystemMonitor implements ISystemMonitor {
-    Runtime run = Runtime.getRuntime();
     private final OperatingSystemMXBean mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     private long totalMemory;
     private long freeMemory;
     private long usedMemory;
-    private double jvmCpuLoad;
     private int cpuPercentage;
-
-    public SystemMonitor() {
-
-    }
 
     public void updateMetrics() {
         Runtime runtime = Runtime.getRuntime();

@@ -99,7 +99,22 @@ public class Launcher {
             "\n" +
             "alpha 1.9.1\n" +
             "   [게임내용]\n" +
-            "   - Ice를 클릭으로 수집가능.\n";
+            "   - Ice를 클릭으로 수집가능.\n" +
+            "   - 게임의 클래스를 패키지로 묶음.\n" +
+            "\n" +
+            "alpha 1.10\n" +
+            "   [사용자 편의]\n" +
+            "   - TapBar 아래의 탭이름 추가..\n" +
+            "   [게임내용]\n" +
+            "   - ESC로 게임 종료시 슬플래쉬 화면추가..\n" +
+            "   - 퀘스트 추가! \n" +
+            "   - Ice를 수집했을때의 코인이 획득되는 효과 추가..\n" +
+            "   - 플레이타임 추가! -> 세션 시간과 전체 실행시간을 둘다 properties파일에 저장.\n" +
+            "   [최적화]\n" +
+            "   - 굳이 없어도되는(사용위치 없음) 스플래쉬스크린 클래스의 static변수 삭제..\n" +
+            "   - 쓸때 없는 systemMonitor의 생성자 삭제..\n" +
+            "   - 메인의 쓸때 없는 SystemMonitor클래스의 잔재 삭제..\n" +
+            "\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +
@@ -252,7 +267,7 @@ public class Launcher {
                     //JOptionPane.showMessageDialog(null, "Run the IceDrop Lite Edition profile : " + selectedVersion  /*"을(를) 실행합니다."*/);
                     // 3. a02.base.Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
                     frame.dispose();
-                    SplashScreen.showSplashThenLaunchGame(profileId);
+                    StartSplashScreen.showSplashThenLaunchGame(profileId);
 
 
 

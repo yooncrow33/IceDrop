@@ -1,0 +1,31 @@
+package model;
+
+import java.awt.*;
+
+public class CoinEffect {
+    int x, y;
+    int value;
+    int alpha = 255;
+    int rise = 0;
+
+    public CoinEffect(int x, int y, int value) {
+        this.x = x;
+        this.y = y;
+        this.value = value;
+    }
+
+    public void update() {
+        rise++;        // 위로 올라가고
+        alpha -= 5;    // 점점 투명해지고
+    }
+
+    public boolean isExpired() {
+        return alpha <= 0;
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(new Color(255, 0, 0, alpha));
+        g.setFont(new Font("굴림", Font.BOLD, 36));
+        g.drawString("+" + value, x, y - rise);
+    }
+}

@@ -1,5 +1,6 @@
 package base;
 
+import view.IExit;
 import view.IFrameSize;
 
 import javax.swing.*;
@@ -9,8 +10,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JPanel implements IFrameSize {
-    JFrame frame = new JFrame("alpha 1.9.1");
+public class Main extends JPanel implements IFrameSize, IExit {
+    JFrame frame = new JFrame("alpha 1.10");
 
     private long lastTime;
 
@@ -43,7 +44,7 @@ public class Main extends JPanel implements IFrameSize {
         frame.setFocusable(true);
         frame.requestFocus();
         frame.pack();
-        InputHandler inputHandler = new InputHandler(viewMetrics, gameModel);
+        InputHandler inputHandler = new InputHandler(viewMetrics, gameModel, this);
 
         gameModel.load(currentProfileId);
 
@@ -57,6 +58,20 @@ public class Main extends JPanel implements IFrameSize {
             @Override
             public void mousePressed(MouseEvent e) {
                 gameModel.clicked(true);
+                if (gameModel.getTap() == 4) {
+                    if (viewMetrics.getVirtualMouseX() >= 980 && viewMetrics.getVirtualMouseX() <= 1895 &&
+                            viewMetrics.getVirtualMouseY() >= 180 && viewMetrics.getVirtualMouseY() <= 420) {
+                        gameModel.clamRewardedQuest(1);
+                    }
+                    if (viewMetrics.getVirtualMouseX() >= 980 && viewMetrics.getVirtualMouseX() <= 1895 &&
+                            viewMetrics.getVirtualMouseY() >= 430 && viewMetrics.getVirtualMouseY() <= 670) {
+                        gameModel.clamRewardedQuest(2);
+                    }
+                    if (viewMetrics.getVirtualMouseX() >= 980 && viewMetrics.getVirtualMouseX() <= 1895 &&
+                            viewMetrics.getVirtualMouseY() >= 680 && viewMetrics.getVirtualMouseY() <= 920) {
+                    }
+                }
+
             }
         });
 
@@ -84,7 +99,6 @@ public class Main extends JPanel implements IFrameSize {
                     isResizing = true;
 
                     int newH = (int) (currentW / targetRatio);
-
                     int newW = (int) (currentH * targetRatio);
 
                     if (Math.abs(currentW - newW) > Math.abs(currentH - newH)) {
@@ -112,7 +126,6 @@ public class Main extends JPanel implements IFrameSize {
             lastTime = now;
 
             update(deltaTime);
-
             SwingUtilities.invokeLater(this::repaint);
 
         }, 0, 16, TimeUnit.MILLISECONDS);
@@ -123,15 +136,9 @@ public class Main extends JPanel implements IFrameSize {
         gameModel.update();
     }
 
-    @Override
-    public int getComponentWidth() {
-        return this.getWidth();
-    }
-
-    @Override
-    public int getComponentHeight() {
-        return this.getHeight();
-    }
+    @Override public int getComponentWidth() { return this.getWidth(); }
+    @Override public int getComponentHeight() { return this.getHeight(); }
+    @Override public void exitApplication() { gameModel.save(currentProfileId); frame.dispose(); EndSplashScreen.showSplashThenLaunchGame();}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -146,15 +153,18 @@ public class Main extends JPanel implements IFrameSize {
         g.drawString("Coin : " + gameModel.getCoin() + "/ Level : null ", 980, 90);
 
         graphicsManager.renderTapFrame(g);
-
+        /*
+        g.setColor(Color.red);
+        g.fillRect(980,180,915,750);
+        */
         if (gameModel.getTap() == 1) {
-            graphicsManager.renderInfoTap(g);
+            graphicsManager.renderInfoTap(g, gameModel);
         } else if (gameModel.getTap() == 2) {
             graphicsManager.renderShopTap(g);
         } else if (gameModel.getTap() == 3) {
             graphicsManager.renderSkillPointTap(g);
         } else if (gameModel.getTap() == 4) {
-            graphicsManager.renderQuestsTap(g);
+            graphicsManager.renderQuestsTap(g, gameModel);
         } else if (gameModel.getTap() == 5) {
             graphicsManager.renderSettingTap(g);
         } else if (gameModel.getTap() == 6) {
@@ -163,6 +173,7 @@ public class Main extends JPanel implements IFrameSize {
         graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
 
         gameModel.renderIces(g);
+        gameModel.renderCoinEffects(g);
 
         graphicsManager.renderBaseFrame(d2);
     }
