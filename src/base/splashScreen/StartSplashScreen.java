@@ -1,4 +1,6 @@
-package base;
+package base.splashScreen;
+
+import base.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ public class StartSplashScreen {
         JWindow splash = new JWindow();
 
         // 1. JLabel 설정
-        JLabel logo = new JLabel("IceDrop Lite Edition", SwingConstants.CENTER);
+        JLabel logo = new JLabel("IceDrop", SwingConstants.CENTER);
         logo.setFont(new Font("맑은 고딕", Font.BOLD, 72));
         logo.setForeground(Color.WHITE);
 

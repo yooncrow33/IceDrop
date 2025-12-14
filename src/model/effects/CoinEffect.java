@@ -1,4 +1,4 @@
-package model;
+package model.effects;
 
 import java.awt.*;
 
@@ -16,7 +16,7 @@ public class CoinEffect {
 
     public void update() {
         rise++;        // 위로 올라가고
-        alpha -= 5;    // 점점 투명해지고
+        alpha -= 2;    // 점점 투명해지고
     }
 
     public boolean isExpired() {
@@ -24,7 +24,7 @@ public class CoinEffect {
     }
 
     public void draw(Graphics g) {
-        g.setColor(new Color(255, 0, 0, alpha));
+        g.setColor(new Color(0, 255, 0, alpha));
         g.setFont(new Font("굴림", Font.BOLD, 36));
         g.drawString("+" + value, x, y - rise);
     }

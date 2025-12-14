@@ -1,5 +1,8 @@
 package base;
 
+import base.handler.InputHandler;
+import base.handler.MouseListener;
+import base.splashScreen.EndSplashScreen;
 import view.IExit;
 import view.IFrameSize;
 
@@ -11,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit {
-    JFrame frame = new JFrame("alpha 1.10");
+    JFrame frame = new JFrame("alpha 1.10.1");
 
     private long lastTime;
 
@@ -22,6 +25,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
     private final ViewMetrics viewMetrics;
     private final SystemMonitor systemMonitor;
     private final GameModel gameModel;
+    private final MouseListener mouseListener;
 
     Font titleFont = new Font("SansSerif", Font.BOLD, 56);
 
@@ -38,6 +42,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
         systemMonitor = new SystemMonitor();
         currentProfileId = profileId;
         gameModel = new GameModel(profileId, viewMetrics);
+        mouseListener = new MouseListener(gameModel, viewMetrics);
 
         frame.add(this);
         frame.setVisible(true);
@@ -52,28 +57,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
 
         viewMetrics.calculateViewMetrics();
 
-        frame.addKeyListener(inputHandler);
-
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                gameModel.clicked(true);
-                if (gameModel.getTap() == 4) {
-                    if (viewMetrics.getVirtualMouseX() >= 980 && viewMetrics.getVirtualMouseX() <= 1895 &&
-                            viewMetrics.getVirtualMouseY() >= 180 && viewMetrics.getVirtualMouseY() <= 420) {
-                        gameModel.clamRewardedQuest(1);
-                    }
-                    if (viewMetrics.getVirtualMouseX() >= 980 && viewMetrics.getVirtualMouseX() <= 1895 &&
-                            viewMetrics.getVirtualMouseY() >= 430 && viewMetrics.getVirtualMouseY() <= 670) {
-                        gameModel.clamRewardedQuest(2);
-                    }
-                    if (viewMetrics.getVirtualMouseX() >= 980 && viewMetrics.getVirtualMouseX() <= 1895 &&
-                            viewMetrics.getVirtualMouseY() >= 680 && viewMetrics.getVirtualMouseY() <= 920) {
-                    }
-                }
-
-            }
-        });
+        this.addMouseListener(mouseListener);
 
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -114,6 +98,8 @@ public class Main extends JPanel implements IFrameSize, IExit {
         });
 
         startGameLoop();
+
+        frame.addKeyListener(inputHandler);
     }
 
     private void startGameLoop() {
@@ -133,7 +119,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
 
     private void update(double deltaTime) {
         systemMonitor.updateMetrics();
-        gameModel.update();
+        gameModel.update(deltaTime);
     }
 
     @Override public int getComponentWidth() { return this.getWidth(); }
@@ -160,7 +146,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
         if (gameModel.getTap() == 1) {
             graphicsManager.renderInfoTap(g, gameModel);
         } else if (gameModel.getTap() == 2) {
-            graphicsManager.renderShopTap(g);
+            graphicsManager.renderShopTap(g, gameModel);
         } else if (gameModel.getTap() == 3) {
             graphicsManager.renderSkillPointTap(g);
         } else if (gameModel.getTap() == 4) {

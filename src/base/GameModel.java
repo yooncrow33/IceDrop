@@ -1,8 +1,14 @@
 package base;
 
-import view.IGameModel;
-import view.IGameModelDebug;
-import view.IMouse;
+import model.effects.CoinEffect;
+import model.ice.Ice_Basic;
+import model.ice.Ice_Legendary;
+import model.ice.Ice_Rare;
+import view.*;
+import view.iGameModel.IGameModel;
+import view.iGameModel.IGameModelDebug;
+import view.iGameModel.IGameModelQuest;
+import view.iGameModel.IGameModelShop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +20,12 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 
-import model.*;
-
-public class GameModel implements IGameModel, IGameModelDebug {
+public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, IGameModelShop {
     private int coin;
     private int level;
 
     private int tap = 1;
-    boolean shiftPressed = false;
+    public boolean shiftPressed = false;
     boolean clicked = false;
 
     long PlayTick;
@@ -29,6 +33,8 @@ public class GameModel implements IGameModel, IGameModelDebug {
     int totalPlayTime = 0;
     int sessionPlayTime = 0;
 
+
+    //quest
     final int FIRST_QUEST;
     final int SECOND_QUEST;
 
@@ -59,19 +65,34 @@ public class GameModel implements IGameModel, IGameModelDebug {
 
     int iceBasicCollectedCount = 0;
     int iceRareCollectedCount = 0;
-    int intLegendaryCollectCount = 0;
+    int iceLegendaryCollectCount = 0;
 
     int lastIceBasicCollectCount;
     int lastIceRareCollectCount;
     int lastIceLegendaryCollectCount;
 
-    private double ice_BasicCurrentSpawnChance = 0.07;
+    //shop
+    int iceBasicRushItemCount = 0;
+    int iceRareRushItemCount = 0;
+    int iceLegendaryRushItemCount = 0;
+
+    final int ICE_BASIC_RUSH_ITEM_COST = 100;
+    final int ICE_RARE_RUSH_ITEM_COST = 250;
+    final int ICE_LEGENDARY_RUSH_ITEM_COST = 100;
+
+    //skill points level
+    int iceBasicSpawnChanceLevel = 1;
+    int iceRareSpawnChanceLevel = 1;
+    int iceLegendarySpawnChanceLevel = 1;
+
+    //ice
+    private final double iceBasicCurrentSpawnChanceList[] = {1,0.03,0.04,0.05,0.06};
     ArrayList<Ice_Basic> iceBasics = new ArrayList<>();
 
-    private double ice_RareCurrentSpawnChance = 0.05;
+    private final double iceRareCurrentSpawnChanceList[] = {1,0.008,0.015,0.025,0.035};
     ArrayList<Ice_Rare> iceRares = new ArrayList<>();
 
-    private double ice_LegendaryCurrentSpawnChance = 0.001;
+    private final double iceLegendaryCurrentSpawnChanceList[] = {1,0.001,0.002,0.005,0.01};
     ArrayList<Ice_Legendary> iceLegendaryes = new ArrayList<>();
 
     ArrayList<CoinEffect> coinEffects = new ArrayList<>();
@@ -90,24 +111,24 @@ public class GameModel implements IGameModel, IGameModelDebug {
         SECOND_QUEST_GOAL = questGoalList[SECOND_QUEST];
     }
 
-    public void update() {
+    public void update(double dt) {
         //basic
-        if (Math.random() < ice_BasicCurrentSpawnChance) {
+        if (Math.random() < iceBasicCurrentSpawnChanceList[iceBasicSpawnChanceLevel]) {
             iceBasics.add(new Ice_Basic());
         }
         //rare
-        if (Math.random() < ice_RareCurrentSpawnChance) {
+        if (Math.random() < iceRareCurrentSpawnChanceList[iceRareSpawnChanceLevel]) {
             iceRares.add(new Ice_Rare());
         }
         //legendary
-        if (Math.random() < ice_LegendaryCurrentSpawnChance) {
+        if (Math.random() < iceLegendaryCurrentSpawnChanceList[iceLegendarySpawnChanceLevel]) {
             iceLegendaryes.add(new Ice_Legendary());
         }
 
         //basic
         for (int i = iceBasics.size() - 1; i >= 0; i--) {
             Ice_Basic iceBasic = iceBasics.get(i);
-            iceBasic.update();
+            iceBasic.update(dt);
             if (iceBasic.shouldBeRemoved()) {
                 iceBasics.remove(i);
                 continue;
@@ -129,7 +150,7 @@ public class GameModel implements IGameModel, IGameModelDebug {
         //rare
         for (int i = iceRares.size() - 1; i >= 0; i--) {
             Ice_Rare iceRare = iceRares.get(i);
-            iceRare.update();
+            iceRare.update(dt);
             if (iceRare.shouldBeRemoved()) {
                 iceRares.remove(i);
                 continue;
@@ -151,7 +172,7 @@ public class GameModel implements IGameModel, IGameModelDebug {
         //legendary
         for (int i = iceLegendaryes.size() - 1; i >= 0; i--) {
             Ice_Legendary iceLegendary = iceLegendaryes.get(i);
-            iceLegendary.update();
+            iceLegendary.update(dt);
             if (iceLegendary.shouldBeRemoved()) {
                 iceLegendaryes.remove(i);
                 continue;
@@ -160,7 +181,7 @@ public class GameModel implements IGameModel, IGameModelDebug {
                 if (iceLegendary.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY())) {
                     iceLegendaryes.remove(i);
                     coinEffects.add(new CoinEffect(iMouse.getVirtualMouseX() + random.nextInt(5) - 10, iMouse.getVirtualMouseY() + random.nextInt(5) - 10, ICE_LEGENDARY_VALUE));
-                    lastIceLegendaryCollectCount++;
+                    iceLegendaryCollectCount++;
                     if (thirdQuestCompleted) {
                         coin += ICE_LEGENDARY_VALUE + ICE_COLLECT_BONUS;
                     } else {
@@ -204,8 +225,6 @@ public class GameModel implements IGameModel, IGameModelDebug {
             }
         }
 
-
-
         clicked = false;
     }
 
@@ -228,6 +247,19 @@ public class GameModel implements IGameModel, IGameModelDebug {
             coinEffect.draw(g);
         }
     }
+
+    /*public void purchaseIceRushItem(int tier) {
+        if (tier == 1) {
+            if (get)
+            iceBasicRushItemCount++;
+        } else if (tier == 2) {
+            iceRareRushItemCount++;
+        } else if (tier == 3) {
+            iceLegendaryRushItemCount++;
+        }
+    }
+
+     */
 
     public void clamRewardedQuest(int questNumber) {
         if (questNumber == 1) {
@@ -289,7 +321,7 @@ public class GameModel implements IGameModel, IGameModelDebug {
             case 2: // Collect 5 Ice_Rare
                 return iceRareCollectedCount;
             case 3: // Collect 1 Ice_Legendary
-                return intLegendaryCollectCount;
+                return iceLegendaryCollectCount;
             case 4: // Play for 10 min (sessionPlayTime)
             case 5: // Play for 30 min (sessionPlayTime)
             case 6: // Play for 1 hours (sessionPlayTime)
@@ -315,7 +347,7 @@ public class GameModel implements IGameModel, IGameModelDebug {
         props.setProperty("last", String.valueOf(lastPlayTime + sessionPlayTime));
         props.setProperty("lastIceBasicCollectCount", String.valueOf(lastIceBasicCollectCount + iceBasicCollectedCount));
         props.setProperty("lastIceRareCollectCount", String.valueOf(lastIceRareCollectCount + iceRareCollectedCount));
-        props.setProperty("lastIceLegendaryCollectCount", String.valueOf(lastIceLegendaryCollectCount + intLegendaryCollectCount));
+        props.setProperty("lastIceLegendaryCollectCount", String.valueOf(lastIceLegendaryCollectCount + iceLegendaryCollectCount));
         props.setProperty("thirdQuestCompleted", String.valueOf(thirdQuestCompleted));
 
         String homeDir = System.getProperty("user.home");
@@ -342,8 +374,8 @@ public class GameModel implements IGameModel, IGameModelDebug {
         String fullPath1 = homeDir + File.separator + "IceDropSaveProfile1.properties";
         String fullPath2 = homeDir + File.separator + "IceDropSaveProfile2.properties";
         String fullPath3 = homeDir + File.separator + "IceDropSaveProfile3.properties";
-        String paths[] = {"empty", fullPath1, fullPath2, fullPath3};
 
+        String paths[] = {"empty", fullPath1, fullPath2, fullPath3};
 
         try (FileInputStream in = new FileInputStream(paths[currentProfileId])) {
             props.load(in);
@@ -355,6 +387,7 @@ public class GameModel implements IGameModel, IGameModelDebug {
             lastIceLegendaryCollectCount = Integer.parseInt(props.getProperty("lastIceLegendaryCollectCount", "0"));
             thirdQuestCompleted = Boolean.parseBoolean(props.getProperty("thirdQuestCompleted", "false"));
 
+
         } catch (IOException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "저장파일 인식 실패");
         }
@@ -365,6 +398,8 @@ public class GameModel implements IGameModel, IGameModelDebug {
     @Override public int getLast() { return totalPlayTime; }
     @Override public int getSessionPlayTime() { return sessionPlayTime; }
     @Override public int getProfile() { return currentProfileId; }
+
+    // Quest Interface Methods
     @Override public String getFirstQuestExplanation() { return questsExplanation[FIRST_QUEST]; }
     @Override public String getSecondQuestExplanation() { return questsExplanation[SECOND_QUEST]; }
     @Override public int getFirstQuestReward() { return questRewardList[FIRST_QUEST]; }
@@ -381,6 +416,15 @@ public class GameModel implements IGameModel, IGameModelDebug {
     @Override public int getFirstQuestGoal() { return FIRST_QUEST_GOAL; }
     @Override public int getSecondQuestGoal() { return SECOND_QUEST_GOAL; }
     @Override public int getThirdQuestGoal() { return THIRD_QUEST_GOAL; }
+
+    // Shop Interface Methods
+
+    /*@Override public int getIceBasicRushItemCount() { return iceBasicRushItemCount; }
+    @Override public int getIceRareRushItemCount() { return iceRareRushItemCount; }
+    @Override public int getIceLegendaryRushItemCount() { return iceLegendaryRushItemCount; }
+
+     */
+
 
     @Override public int getTap() { return tap; }
     @Override public int getTapBarPosition() { return tapBarPosition[tap]; }

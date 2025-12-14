@@ -1,5 +1,7 @@
-package base;
+package base.handler;
 
+import base.GameModel;
+import base.ViewMetrics;
 import view.IExit;
 
 import java.awt.event.KeyAdapter;

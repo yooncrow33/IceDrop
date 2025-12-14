@@ -1,4 +1,4 @@
-package view;
+package view.iGameModel;
 
 public interface IGameModelDebug {
     int getIce_BasicCount();

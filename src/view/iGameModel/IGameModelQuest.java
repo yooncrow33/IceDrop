@@ -1,13 +1,6 @@
-package view;
+package view.iGameModel;
 
-public interface IGameModel {
-    int getCoin();
-    int getLevel();
-    int getTap();
-    int getTapBarPosition();
-    int getLast();
-    int getSessionPlayTime();
-    int getProfile();
+public interface IGameModelQuest {
     String getFirstQuestExplanation();
     String getSecondQuestExplanation();
     int getFirstQuestReward();

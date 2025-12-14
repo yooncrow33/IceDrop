@@ -1,23 +1,21 @@
 package base;
 
+import base.splashScreen.StartSplashScreen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.io.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
 
 public class Launcher {
-    JFrame frame = new JFrame("IceDrop Lite Edition Launcher");
+    JFrame frame = new JFrame("IceDrop");
     JTextField main = new JTextField("Enter your password here");
     JButton Start = new JButton("Start >>");
     JButton fux = new JButton("Create password");
     JLabel lable = new JLabel("IceDrop Launcher");
-    JLabel lable2 = new JLabel("I fucking hate god-class...");
+    JLabel lable2 = new JLabel("I hate programming.");
     JButton recentNews = new JButton("Recent News");
     JButton patchNotes = new JButton("Patch Notes");
     JButton manual = new JButton("Manual");
@@ -31,8 +29,6 @@ public class Launcher {
     String SAVE_FILE = new File(System.getProperty("user.home"), "ice_drop_password.txt").getAbsolutePath();
     final File file = new File(SAVE_FILE);
 
-
-
     String recent_news = "\n" +
             "이것을 쓴 시점은 런처만 만든 시점임.\n" +
             "       2025/10/22 -yooncrow33-\n" +
@@ -40,9 +36,21 @@ public class Launcher {
             "alpha 1.3!\n" +
             "   - 내가 똥같이 싼 코드 치우는중...\n" +
             "       2025/10/28 -yooncrow33-\n"  +
+            "\n" +
             "alpha 1.8!\n" +
             "   - 정신 나갈거 같음.\n" +
-            "       2025/11/02 -yooncrow33-\n" ;
+            "       2025/11/02 -yooncrow33-\n"  +
+            "\n" +
+            "alpha 1.10!\n" +
+            "\n" +
+            "   - 정신 나갈거 같음...\n" +
+            "       2025/11/10 -yooncrow33-\n" +
+            "\n" +
+            "alpha 1.10.1!\n" +
+            "\n" +
+            "   - 다음에 ygk적용시킨다...\n" +
+            "       2025/12/14 -yooncrow33-\n" +
+            "\n";
 
     String patch_notes = "\n" +
             "alpha 1.0\n" +
@@ -88,7 +96,7 @@ public class Launcher {
             "alpha 1.8\n" +
             "   [최적화]\n" +
             "   - Main에서 viewMetrics를 초기화할때 아예 this로 자신을 넘겨 결합도를 높이던 문제를 인터페이스(a01_model.ISize)를 넘기는 것으로 개선\n" +
-            "   - Main에 있던 거대한 키어댑터를 자체 클래스(a02.base.InputHandler)로 분리\n" +
+            "   - Main에 있던 거대한 키어댑터를 자체 클래스(a02.base.handler.InputHandler)로 분리\n" +
             "   - Main에서 부담 하던 저장/불러오기 기능을 GameModel클래스로 이전\n" +
             "   - 키어댑터에서 다 계산하던 tap값을 tapMoveRight(),tapMoveLeft() 생성하고 매서드를 GameModel클래스로 이동\n" +
             "   - debug창을 그릴떄 GM에서 Main의 static int를 참조하여 결합도를 높이는 문제를 viewMetrics로 이전해 결합도 해결\n" +
@@ -114,6 +122,12 @@ public class Launcher {
             "   - 굳이 없어도되는(사용위치 없음) 스플래쉬스크린 클래스의 static변수 삭제..\n" +
             "   - 쓸때 없는 systemMonitor의 생성자 삭제..\n" +
             "   - 메인의 쓸때 없는 SystemMonitor클래스의 잔재 삭제..\n" +
+            "\n" +
+            "alpha 1.10.1\n" +
+            "   [게임내용]\n" +
+            "   - Ice의 잔상 추가! \n" +
+            "   [최적화]\n" +
+            "   - ice.update();에서 dt를 사용해 fps에 상관없이 게임이 업데이트되게 최적화..\n" +
             "\n";
 
     String manual_text = "\n" +
@@ -168,8 +182,13 @@ public class Launcher {
 
         String[] profile = {"profile1", "profile2", "profile3"};
         JComboBox<String> versionBox = new JComboBox<>(profile);
+        String[] languages = {"The Language system is not implemented yet.","English", "Korean","Custom"};
+        JComboBox languageBox = new JComboBox(languages);
         frame.add(versionBox);
+        frame.add(languageBox);
         versionBox.setBounds(10, 430, 390, 40);
+        languageBox.setBounds(10, 400, 390, 40);
+        languageBox.enable(false);
 
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -188,12 +207,12 @@ public class Launcher {
         frame.add(manual);
         frame.add(TitleArea)
 ;
-        main.setBounds(10, 320,390,70);
+        main.setBounds(10, 300,390,70);
         main.setHorizontalAlignment(SwingConstants.CENTER);
         main.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         Start.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
         Start.setBounds(10, 470, 390, 70);
-        fux.setBounds(10, 400, 390, 20);
+        fux.setBounds(10, 380, 390, 20);
         lable.setBounds(0, 40, 410,90);
         lable.setFont(new Font("맑은 고딕", Font.BOLD, 36));
         lable.setHorizontalAlignment(SwingConstants.CENTER);
