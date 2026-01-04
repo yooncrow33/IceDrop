@@ -131,6 +131,17 @@ public class Launcher {
             "   [최적화]\n" +
             "   - 더 나은 아이스 드롭.\n" +
             "   - Graphics Manager에서 QuestBar를 렌더링 할때 넓이를 매 프레임마다 지역변수로 선언하던 구조 개선 -> 클래스 변수\n" +
+            "\n" +
+            "alpha 1.12\n" +
+            "   [게임내용]\n" +
+            "   - IceRush 아이템의 쿨타임 조정\n" +
+            "   [최적화]\n" +
+            "   - GameModel클래스안에서 playTick의 자료형을 long에서 int로 변경 -> 메모리 절약\n" +
+            "   - Graphics Manager에서 QuestBar를 렌더링 할때 넓이를 매 프레임마다 지역변수로 선언하던 구조 개선 -> 클래스 변수\n" +
+            "   - Info 객체의 라이프사이클(Tick 기반)을 관리하여 메모리 누수 방지 및 렌더링 최적화\n" +
+            "   [사용자 편의/ UX]\n" +
+            "   - Info 시스템 구축: 팝업 알림창에 POPUP-STAY-REMOVE 3단계 애니메이션 적용 (가시성 향상)\n" +
+            "   - Tap 인터페이스 개선: 1번-5번 탭이 끊김 없이 연결되는 Carousel(회전목마) 무한 루프 애니메이션 구현\n" +
             "\n";
 
     String manual_text = "\n" +

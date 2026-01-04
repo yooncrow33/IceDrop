@@ -2,6 +2,7 @@ package base.handler;
 
 import base.GameModel;
 import base.ViewMetrics;
+import model.effects.Info;
 import view.IExit;
 
 import java.awt.event.KeyAdapter;
@@ -22,7 +23,7 @@ public class InputHandler extends KeyAdapter{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            gameModel.tapMoveRight(gameModel.shiftPressed);
+            gameModel.tapMoveRight();
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             gameModel.tapMoveLeft();
@@ -40,6 +41,7 @@ public class InputHandler extends KeyAdapter{
         if (e.getKeyCode() == KeyEvent.VK_W) { gameModel.activateIceRushItem(2); }
         if (e.getKeyCode() == KeyEvent.VK_E) { gameModel.activateIceRushItem(3); }
         if (e.getKeyCode() == KeyEvent.VK_R) { gameModel.iceVacuumActive(); }
+        if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.addInfo(new Info("I am", "so", "pretty",gameModel.getPlayTick())); }
     }
     @Override
     public void keyReleased(KeyEvent e) {

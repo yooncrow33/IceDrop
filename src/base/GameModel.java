@@ -1,5 +1,6 @@
 package base;
 
+import model.effects.Info;
 import model.effects.IntegerEffect;
 import model.effects.StringEffect;
 import model.ice.IceBasic;
@@ -29,11 +30,10 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     public boolean shiftPressed = false;
     boolean clicked = false;
 
-    long playTick;
+    int playTick;
     int lastPlayTime;
     int totalPlayTime = 0;
     int sessionPlayTime = 0;
-
 
     //quest
     final int FIRST_QUEST;
@@ -97,9 +97,9 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
     boolean iceVacuumActive = false;
 
-    final int ICE_BASIC_RUSH_ITEM_COST = 100;
-    final int ICE_RARE_RUSH_ITEM_COST = 400;
-    final int ICE_LEGENDARY_RUSH_ITEM_COST = 1000;
+    final int ICE_BASIC_RUSH_ITEM_COST = 1000;
+    final int ICE_RARE_RUSH_ITEM_COST = 4000;
+    final int ICE_LEGENDARY_RUSH_ITEM_COST = 10000;
 
     final int ICE_AUTO_COLLECT_UPGRADE_COST[] = {20,300,600,2000,6000};
     final int ICE_VACUUM_ITEM_COST = 700;
@@ -109,8 +109,8 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     final int ICE_LEGENDARY_RUSH_ENABLE_TICK = 3600;
     final int ICE_VACUUM_ENABLE_TICK = 90; // 1.5 second
 
-    final int ICE_BASIC_RUSH_COOL_DOWN_TICK = 1800; // 2 minutes
-    final int ICE_RARE_RUSH_COOL_DOWN_TICK = 10800; // 3 minutes
+    final int ICE_BASIC_RUSH_COOL_DOWN_TICK = 3600; // 2 minutes
+    final int ICE_RARE_RUSH_COOL_DOWN_TICK = 10800 - 3600; // 3 minutes
     final int ICE_LEGENDARY_RUSH_COOL_DOWN_TICK = 18000; // 5 minutes
     final int ICE_VACUUM_COOL_DOWN_TICK = 72000; // just a 10 minute 내것이 되는 시간
 
@@ -118,6 +118,26 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     int iceBasicSpawnChanceLevel = 1;
     int iceRareSpawnChanceLevel = 1;
     int iceLegendarySpawnChanceLevel = 1;
+
+    //tap animation
+    //965,120,945,820;
+    final int tapWidth = 945;
+    int tap1X = 0;
+    int tap2X = tapWidth;
+    int tap3X = tapWidth * 2;
+    int tap4X = tapWidth * 3;
+    int tap5X = tapWidth * 4;
+    boolean tapMoving = false;
+    boolean tapMoveRight = true;
+    int tapMoveTime = 21;
+    int tapMoveDistance = 945;
+    int tapMoveEndTick = 0;
+    int recentTap = 0;
+    boolean tap1enabled = true;
+    boolean tap2enabled = true;
+    boolean tap3enabled = true;
+    boolean tap4enabled = true;
+    boolean tap5enabled = true;
 
     //ice
     private final double iceBasicCurrentSpawnChanceList[] = {1,0.03,0.04,0.05,0.06};
@@ -131,6 +151,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
     ArrayList<IntegerEffect> integerEffects = new ArrayList<>();
     ArrayList<StringEffect> stringEffects = new ArrayList<>();
+    ArrayList<Info> infos = new ArrayList<>();
 
     int tapBarPosition[] = {0,965,1154,1343,1532,1721,1721};
 
@@ -256,7 +277,15 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             }
         }
 
-            //other updates
+        for (int i = infos.size() - 1; i >= 0; i--) {
+            Info info = infos.get(i);
+            info.update();
+            if (info.isExpired()) {
+                infos.remove(i);
+            }
+        }
+
+        //other updates
 
         // play time
         playTick++;
@@ -265,6 +294,9 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
         // rush item status update
         updateIceRushStatus();
+
+        // tap update
+        tapUpdate();
 
         // vacuum status update
         if (iceVacuumActive) {
@@ -295,6 +327,10 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         clicked = false;
     }
 
+    public void addInfo(Info info) {
+        infos.add(info);
+    }
+
     public void renderIces(Graphics g) {
         for (IceBasic iceBasic : iceBasics) {
             iceBasic.draw(g);
@@ -321,27 +357,36 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         }
     }
 
+    public void renderPopups(Graphics g) {
+        for (Info info : infos) {
+            info.draw(g);
+        }
+    }
+
     public void activateIceRushItem(int tier) {
         if (tier == 1) {
             if (iceBasicRushItemCount > 0 && !iceBasicRush && iceBasicRushCoolTime <= playTick) {
                 iceBasicRushItemCount--;
                 iceBasicRush = true;
-                iceBasicRushEndTick = (int) playTick + ICE_BASIC_RUSH_ENABLE_TICK;
-                stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "activated!"));
+                iceBasicRushEndTick = playTick + ICE_BASIC_RUSH_ENABLE_TICK;
+                addInfo(new Info("Ice Basic Rush Activated!","Rush time : 30 seconds", "", getPlayTick()));
+                //stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "activated!"));
             }
         } else if (tier == 2) {
             if (iceRareRushItemCount > 0 && !iceRareRush && iceRareRushCoolTime <= playTick) {
                 iceRareRushItemCount--;
                 iceRareRush = true;
-                iceRareRushEndTick = (int) playTick + ICE_RARE_RUSH_ENABLE_TICK;
-                stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "activated!"));
+                iceRareRushEndTick = playTick + ICE_RARE_RUSH_ENABLE_TICK;
+                addInfo(new Info("Ice Rare Rush Activated!","Rush time : 1 min", "", getPlayTick()));
+                //stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "activated!"));
             }
         } else if (tier == 3) {
             if (iceLegendaryRushItemCount > 0 && !iceLegendaryRush && iceLegendaryRushCoolTime <= playTick) {
                 iceLegendaryRushItemCount--;
                 iceLegendaryRush = true;
-                iceLegendaryRushEndTick = (int) playTick + ICE_LEGENDARY_RUSH_ENABLE_TICK;
-                stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "activated!"));
+                iceLegendaryRushEndTick = playTick + ICE_LEGENDARY_RUSH_ENABLE_TICK;
+                addInfo(new Info("Ice Legendary Rush Activated!","Rush time : 1 min", "", getPlayTick()));
+                //stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "activated!"));
             }
         }
     }
@@ -349,7 +394,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     public void iceVacuumActive() {
         if (iceVacuumCount > 0 && !iceVacuumActive && iceVacuumCoolTime <= playTick) {
             iceVacuumActive = true;
-            iceVacuumEndTick = (int) playTick + ICE_VACUUM_ENABLE_TICK;
+            iceVacuumEndTick = playTick + ICE_VACUUM_ENABLE_TICK;
 
             for (IceBasic iceBasic : iceBasics) {
                 iceBasic.setVacuumActive(true);
@@ -381,12 +426,12 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         coin += collectedIceRares * ICE_RARE_VALUE;
         coin += collectedIceLegendaryes * ICE_LEGENDARY_VALUE;
 
-        iceVacuumCoolTime = (int) playTick + ICE_VACUUM_COOL_DOWN_TICK;
+        iceVacuumCoolTime = playTick + ICE_VACUUM_COOL_DOWN_TICK;
 
-        stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "+" + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!"));
+        addInfo(new Info("Ice Basic Rush Activated!","You get coin : " + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!", "", getPlayTick()));
 
         iceVacuumCount--;
-        iceVacuumCoolTime = (int) playTick + ICE_VACUUM_COOL_DOWN_TICK;
+        iceVacuumCoolTime = playTick + ICE_VACUUM_COOL_DOWN_TICK;
 
         iceVacuumActive = false;
     }
@@ -394,18 +439,18 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     public void updateIceRushStatus() {
         if (iceBasicRush && playTick >= iceBasicRushEndTick) {
             iceBasicRush = false;
-            iceBasicRushCoolTime = (int) playTick + ICE_BASIC_RUSH_COOL_DOWN_TICK;
-            stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Rush ended!"));
+            iceBasicRushCoolTime = playTick + ICE_BASIC_RUSH_COOL_DOWN_TICK;
+            addInfo(new Info("Ice Basic Rush ended!","", "", getPlayTick()));
         }
         if (iceRareRush && playTick >= iceRareRushEndTick) {
             iceRareRush = false;
-            iceRareRushCoolTime = (int) playTick + ICE_RARE_RUSH_COOL_DOWN_TICK;
-            stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Rush ended!"));
+            iceRareRushCoolTime = playTick + ICE_RARE_RUSH_COOL_DOWN_TICK;
+            addInfo(new Info("Ice Rare Rush ended!","", "", getPlayTick()));
         }
         if (iceLegendaryRush && playTick >= iceLegendaryRushEndTick) {
             iceLegendaryRush = false;
-            iceLegendaryRushCoolTime = (int) playTick + ICE_LEGENDARY_RUSH_COOL_DOWN_TICK;
-            stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Rush ended!"));
+            iceLegendaryRushCoolTime = playTick + ICE_LEGENDARY_RUSH_COOL_DOWN_TICK;
+            addInfo(new Info("Ice Legendary Rush ended!","", "", getPlayTick()));
         }
     }
 
@@ -414,7 +459,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             if (coin >= ICE_BASIC_RUSH_ITEM_COST) {
                 coin -= ICE_BASIC_RUSH_ITEM_COST;
                 iceBasicRushItemCount++;
-                stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "purchased!"));
+                addInfo(new Info("purchased!","- " + ICE_BASIC_RUSH_ITEM_COST, "present coin : " + coin, getPlayTick()));
             } else {
                 stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
             }
@@ -422,7 +467,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             if (coin >= ICE_RARE_RUSH_ITEM_COST) {
                 coin -= ICE_RARE_RUSH_ITEM_COST;
                 iceRareRushItemCount++;
-                stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "purchased!"));
+                addInfo(new Info("purchased!","- " + ICE_RARE_RUSH_ITEM_COST, "present coin : " + coin, getPlayTick()));
             } else {
                 stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
             }
@@ -430,7 +475,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             if (coin >= ICE_LEGENDARY_RUSH_ITEM_COST) {
                 coin -= ICE_LEGENDARY_RUSH_ITEM_COST;
                 iceLegendaryRushItemCount++;
-                stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "purchased!"));
+                addInfo(new Info("purchased!","- " + ICE_LEGENDARY_RUSH_ITEM_COST, "present coin : " + coin, getPlayTick()));
             } else {
                 stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
             }
@@ -446,17 +491,17 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         if (coin >= ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel]) {
             coin -= ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel];
             iceAutoCollectLevel++;
-            stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "purchased!"));
+            addInfo(new Info("purchased!","- " + ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel], "present coin : " + coin, getPlayTick()));
         } else {
             stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Not enough money!"));
         }
     }
-    
+
     public void purchaseIceVacuum() {
         if (coin >= ICE_VACUUM_ITEM_COST) {
             coin -= ICE_BASIC_RUSH_ITEM_COST;
             iceVacuumCount++;
-            stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "purchased!"));
+            addInfo(new Info("purchased!","- " + ICE_VACUUM_ITEM_COST, "present coin : " + coin, getPlayTick()));
         } else {
             stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Not enough money"));
         }
@@ -468,7 +513,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
             if (firstQuestCompleted) {
                 coin += getFirstQuestReward();
-                integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(), getFirstQuestReward()));
+                addInfo(new Info("second quest!","+ " + getFirstQuestReward(), "present coin : " + coin, getPlayTick()));
                 firstQuestReward = true;
             }
 
@@ -477,7 +522,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
             if (secondQuestCompleted) {
                 coin += getSecondQuestReward();
-                integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(), getSecondQuestReward()));
+                addInfo(new Info("second quest!","+ " + getSecondQuestReward(), "present coin : " + coin, getPlayTick()));
                 secondQuestReward = true;
             }
 
@@ -486,40 +531,112 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             // 세 번째 퀘스트는 고정 보상이므로, 퀘스트 완료만 확인
             if (thirdQuestCompleted) {
                 coin += 1000;
-                integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(), 1000));
+                addInfo(new Info("third quest!","+ Ice Collect Bonus", "present coin : " + coin, getPlayTick()));
                 thirdQuestReward = true;
             }
         }
     }
 
     public void FUCKYOUDEBUGRENDER(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(0,0,200,20);
 
-        g.setColor(Color.red);
-        g.drawString(playTick + "/" + iceBasicRushEndTick, 0,10);
     }
 
-    public void tapMoveRight(boolean shiftPressed) {
-        if (shiftPressed) {
-            if (tap != 6) {
-                tap = 6;
-                return;
-            }
-        }
+    public void tapMoveRight() {
+        if (tapMoving) return;
+        recentTap = tap;
+
         if (tap >= 5) {
             tap = 1;
+            // 5에서 1로 갈 때: 1번 탭을 5번 탭 바로 오른쪽(tapWidth)으로 순간이동 시킴
+            tap1X = tap5X + tapWidth;
         } else {
             tap++;
         }
+
+        tapMoveEndTick = playTick + tapMoveTime;
+        tapMoving = true;
+        tapMoveRight = true;
+        tap1enabled = tap2enabled = tap3enabled = tap4enabled = tap5enabled = true;
     }
 
+    // 2. 이동 시작 로직 (왼쪽 이동: 1 -> 5 -> 4 -> ...)
     public void tapMoveLeft() {
+        if (tapMoving) return;
+        recentTap = tap;
+
         if (tap <= 1) {
             tap = 5;
+            // 1에서 5로 갈 때: 5번 탭을 1번 탭 바로 왼쪽(-tapWidth)으로 순간이동 시킴
+            tap5X = tap1X - tapWidth;
         } else {
             tap--;
         }
+
+        tapMoveEndTick = playTick + tapMoveTime;
+        tapMoving = true;
+        tapMoveRight = false;
+        tap1enabled = tap2enabled = tap3enabled = tap4enabled = tap5enabled = true;
+    }
+
+    // 3. 핵심 업데이트 로직
+    public void tapUpdate() {
+        if (!tapMoving) return;
+
+        // 매 프레임당 이동할 거리 계산
+        int moveStep = tapMoveDistance / tapMoveTime;
+
+        // 오른쪽 이동: 화면 전체가 왼쪽으로 밀려야 함 (-)
+        // 왼쪽 이동: 화면 전체가 오른쪽으로 밀려야 함 (+)
+        if (tapMoveRight) {
+            moveAllTaps(-moveStep);
+        } else {
+            moveAllTaps(moveStep);
+        }
+
+        // 이동 완료 시점
+        if (playTick >= tapMoveEndTick) {
+            tapMoving = false;
+            setTap(this.tap); // 정확한 위치로 좌표 강제 고정 (Snap)
+            updateEnabledTaps(); // 현재 탭만 빼고 다 끄기
+        }
+    }
+
+    // 4. 좌표 일괄 이동 (노가다 방지)
+    private void moveAllTaps(int step) {
+        tap1X += step;
+        tap2X += step;
+        tap3X += step;
+        tap4X += step;
+        tap5X += step;
+    }
+
+    // 5. 좌표 정렬 및 초기화 (Snap)
+    public void setTap(int tap) {
+        this.tap = tap;
+        // 현재 탭(tap)을 기준으로 0, 945, 1890... 순서로 정렬
+        tap1X = (1 - tap) * tapWidth;
+        tap2X = (2 - tap) * tapWidth;
+        tap3X = (3 - tap) * tapWidth;
+        tap4X = (4 - tap) * tapWidth;
+        tap5X = (5 - tap) * tapWidth;
+    }
+
+    // 6. 현재 탭만 켜두는 로직
+    private void updateEnabledTaps() {
+        setTapDisable(); // 일단 다 끔
+        if (tap == 1) tap1enabled = true;
+        else if (tap == 2) tap2enabled = true;
+        else if (tap == 3) tap3enabled = true;
+        else if (tap == 4) tap4enabled = true;
+        else if (tap == 5) tap5enabled = true;
+    }
+
+    public void setTapDisable() {
+        tap1enabled = false;
+        tap2enabled = false;
+        tap3enabled = false;
+        tap4enabled = false;
+        tap5enabled = false;
     }
 
     private int getCurrentQuestProgress(int questId) {
@@ -656,5 +773,5 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     @Override public int getIce_BasicCount() { return iceBasics.size(); }
     @Override public int getIce_RareCount() { return iceRares.size(); }
     @Override public int getIce_LegendaryCount() { return iceLegendaryes.size(); }
-    @Override public long getPlayTick() { return playTick; }
+    @Override public int getPlayTick() { return playTick; }
 }
