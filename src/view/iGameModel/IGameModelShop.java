@@ -18,6 +18,7 @@ public interface IGameModelShop {
     int getIceRareRushCoolDownTick();
     int getIceLegendaryRushCoolDownTick();
     int getIceVacuumCoolDownTick();
+    int getIceAutoCollectMaxLevel();
 
     int getIceBasicRushCoolTime();
     int getIceRareRushCoolTime();

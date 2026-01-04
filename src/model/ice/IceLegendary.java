@@ -14,6 +14,8 @@ public class IceLegendary {
     private  final double FALL_SPEED = 20.0;
     private boolean afterImageLimit = false;
     ArrayList<IceAfterImage> iceAfterImages = new ArrayList<>();
+    int offsetX[] = {0,2,4,6,8,10,12,14,16,18,20};
+    int offsetY[] = {0,3,6,9,12,15,18,21,24,27,30};
 
     Random random = new Random();
 
@@ -64,8 +66,8 @@ public class IceLegendary {
         return y > 1090;
     }
 
-    public boolean shouldBeCollected(int mouseX, int mouseY) {
-        return mouseX + 20 >= x && mouseX - 20 <= x + WIDTH && mouseY + 60 >= y && mouseY - 60 <= y + HEIGHT;
+    public boolean shouldBeCollected(int mouseX, int mouseY, int offsetIndex) {
+        return mouseX + offsetX[offsetIndex] >= x && mouseX - offsetX[offsetIndex] <= x + WIDTH && mouseY + offsetY[offsetIndex] >= y && mouseY - offsetY[offsetIndex] <= y + HEIGHT;
     }
 
     public void setVacuumActive(boolean active) {

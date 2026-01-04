@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit {
-    JFrame frame = new JFrame("alpha 1.11");
+    JFrame frame = new JFrame("alpha 1.13");
 
     private long lastTime;
 
@@ -136,23 +136,30 @@ public class Main extends JPanel implements IFrameSize, IExit {
 
         g.setColor(Color.white);
         g.setFont(titleFont);
-        g.drawString("Coin : " + gameModel.getCoin() + "/ Level : null ", 980, 90);
+        g.drawString("Coin : " + gameModel.getCoin() + "/ Level : " + gameModel.getPresentLevel(), 980, 90);
 
-        graphicsManager.renderTapFrame(g);
+        if (gameModel.tap1enabled) { graphicsManager.renderInfoTap(g, gameModel.tap1X, gameModel); }
+        if (gameModel.tap2enabled) { graphicsManager.renderShopTap(g, gameModel.tap2X, gameModel,gameModel); }
+        if (gameModel.tap3enabled) { graphicsManager.renderSkillPointTap(g,gameModel, gameModel.tap3X); }
+        if (gameModel.tap4enabled) { graphicsManager.renderQuestsTap(g, gameModel.tap4X, gameModel); }
+        if (gameModel.tap5enabled) { graphicsManager.renderSettingTap(g, gameModel.tap5X); }
 
         if (gameModel.getTap() == 1) {
-            graphicsManager.renderInfoTap(g, gameModel);
+            graphicsManager.renderInfoTap(g,gameModel.tap1X, gameModel);
         } else if (gameModel.getTap() == 2) {
-            graphicsManager.renderShopTap(g, gameModel,gameModel);
+            graphicsManager.renderShopTap(g,gameModel.tap2X, gameModel,gameModel);
         } else if (gameModel.getTap() == 3) {
-            graphicsManager.renderSkillPointTap(g);
+            graphicsManager.renderSkillPointTap(g,gameModel , gameModel.tap3X);
         } else if (gameModel.getTap() == 4) {
-            graphicsManager.renderQuestsTap(g, gameModel);
+            graphicsManager.renderQuestsTap(g,gameModel.tap4X, gameModel);
         } else if (gameModel.getTap() == 5) {
-            graphicsManager.renderSettingTap(g);
-        } else if (gameModel.getTap() == 6) {
-            graphicsManager.renderDebugTap(g, viewMetrics, systemMonitor, gameModel, viewMetrics);
+            graphicsManager.renderSettingTap(g, gameModel.tap5X);
         }
+
+        graphicsManager.renderTapFrame(g);
+        g.setColor(Color.black);
+        g.fillRect(10,10,955,1060);
+
         graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
 
         gameModel.renderIces(g);
@@ -160,6 +167,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
         gameModel.renderStringEffects(g);
 
         graphicsManager.renderBaseFrame(g);
+        gameModel.renderPopups(g);
 
         //gameModel.FUCKYOUDEBUGRENDER(g);
     }

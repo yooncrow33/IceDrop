@@ -15,6 +15,7 @@ public class MouseListener extends MouseAdapter {
     Rectangle quest1Rect = new Rectangle(980, 180, 915, 240);
     Rectangle quest2Rect = new Rectangle(980, 430, 915, 240);
     Rectangle quest3Rect = new Rectangle(980, 680, 915, 240);
+    Rectangle questRefreshRect = new Rectangle(1340, 130, 550, 45);
 
     Rectangle iceBasicRush = new Rectangle(985, 185, 298 - 10, 240 - 10);
     Rectangle iceRareRush = new Rectangle(1293, 185, 298 - 10, 240 - 10);
@@ -40,6 +41,27 @@ public class MouseListener extends MouseAdapter {
             if (quest3Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.clamRewardedQuest(3);
             }
+            if (questRefreshRect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
+                //gameModel.refreshQuests();
+            }
+
+        }
+        if (gameModel.getTap() == 3) {
+            if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
+                gameModel.upgradeIceSpawnChance(1);
+            }
+            if (iceRareRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
+                gameModel.upgradeIceSpawnChance(2);
+            }
+            if (iceLegendaryRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
+                gameModel.upgradeIceSpawnChance(3);
+            }
+            if (iceAutoCollect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
+                gameModel.upgradeClickOffset();
+            }
+            if (iceVacuum.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
+                gameModel.upgradeItemCoolTime();
+            }
         }
 
         if (gameModel.getTap() == 2) {
@@ -53,11 +75,12 @@ public class MouseListener extends MouseAdapter {
                 gameModel.purchaseIceRushItem(3);
             }
             if (iceAutoCollect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                //gameModel.upgradeIceAutoCollect();
+                gameModel.upgradeIceAutoCollect();
             }
             if (iceVacuum.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.purchaseIceVacuum();
             }
         }
+
     }
 }
