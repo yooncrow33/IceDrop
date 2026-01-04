@@ -13,6 +13,15 @@ public class GraphicsManager {
     final int VIRTUAL_WIDTH = 1920;
     final int VIRTUAL_HEIGHT = 1080;
 
+    int firstQuestProgress;
+    int secondQuestProgress;
+    int thirdQuestProgress;
+
+    int iceBasicRushCoolTimeBarWidth;
+    int iceRareRushCoolTimeBarWidth;
+    int iceLegendaryRushCoolTimeBarWidth;
+    int iceVacuumCoolTimeBarWidth;
+
     public void renderBaseFrame(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0,10, VIRTUAL_WIDTH - 10, 10);
@@ -20,6 +29,12 @@ public class GraphicsManager {
         g.fillRect( 0,10,10, VIRTUAL_HEIGHT - 20);
         g.fillRect(1910,10,10, VIRTUAL_HEIGHT - 20);
         g.fillRect(955,10,10, VIRTUAL_HEIGHT - 20);
+
+        g.setColor(Color.black);
+        g.fillRect(0,1070,1080,10);
+        g.fillRect(0,0,1080,10);
+        //center x = 468
+        //center y = 525
     }
 
     public void renderTapFrame(Graphics g) {
@@ -44,8 +59,8 @@ public class GraphicsManager {
         g.drawString("total played time : " + iGameModel.getLast() + " min", 980, 290);
         g.drawString("session played time : " + iGameModel.getSessionPlayTime() + " min", 980, 360);
     }
-    public void renderShopTap(Graphics g, IGameModelShop iGameModelShop) {
-        /*
+    public void renderShopTap(Graphics g, IGameModelShop iGameModelShop, IGameModelDebug iGameModelDebug) {
+
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SHOP Tap", 980, 165);
@@ -66,30 +81,103 @@ public class GraphicsManager {
         g.fillRect( 985,435,905,230);
         g.fillRect( 985,685,905,230);
 
+        if (!iGameModelShop.iceBasicRush()) {
+            g.setColor(Color.cyan);
+            g.drawString("Cooldown", 992, 395 - 30);
+        } else {
+            g.setColor(Color.red);
+            g.drawString("Rush!", 992, 395 - 30);
+        }
+        if (!iGameModelShop.iceRareRush()) {
+            g.setColor(Color.cyan);
+            g.drawString("Cooldown", 1300, 395 - 30);
+        } else {
+            g.setColor(Color.red);
+            g.drawString("Rush!", 1300, 395 - 30);
+        }
+        if (!iGameModelShop.iceLegendaryRush()) {
+            g.setColor(Color.cyan);
+            g.drawString("Cooldown", 1610, 395 - 30);
+        } else {
+            g.setColor(Color.red);
+            g.drawString("Rush!", 1610, 395 - 30);
+        }
+        if (!iGameModelShop.iceVacuuming()) {
+            g.setColor(Color.cyan);
+            g.drawString("Cooldown", 994, 645 + 230 - 20);
+        } else {
+            g.setColor(Color.red);
+            g.drawString("Vacuum!", 994, 645 + 230 - 20);
+        }
+
+        g.drawString("Upgrade",994, 425 + 230 - 40);
+
+        g.setColor(Color.gray);
+        g.fillRect(990, 415 - 30 - 10, 298 - 20, 30);
+        g.fillRect(1298, 415 - 30 - 10, 298 - 20, 30);
+        g.fillRect(1606, 415 - 30 - 10, 298 - 20, 30);
+
+        g.fillRect(990, 435 + 230 - 40, 895, 30);
+        g.fillRect(990, 685 + 230 - 40, 895, 30);
+
+        g.setColor(Color.cyan);
+        iceBasicRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceBasicRushCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceBasicRushCoolDownTick()) * 268);
+        iceRareRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceRareRushCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceRareRushCoolDownTick()) * 268);
+        iceLegendaryRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceLegendaryRushCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceLegendaryRushCoolDownTick()) * 268);
+        iceVacuumCoolTimeBarWidth = (int) (((iGameModelShop.getIceVacuumCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceVacuumCoolDownTick()) * 885);
+        if (iceBasicRushCoolTimeBarWidth >= 268) iceBasicRushCoolTimeBarWidth = 268;
+        if (iceRareRushCoolTimeBarWidth >= 268) iceRareRushCoolTimeBarWidth = 268;
+        if (iceLegendaryRushCoolTimeBarWidth >= 268) iceLegendaryRushCoolTimeBarWidth = 268;
+        if (iceVacuumCoolTimeBarWidth >= 885) iceVacuumCoolTimeBarWidth = 885;
+        if (iceBasicRushCoolTimeBarWidth <= 0) iceBasicRushCoolTimeBarWidth = 0;
+        if (iceRareRushCoolTimeBarWidth <= 0) iceRareRushCoolTimeBarWidth = 0;
+        if (iceLegendaryRushCoolTimeBarWidth <= 0) iceLegendaryRushCoolTimeBarWidth = 0;
+        if (iceVacuumCoolTimeBarWidth <= 0) iceVacuumCoolTimeBarWidth = 0;
+
+        g.fillRect( 995, 416 - 30 - 10 + 5, iceBasicRushCoolTimeBarWidth, 20);
+        g.fillRect(1303, 416 - 30 - 10 + 5, iceRareRushCoolTimeBarWidth, 20);
+        g.fillRect(1611, 416 - 30 - 10 + 5, iceLegendaryRushCoolTimeBarWidth, 20);
+
+        g.fillRect( 995, 435 + 230 - 35, 885, 20);
+        g.fillRect( 995, 685 + 230 - 35, iceVacuumCoolTimeBarWidth, 20);
+
         g.setColor(Color.yellow);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("IceBasic spawn rush", 992, 210);
-        g.drawString("IceRare spawn rush", 1300, 210);
-        g.drawString("IceLegendary spawn rush", 1608, 210);
+        g.drawString("IceBasic spawn rush (Q)", 992, 210);
+        g.drawString("IceRare spawn rush (W)", 1300, 210);
+        g.drawString("IceLegendary spawn rush (E)", 1608, 210);
 
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("Auto collect", 1000, 480);
-        g.drawString("Vacuum", 1000, 730);
+        g.drawString("Vacuum (R)", 1000, 730);
 
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("33 coin", 992, 225);
-        g.drawString("22 coin", 1300, 225);
-        g.drawString("87 coin", 1608, 225);
+        g.drawString(Integer.toString(iGameModelShop.getIceBasicRushCost()) + " coin", 992, 240);
+        g.drawString(Integer.toString(iGameModelShop.getIceRareRushCost()) + " coin", 1300, 240);
+        g.drawString(Integer.toString(iGameModelShop.getIceLegendaryRushCost()) + " coin", 1608, 240);
 
-         */
+        g.drawString(Integer.toString(iGameModelShop.getIceAutoCollectCost()) + " coin", 1000,515);
+        g.drawString(Integer.toString(iGameModelShop.getIceVacuumCost()) + " coin", 1000, 765);
 
+        g.setColor(Color.green);
+        g.fillRect(980,430,915,240);
+        g.drawString("Owned : " + iGameModelShop.getIceBasicRushItemCount(), 992, 270);
+        g.drawString("Owned : " + iGameModelShop.getIceRareRushItemCount(), 1300, 270);
+        g.drawString("Owned : " + iGameModelShop.getIceLegendaryRushItemCount(), 1608, 270);
+        g.drawString("Level : " + iGameModelShop.getIceAutoCollectLevel(), 1000, 545);
+        g.drawString("Owned : " + iGameModelShop.getIceVacuumCount(), 1000, 795);
+
+        g.setColor(Color.black);
+        g.fillRect(980,430,915,240);
     }
+
     public void renderSkillPointTap(Graphics g) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SKILL POINT Tap", 980, 165);
     }
+
     public void renderQuestsTap(Graphics g, IGameModelQuest iGameModelQuest) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
@@ -160,9 +248,9 @@ public class GraphicsManager {
             g.drawString("Not Completed", 1000, 850);
         }
 
-        int firstQuestProgress = (int) ((iGameModelQuest.getFirstQuestProgress() / (float) iGameModelQuest.getFirstQuestGoal()) * 905);
-        int secondQuestProgress = (int) ((iGameModelQuest.getSecondQuestProgress() / (float) iGameModelQuest.getSecondQuestGoal()) * 905);
-        int thirdQuestProgress = (int) ((iGameModelQuest.getThirdQuestProgress() / (float) iGameModelQuest.getThirdQuestGoal()) * 905);
+        firstQuestProgress = (int) ((iGameModelQuest.getFirstQuestProgress() / (float) iGameModelQuest.getFirstQuestGoal()) * 905);
+        secondQuestProgress = (int) ((iGameModelQuest.getSecondQuestProgress() / (float) iGameModelQuest.getSecondQuestGoal()) * 905);
+        thirdQuestProgress = (int) ((iGameModelQuest.getThirdQuestProgress() / (float) iGameModelQuest.getThirdQuestGoal()) * 905);
         if (firstQuestProgress >= 905) firstQuestProgress = 905;
         if (secondQuestProgress >= 905) secondQuestProgress = 905;
         if (thirdQuestProgress >= 905) thirdQuestProgress = 905;

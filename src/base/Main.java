@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit {
-    JFrame frame = new JFrame("alpha 1.10.1");
+    JFrame frame = new JFrame("alpha 1.11");
 
     private long lastTime;
 
@@ -139,14 +139,11 @@ public class Main extends JPanel implements IFrameSize, IExit {
         g.drawString("Coin : " + gameModel.getCoin() + "/ Level : null ", 980, 90);
 
         graphicsManager.renderTapFrame(g);
-        /*
-        g.setColor(Color.red);
-        g.fillRect(980,180,915,750);
-        */
+
         if (gameModel.getTap() == 1) {
             graphicsManager.renderInfoTap(g, gameModel);
         } else if (gameModel.getTap() == 2) {
-            graphicsManager.renderShopTap(g, gameModel);
+            graphicsManager.renderShopTap(g, gameModel,gameModel);
         } else if (gameModel.getTap() == 3) {
             graphicsManager.renderSkillPointTap(g);
         } else if (gameModel.getTap() == 4) {
@@ -159,9 +156,12 @@ public class Main extends JPanel implements IFrameSize, IExit {
         graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
 
         gameModel.renderIces(g);
-        gameModel.renderCoinEffects(g);
+        gameModel.renderIntegerEffects(g);
+        gameModel.renderStringEffects(g);
 
-        graphicsManager.renderBaseFrame(d2);
+        graphicsManager.renderBaseFrame(g);
+
+        //gameModel.FUCKYOUDEBUGRENDER(g);
     }
 
     public static void main(String[] args) {

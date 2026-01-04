@@ -2,16 +2,16 @@ package model.effects;
 
 import java.awt.*;
 
-public class CoinEffect {
+public class StringEffect {
     int x, y;
-    int value;
+    String str;
     int alpha = 255;
     int rise = 0;
 
-    public CoinEffect(int x, int y, int value) {
+    public StringEffect(int x, int y, String str) {
         this.x = x;
         this.y = y;
-        this.value = value;
+        this.str = str;
     }
 
     public void update() {
@@ -26,6 +26,6 @@ public class CoinEffect {
     public void draw(Graphics g) {
         g.setColor(new Color(0, 255, 0, alpha));
         g.setFont(new Font("굴림", Font.BOLD, 36));
-        g.drawString("+" + value, x, y - rise);
+        g.drawString(str, x, y - rise);
     }
 }

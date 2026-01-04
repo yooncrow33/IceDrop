@@ -45,11 +45,6 @@ public class Launcher {
             "\n" +
             "   - 정신 나갈거 같음...\n" +
             "       2025/11/10 -yooncrow33-\n" +
-            "\n" +
-            "alpha 1.10.1!\n" +
-            "\n" +
-            "   - 다음에 ygk적용시킨다...\n" +
-            "       2025/12/14 -yooncrow33-\n" +
             "\n";
 
     String patch_notes = "\n" +
@@ -128,6 +123,14 @@ public class Launcher {
             "   - Ice의 잔상 추가! \n" +
             "   [최적화]\n" +
             "   - ice.update();에서 dt를 사용해 fps에 상관없이 게임이 업데이트되게 최적화..\n" +
+            "\n" +
+            "alpha 1.11\n" +
+            "   [게임내용]\n" +
+            "   - shop 시스템 추가!\n" +
+            "   - 아이템 추가!\n" +
+            "   [최적화]\n" +
+            "   - 더 나은 아이스 드롭.\n" +
+            "   - Graphics Manager에서 QuestBar를 렌더링 할때 넓이를 매 프레임마다 지역변수로 선언하던 구조 개선 -> 클래스 변수\n" +
             "\n";
 
     String manual_text = "\n" +

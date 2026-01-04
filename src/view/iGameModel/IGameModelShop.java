@@ -1,12 +1,31 @@
 package view.iGameModel;
 
 public interface IGameModelShop {
-    /*public int getIceBasicRushItemCount();
-    public int getIceRareRushItemCount();
-    public int getIceLegendaryRushItemCount();
-    public int getIceBasicRushCost();
-    public int getIceRareRushCost();
-    public int getIceLegendaryRushCost();
+    int getIceBasicRushItemCount();
+    int getIceRareRushItemCount();
+    int getIceLegendaryRushItemCount();
+    int getIceBasicRushCost();
+    int getIceRareRushCost();
+    int getIceLegendaryRushCost();
 
-     */
+    int getIceAutoCollectCost();
+    int getIceAutoCollectLevel();
+
+    int getIceVacuumCost();
+    int getIceVacuumCount();
+
+    int getIceBasicRushCoolDownTick();
+    int getIceRareRushCoolDownTick();
+    int getIceLegendaryRushCoolDownTick();
+    int getIceVacuumCoolDownTick();
+
+    int getIceBasicRushCoolTime();
+    int getIceRareRushCoolTime();
+    int getIceLegendaryRushCoolTime();
+    int getIceVacuumCoolTime();
+
+    boolean iceBasicRush();
+    boolean iceRareRush();
+    boolean iceLegendaryRush();
+    boolean iceVacuuming();
 }
