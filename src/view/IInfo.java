@@ -3,5 +3,5 @@ package view;
 import model.effects.Info;
 
 public interface IInfo {
-    void addInfo(Info info);
+    void addInfo(String firstLine, String secondLine, String thirdLine);
 }

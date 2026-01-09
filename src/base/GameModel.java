@@ -1,5 +1,6 @@
 package base;
 
+import base.gameModel.LongTimeQuest;
 import model.effects.Info;
 import model.effects.IntegerEffect;
 import model.effects.StringEffect;
@@ -8,6 +9,7 @@ import model.ice.IceLegendary;
 import model.ice.IceRare;
 import view.*;
 import view.iGameModel.*;
+import base.gameModel.Quest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 
-public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, IGameModelShop, IGameSkillPoint {
+public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, IGameModelShop, IGameSkillPoint, IInfo, IQuest, IQuestLT {
     private int coin;
 
     private int tap = 1;
@@ -31,34 +33,11 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     int totalPlayTime = 0;
     int sessionPlayTime = 0;
 
-    //quest
-    final int FIRST_QUEST;
-    final int SECOND_QUEST;
-
-    int questGoalList[] = {0,10,5,1,10,30,60};
-    int questRewardList[] = {0,50,60,500,70,150,400};
-    String questsExplanation[] = {"empty","Collect 10 Ice_Basic", "Collect 5 Ice_Rare", "Collect 1 Ice_Legendary",
-            "Play for 10 min", "Play for 30 min", "Play for 1 hours"};
-
-    final int FIRST_QUEST_GOAL;
-    final int SECOND_QUEST_GOAL;
-    final int THIRD_QUEST_GOAL = 5000;
-
-    boolean firstQuestCompleted = false;
-    boolean secondQuestCompleted = false;
-    boolean thirdQuestCompleted = false;
-
-    boolean firstQuestReward = false;
-    boolean secondQuestReward = false;
-    boolean thirdQuestReward = false;
-
     final int currentProfileId;
 
     final int ICE_BASIC_VALUE = 1;
     final int ICE_RARE_VALUE = 5;
     final int ICE_LEGENDARY_VALUE = 10;
-
-    final int ICE_COLLECT_BONUS = 5;
 
     int iceBasicCollectedCount = 0;
     int iceRareCollectedCount = 0;
@@ -175,6 +154,12 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     ArrayList<StringEffect> stringEffects = new ArrayList<>();
     ArrayList<Info> infos = new ArrayList<>();
 
+    Quest firstQuest = new Quest(this,this);
+    Quest secondQuest = new Quest(this,this);
+    LongTimeQuest thirdQuest = new LongTimeQuest(this,this, this);
+    private boolean longTimeQuestCompleted = false;
+    private boolean longTimeQuestReward = false;
+
     int tapBarPosition[] = {0,965,1154,1343,1532,1721,1721};
 
     IMouse iMouse;
@@ -183,10 +168,8 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     public GameModel(int profileId, IMouse iMouse) {
         this.currentProfileId = profileId;
         this.iMouse = iMouse;
-        FIRST_QUEST = random.nextInt(6) + 1;
-        SECOND_QUEST = random.nextInt(6) + 1;
-        FIRST_QUEST_GOAL = questGoalList[FIRST_QUEST];
-        SECOND_QUEST_GOAL = questGoalList[SECOND_QUEST];
+
+        thirdQuest.load(longTimeQuestCompleted, longTimeQuestReward);
     }
 
     public void update(double dt) {
@@ -225,11 +208,11 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                 if (Math.random() > iceAutoCollectChance[iceAutoCollectLevel]) {
                     continue;
                 } else {
-                    addInfo(new Info("Auto Collected!","collected Ice : Basic", "", getPlayTick()));
+                    addInfo("Auto Collected!","collected Ice : Basic", "");
                     iceBasicCollectedCount++;
                     xp += ICE_BASIC_XP;
-                    if (thirdQuestCompleted) {
-                        coin += ICE_BASIC_VALUE + ICE_COLLECT_BONUS;
+                    if (thirdQuest.getIsCompleted()) {
+                        coin += ICE_BASIC_VALUE + thirdQuest.getICE_COLLECT_BONUS();
                     } else {
                         coin += ICE_BASIC_VALUE;
                     }
@@ -242,8 +225,8 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                     integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX() + random.nextInt(5) - 10, iMouse.getVirtualMouseY() + random.nextInt(5) - 10, ICE_BASIC_VALUE));
                     iceBasicCollectedCount++;
                     xp += ICE_BASIC_XP;
-                    if (thirdQuestCompleted) {
-                        coin += ICE_BASIC_VALUE + ICE_COLLECT_BONUS;
+                    if (thirdQuest.getIsCompleted()) {
+                        coin += ICE_BASIC_VALUE + thirdQuest.getICE_COLLECT_BONUS();
                     } else {
                         coin += ICE_BASIC_VALUE;
                     }
@@ -260,11 +243,11 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                 if (Math.random() > iceAutoCollectChance[iceAutoCollectLevel]) {
                     continue;
                 } else {
-                    addInfo(new Info("Auto Collected!","collected Ice : Rare", "", getPlayTick()));
+                    addInfo("Auto Collected!","collected Ice : Rare", "");
                     iceRareCollectedCount++;
                         xp += ICE_RARE_XP;
-                    if (thirdQuestCompleted) {
-                        coin += ICE_RARE_VALUE + ICE_COLLECT_BONUS;
+                    if (thirdQuest.getIsCompleted()) {
+                        coin += ICE_RARE_VALUE + thirdQuest.getICE_COLLECT_BONUS();
                     } else {
                         coin += ICE_RARE_VALUE;
                     }
@@ -277,8 +260,8 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                     integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX() + random.nextInt(5) - 10, iMouse.getVirtualMouseY() + random.nextInt(5) - 10, ICE_RARE_VALUE));
                     iceRareCollectedCount++;
                     xp += ICE_RARE_XP;
-                    if (thirdQuestCompleted) {
-                        coin += ICE_RARE_VALUE + ICE_COLLECT_BONUS;
+                    if (thirdQuest.getIsCompleted()) {
+                        coin += ICE_RARE_VALUE + thirdQuest.getICE_COLLECT_BONUS();
                     } else {
                         coin += ICE_RARE_VALUE;
                     }
@@ -295,11 +278,11 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                 if (Math.random() > iceAutoCollectChance[iceAutoCollectLevel]) {
                     continue;
                 } else {
-                    addInfo(new Info("Auto Collected!","collected Ice : Legendary", "", getPlayTick()));
+                    addInfo("Auto Collected!","collected Ice : Legendary", "");
                     iceLegendaryCollectCount++;
                     xp += ICE_LEGENDARY_XP;
-                    if (thirdQuestCompleted) {
-                        coin += ICE_LEGENDARY_VALUE + ICE_COLLECT_BONUS;
+                    if (thirdQuest.getIsCompleted()) {
+                        coin += ICE_LEGENDARY_VALUE + thirdQuest.getICE_COLLECT_BONUS();
                     } else {
                         coin += ICE_LEGENDARY_VALUE;
                     }
@@ -312,8 +295,8 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                     integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX() + random.nextInt(5) - 10, iMouse.getVirtualMouseY() + random.nextInt(5) - 10, ICE_LEGENDARY_VALUE));
                     iceLegendaryCollectCount++;
                     xp += ICE_LEGENDARY_XP;
-                    if (thirdQuestCompleted) {
-                        coin += ICE_LEGENDARY_VALUE + ICE_COLLECT_BONUS;
+                    if (thirdQuest.getIsCompleted()) {
+                        coin += ICE_LEGENDARY_VALUE + thirdQuest.getICE_COLLECT_BONUS();
                     } else {
                         coin += ICE_LEGENDARY_VALUE;
                     }
@@ -370,29 +353,15 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         }
 
         // quest check
-        if (!firstQuestCompleted) {
-            if (getFirstQuestProgress() >= FIRST_QUEST_GOAL) {
-                firstQuestCompleted = true;
-            }
-        }
-
-        if (!secondQuestCompleted) {
-            if (getSecondQuestProgress() >= SECOND_QUEST_GOAL) {
-                secondQuestCompleted = true;
-            }
-        }
-
-        if (!thirdQuestCompleted) {
-            if (lastIceBasicCollectCount + iceBasicCollectedCount >= THIRD_QUEST_GOAL) {
-                thirdQuestCompleted = true;
-            }
-        }
+        firstQuest.update(getCurrentQuestProgress(firstQuest.getQuestIndex()));
+        secondQuest.update(getCurrentQuestProgress(secondQuest.getQuestIndex()));
+        thirdQuest.update(iceBasicCollectedCount);
 
         clicked = false;
     }
 
-    public void addInfo(Info info) {
-        infos.add(info);
+    public void addInfo(String firstLine, String secondLine, String thirdLine) {
+        infos.add(new Info(firstLine,secondLine,thirdLine,getPlayTick()));
     }
 
     public void renderIces(Graphics g) {
@@ -450,7 +419,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             skillPoint--;
             skillPointUsed ++;
             itemCoolTimeLevel++;
-            addInfo(new Info("upgraded!","current Level : " + itemCoolTimeLevel, "present coin : " + coin, getPlayTick()));
+            addInfo("upgraded!","current Level : " + itemCoolTimeLevel, "present coin : " + coin);
         } else {
             stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Not enough skill point!"));
         }
@@ -466,7 +435,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             skillPoint--;
             skillPointUsed ++;
             clickOffsetLevel++;
-            addInfo(new Info("upgraded!","current Level : " + clickOffsetLevel, "present coin : " + coin, getPlayTick()));
+            addInfo("upgraded!","current Level : " + clickOffsetLevel, "present coin : " + coin);
         } else {
             stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Not enough skill point!"));
         }
@@ -510,28 +479,22 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
         if (tier == 1) {
             iceBasicSpawnChanceLevel++;
-            addInfo(new Info(
+            addInfo(
                     "Ice Basic Spawn Chance Upgraded!",
                     "current level : " + iceBasicSpawnChanceLevel,
-                    "",
-                    getPlayTick()
-            ));
+                    "");
         } else if (tier == 2) {
             iceRareSpawnChanceLevel++;
-            addInfo(new Info(
+            addInfo(
                     "Ice Rare Spawn Chance Upgraded!",
                     "current level : " + iceRareSpawnChanceLevel,
-                    "",
-                    getPlayTick()
-            ));
+                    "");
         } else {
             iceLegendarySpawnChanceLevel++;
-            addInfo(new Info(
+            addInfo(
                     "Ice Legendary Spawn Chance Upgraded!",
                     "current level : " + iceLegendarySpawnChanceLevel,
-                    "",
-                    getPlayTick()
-            ));
+                    "");
         }
     }
 
@@ -541,21 +504,21 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
                 iceBasicRushItemCount--;
                 iceBasicRush = true;
                 iceBasicRushEndTick = playTick + ICE_BASIC_RUSH_ENABLE_TICK;
-                addInfo(new Info("Ice Basic Rush Activated!","Rush time : 30 seconds", "", getPlayTick()));
+                addInfo("Ice Basic Rush Activated!","Rush time : 30 seconds", "");
             }
         } else if (tier == 2) {
             if (iceRareRushItemCount > 0 && !iceRareRush && iceRareRushCoolTime <= playTick) {
                 iceRareRushItemCount--;
                 iceRareRush = true;
                 iceRareRushEndTick = playTick + ICE_RARE_RUSH_ENABLE_TICK;
-                addInfo(new Info("Ice Rare Rush Activated!","Rush time : 1 min", "", getPlayTick()));
+                addInfo("Ice Rare Rush Activated!","Rush time : 1 min", "");
             }
         } else if (tier == 3) {
             if (iceLegendaryRushItemCount > 0 && !iceLegendaryRush && iceLegendaryRushCoolTime <= playTick) {
                 iceLegendaryRushItemCount--;
                 iceLegendaryRush = true;
                 iceLegendaryRushEndTick = playTick + ICE_LEGENDARY_RUSH_ENABLE_TICK;
-                addInfo(new Info("Ice Legendary Rush Activated!","Rush time : 1 min", "", getPlayTick()));
+                addInfo("Ice Legendary Rush Activated!","Rush time : 1 min", "");
             }
         }
     }
@@ -601,7 +564,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         xp += xpGained;
 
 
-        addInfo(new Info("Ice Vacuum Activated!","You get coin : " + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!", "You get xp : " + xpGained, getPlayTick()));
+        addInfo("Ice Vacuum Activated!","You get coin : " + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!", "You get xp : " + xpGained);
 
         iceVacuumCount--;
         iceVacuumCoolTime = playTick +  (int)(ICE_VACUUM_COOL_DOWN_TICK / coolTimeMultiplier[itemCoolTimeLevel]);
@@ -613,17 +576,17 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         if (iceBasicRush && playTick >= iceBasicRushEndTick) {
             iceBasicRush = false;
             iceBasicRushCoolTime = playTick + (int) (ICE_BASIC_RUSH_COOL_DOWN_TICK / coolTimeMultiplier[itemCoolTimeLevel]);
-            addInfo(new Info("Ice Basic Rush ended!","", "", getPlayTick()));
+            addInfo("Ice Basic Rush ended!","", "");
         }
         if (iceRareRush && playTick >= iceRareRushEndTick) {
             iceRareRush = false;
             iceRareRushCoolTime = playTick + (int) (ICE_RARE_RUSH_COOL_DOWN_TICK / coolTimeMultiplier[itemCoolTimeLevel]);
-            addInfo(new Info("Ice Rare Rush ended!","", "", getPlayTick()));
+            addInfo("Ice Rare Rush ended!","", "");
         }
         if (iceLegendaryRush && playTick >= iceLegendaryRushEndTick) {
             iceLegendaryRush = false;
             iceLegendaryRushCoolTime = playTick + (int) (ICE_LEGENDARY_RUSH_COOL_DOWN_TICK / coolTimeMultiplier[itemCoolTimeLevel]);
-            addInfo(new Info("Ice Legendary Rush ended!","", "", getPlayTick()));
+            addInfo("Ice Legendary Rush ended!","", "");
         }
     }
 
@@ -632,7 +595,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             if (coin >= ICE_BASIC_RUSH_ITEM_COST) {
                 coin -= ICE_BASIC_RUSH_ITEM_COST;
                 iceBasicRushItemCount++;
-                addInfo(new Info("purchased!","- " + ICE_BASIC_RUSH_ITEM_COST, "present coin : " + coin, getPlayTick()));
+                addInfo("purchased!","- " + ICE_BASIC_RUSH_ITEM_COST, "present coin : " + coin);
             } else {
                 stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
             }
@@ -640,7 +603,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             if (coin >= ICE_RARE_RUSH_ITEM_COST) {
                 coin -= ICE_RARE_RUSH_ITEM_COST;
                 iceRareRushItemCount++;
-                addInfo(new Info("purchased!","- " + ICE_RARE_RUSH_ITEM_COST, "present coin : " + coin, getPlayTick()));
+                addInfo("purchased!","- " + ICE_RARE_RUSH_ITEM_COST, "present coin : " + coin);
             } else {
                 stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
             }
@@ -648,7 +611,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             if (coin >= ICE_LEGENDARY_RUSH_ITEM_COST) {
                 coin -= ICE_LEGENDARY_RUSH_ITEM_COST;
                 iceLegendaryRushItemCount++;
-                addInfo(new Info("purchased!","- " + ICE_LEGENDARY_RUSH_ITEM_COST, "present coin : " + coin, getPlayTick()));
+                addInfo("purchased!","- " + ICE_LEGENDARY_RUSH_ITEM_COST, "present coin : " + coin);
             } else {
                 stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
             }
@@ -664,7 +627,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         if (coin >= ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel]) {
             coin -= ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel];
             iceAutoCollectLevel++;
-            addInfo(new Info("purchased!","- " + ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel], "present coin : " + coin, getPlayTick()));
+            addInfo("purchased!","- " + ICE_AUTO_COLLECT_UPGRADE_COST[iceAutoCollectLevel], "present coin : " + coin);
         } else {
             stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Not enough money!"));
         }
@@ -674,7 +637,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         if (coin >= ICE_VACUUM_ITEM_COST) {
             coin -= ICE_VACUUM_ITEM_COST;
             iceVacuumCount++;
-            addInfo(new Info("purchased!","- " + ICE_VACUUM_ITEM_COST, "present coin : " + coin, getPlayTick()));
+            addInfo("purchased!","- " + ICE_VACUUM_ITEM_COST, "present coin : " + coin);
         } else {
             stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), "Not enough money"));
         }
@@ -682,31 +645,13 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
 
     public void clamRewardedQuest(int questNumber) {
         if (questNumber == 1) {
-            if (firstQuestReward) return;
-
-            if (firstQuestCompleted) {
-                coin += getFirstQuestReward();
-                addInfo(new Info("second quest!","+ " + getFirstQuestReward(), "present coin : " + coin, getPlayTick()));
-                firstQuestReward = true;
-            }
+            firstQuest.claimRewardedQuest();
 
         } else if (questNumber == 2) {
-            if (secondQuestReward) return;
-
-            if (secondQuestCompleted) {
-                coin += getSecondQuestReward();
-                addInfo(new Info("second quest!","+ " + getSecondQuestReward(), "present coin : " + coin, getPlayTick()));
-                secondQuestReward = true;
-            }
+            secondQuest.claimRewardedQuest();
 
         } else if (questNumber == 3) {
-            if (thirdQuestReward) return;
-            // 세 번째 퀘스트는 고정 보상이므로, 퀘스트 완료만 확인
-            if (thirdQuestCompleted) {
-                coin += 1000;
-                addInfo(new Info("third quest!","+ Ice Collect Bonus", "present coin : " + coin, getPlayTick()));
-                thirdQuestReward = true;
-            }
+            thirdQuest.claimRewardedQuest();
         }
     }
 
@@ -826,6 +771,17 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         }
     }
 
+    public void refreshQuests() {
+        if (coin >= 400) {
+            coin -= 400;
+            firstQuest = new Quest(this,this);
+            secondQuest = new Quest(this,this);
+            addInfo("Quest refresh!", "- 400", "present coin = " + coin);
+        } else {
+            stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),"Not enough money!"));
+        }
+    }
+
     public void clicked(boolean clicked) {
         this.clicked = clicked;
     }
@@ -890,7 +846,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         props.setProperty("lastIceBasicCollectCount", String.valueOf(lastIceBasicCollectCount + iceBasicCollectedCount));
         props.setProperty("lastIceRareCollectCount", String.valueOf(lastIceRareCollectCount + iceRareCollectedCount));
         props.setProperty("lastIceLegendaryCollectCount", String.valueOf(lastIceLegendaryCollectCount + iceLegendaryCollectCount));
-        props.setProperty("thirdQuestCompleted", String.valueOf(thirdQuestCompleted));
+        props.setProperty("thirdQuestCompleted", String.valueOf(longTimeQuestCompleted));
         props.setProperty("level", String.valueOf(level));
         props.setProperty("xp", String.valueOf(xp));
         props.setProperty("skillPoint", String.valueOf(skillPoint));
@@ -905,7 +861,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
         props.setProperty("iceLegendaryRushItemCount", String.valueOf(iceLegendaryRushItemCount));
         props.setProperty("iceAutoCollectLevel", String.valueOf(iceAutoCollectLevel));
         props.setProperty("iceVacuumCount", String.valueOf(iceVacuumCount));
-        props.setProperty("thirdQuestReward", String.valueOf(thirdQuestReward));
+        props.setProperty("thirdQuestReward", String.valueOf(longTimeQuestReward));
 
         String homeDir = System.getProperty("user.home");
 
@@ -942,7 +898,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             lastIceBasicCollectCount = Integer.parseInt(props.getProperty("lastIceBasicCollectCount", "0"));
             lastIceRareCollectCount = Integer.parseInt(props.getProperty("lastIceRareCollectCount", "0"));
             lastIceLegendaryCollectCount = Integer.parseInt(props.getProperty("lastIceLegendaryCollectCount", "0"));
-            thirdQuestCompleted = Boolean.parseBoolean(props.getProperty("thirdQuestCompleted", "false"));
+            longTimeQuestCompleted = Boolean.parseBoolean(props.getProperty("thirdQuestCompleted", "false"));
             level = Integer.parseInt(props.getProperty("level", "1"));
             xp = Integer.parseInt(props.getProperty("xp", "0"));
             skillPoint = Integer.parseInt(props.getProperty("skillPoint", "0"));
@@ -957,7 +913,7 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
             iceLegendaryRushItemCount = Integer.parseInt(props.getProperty("iceLegendaryRushItemCount", "0"));
             iceAutoCollectLevel = Integer.parseInt(props.getProperty("iceAutoCollectLevel", "0"));
             iceVacuumCount = Integer.parseInt(props.getProperty("iceVacuumCount", "0"));
-            thirdQuestReward = Boolean.parseBoolean(props.getProperty("thirdQuestReward", "false"));
+            longTimeQuestReward = Boolean.parseBoolean(props.getProperty("thirdQuestReward", "false"));
 
 
         } catch (IOException | NumberFormatException e) {
@@ -972,22 +928,26 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     @Override public int getProfile() { return currentProfileId; }
 
     // Quest Interface Methods
-    @Override public String getFirstQuestExplanation() { return questsExplanation[FIRST_QUEST]; }
-    @Override public String getSecondQuestExplanation() { return questsExplanation[SECOND_QUEST]; }
-    @Override public int getFirstQuestReward() { return questRewardList[FIRST_QUEST]; }
-    @Override public int getSecondQuestReward() { return questRewardList[SECOND_QUEST]; }
-    @Override public boolean firstQuestCompleted() { return firstQuestCompleted; }
-    @Override public boolean secondQuestCompleted() { return secondQuestCompleted; }
-    @Override public boolean thirdQuestCompleted() { return thirdQuestCompleted; }
-    @Override public boolean firstQuestRewarded() { return firstQuestReward; }
-    @Override public boolean secondQuestRewarded() { return secondQuestReward; }
-    @Override public boolean thirdQuestRewarded() { return thirdQuestReward; }
-    @Override public int getFirstQuestProgress() { return getCurrentQuestProgress(FIRST_QUEST); }
-    @Override public int getSecondQuestProgress() { return getCurrentQuestProgress(SECOND_QUEST); }
+    @Override public String getFirstQuestExplanation() { return firstQuest.getExplanation(); }
+    @Override public String getSecondQuestExplanation() { return secondQuest.getExplanation(); }
+    @Override public String getThirdQuestExplanation() { return thirdQuest.getExplanation(); }
+    @Override public int getFirstQuestCoinReward() { return firstQuest.getRewardCoin(); }
+    @Override public int getSecondQuestCoinReward() { return secondQuest.getRewardCoin(); }
+    @Override public int getFirstQuestXpReward() {return firstQuest.getRewardXp();}
+    @Override public int getSecondQuestXpReward() {return secondQuest.getRewardXp();}
+    @Override public boolean firstQuestCompleted() { return firstQuest.getIsCompleted(); }
+    @Override public boolean secondQuestCompleted() { return secondQuest.getIsCompleted(); }
+    @Override public boolean thirdQuestCompleted() { return thirdQuest.getIsCompleted(); }
+    @Override public boolean firstQuestRewarded() { return firstQuest.getIsRewarded(); }
+    @Override public boolean secondQuestRewarded() { return secondQuest.getIsRewarded(); }
+    @Override public boolean thirdQuestRewarded() { return thirdQuest.getIsRewarded(); }
+    @Override public int getFirstQuestProgress() { return getCurrentQuestProgress(firstQuest.getQuestIndex()); }
+    @Override public int getSecondQuestProgress() { return getCurrentQuestProgress(secondQuest.getQuestIndex()); }
     @Override public int getThirdQuestProgress() { return lastIceBasicCollectCount + iceBasicCollectedCount; }
-    @Override public int getFirstQuestGoal() { return FIRST_QUEST_GOAL; }
-    @Override public int getSecondQuestGoal() { return SECOND_QUEST_GOAL; }
-    @Override public int getThirdQuestGoal() { return THIRD_QUEST_GOAL; }
+    @Override public int getFirstQuestGoal() { return firstQuest.getQuestGoal(); }
+    @Override public int getSecondQuestGoal() { return secondQuest.getQuestGoal(); }
+    @Override public int getThirdQuestGoal() { return thirdQuest.getQuestGoal(); }
+    @Override public int getQuestRefreshCost() {return 400;}
 
     // Shop Interface Methods
     @Override public int getIceBasicRushItemCount() { return iceBasicRushItemCount; }
@@ -1037,4 +997,12 @@ public class GameModel implements IGameModel, IGameModelDebug, IGameModelQuest, 
     @Override public int getIce_RareCount() { return iceRares.size(); }
     @Override public int getIce_LegendaryCount() { return iceLegendaryes.size(); }
     @Override public int getPlayTick() { return playTick; }
+
+    @Override public void addCoin(int addCoinValue) { coin += addCoinValue;}
+    @Override public void addXp(int addXpValue) { xp += addXpValue; }
+
+    @Override public void setIsCompleted(boolean b) {
+        longTimeQuestCompleted = b;}
+    @Override public void setIsRewarded(boolean b) {
+        longTimeQuestReward = b;}
 }

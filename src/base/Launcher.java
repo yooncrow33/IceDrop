@@ -42,12 +42,10 @@ public class Launcher {
             "       2025/11/02 -yooncrow33-\n"  +
             "\n" +
             "alpha 1.10!\n" +
-            "\n" +
             "   - 정신 나갈거 같음...\n" +
             "       2025/11/10 -yooncrow33-\n" +
             "\n" +
             "alpha 1.13!\n" +
-            "\n" +
             "   - 정신 나갈거 같음...\n" +
             "       2026/1/9 -yooncrow33-\n" +
             "\n";
@@ -156,6 +154,18 @@ public class Launcher {
             "   - 스킬포인트 추가.\n" +
             "   - XP추가.\n" +
             "   - 기본적으로 들어가있던 마우스 클릭 오프셋을 스킬포인트로 업그레이드하도록 변경.\n" +
+            "\n"+
+            "alpha 1.13.1\n" +
+            "   [게임내용]\n" +
+            "   - Quest를 일정 코인을 내고 리프레쉬할수 있는 기능추가!\n" +
+            "   [최적화]\n" +
+            "   - GamModel클래스에서 모두 관리하던 Quest를 다른 클래스로 분리 -> god object해체.\n" +
+            "   - 따로 관리하던 내용이 같은firstQuest와 secondQuest은 같은 클래스인 Quest로 관리.\n" +
+            "   - GraphicManager에서 그리던 thirdQuest의 정보들을 getter매서드로 접근하게 변경 -> 의존성 줄임.\n" +
+            "   [사용자 편의/ UX]\n" +
+            "   - QuestTap에서 이제 퀘스트를 클리어 했을때 받는 XP도 표시.\n" +
+            "   [버그 수정]\n" +
+            "   - thirdQuest의 설명에서 \"Gold\" 라고 표시된것을 \"coin\"으로 반경..\n" +
             "\n";
 
     String manual_text = "\n" +

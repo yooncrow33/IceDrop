@@ -42,7 +42,7 @@ public class MouseListener extends MouseAdapter {
                 gameModel.clamRewardedQuest(3);
             }
             if (questRefreshRect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                //gameModel.refreshQuests();
+                gameModel.refreshQuests();
             }
 
         }

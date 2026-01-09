@@ -1,48 +1,64 @@
 package base.gameModel;
 
-import model.effects.Info;
+import com.sun.source.tree.ReturnTree;
 import view.IInfo;
+import view.IQuest;
 
+import java.awt.*;
 import java.util.Random;
 
-public abstract class Quest {
+public class Quest {
     final int QUEST_INDEX;
 
-    int questGoalList[] = {7,10,5,1,10,30,60};
-    int questCoinRewardList[] = {7,50,60,500,70,150,400};
-    int questXpReawardList[] = {7,60,120,400,200,500,1200};
-    String questsExplanation[] = {"empty","Collect 10 Ice_Basic", "Collect 5 Ice_Rare", "Collect 1 Ice_Legendary",
+    private int questGoalList[] = {7,10,5,1,10,30,60};
+    private int questCoinRewardList[] = {7,50,60,500,70,150,400};
+    private int questXpReawardList[] = {7,60,120,400,200,500,1200};
+    private String questsExplanation[] = {"empty","Collect 10 Ice_Basic", "Collect 5 Ice_Rare", "Collect 1 Ice_Legendary",
             "Play for 10 min", "Play for 30 min", "Play for 1 hours"};
 
-    final int QUEST_GOAL;
-    boolean QuestCompleted = false;
-    boolean QuestReward = false;
+    private final int QUEST_GOAL;
+    private boolean questCompleted = false;
+    private boolean questReward = false;
 
     Random random = new Random();
     IInfo iInfo;
+    IQuest iQuest;
 
-    public Quest(IInfo iInfo) {
-        this.QUEST_INDEX = random.nextInt(6) + 1;
+    public Quest(IInfo iInfo, IQuest iQuest) {
+        this.QUEST_INDEX = random.nextInt(questGoalList.length - 1) + 1;
         this.QUEST_GOAL = questGoalList[QUEST_INDEX];
+
+        this.iQuest = iQuest;
+        this.iInfo = iInfo;
     }
 
     public void update(int questProgress) {
-        if (!QuestCompleted) {
+        if (!questCompleted) {
             if (questProgress >= QUEST_GOAL) {
-                QuestCompleted = true;
+                questCompleted = true;
             }
         }
     }
 
-    /*public void clamRewardedQuest() {
-        if (QuestReward) return;
+    public void claimRewardedQuest() {
+        if (questReward) return;
 
-        if (QuestCompleted) {
-            coin += getFirstQuestReward();
-            iInfo.addInfo(new Info("second quest!", "+ " + getFirstQuestReward(), "present coin : " + coin, getPlayTick()));
-            QuestReward = true;
+        if (questCompleted) {
+            iQuest.addCoin(questCoinRewardList[QUEST_INDEX]);
+            iQuest.addXp(questXpReawardList[QUEST_INDEX]);
+            iInfo.addInfo("quest rewarded!", "+ " + questCoinRewardList[QUEST_INDEX], "present coin : " + iQuest.getCoin());
+            questReward = true;
         }
     }
 
-     */
+    public String getExplanation() {
+        return questsExplanation[QUEST_INDEX];
+    }
+
+    public int getRewardCoin() { return questCoinRewardList[QUEST_INDEX]; }
+    public int getRewardXp() { return questXpReawardList[QUEST_INDEX];}
+    public int getQuestGoal() {return questGoalList[QUEST_INDEX];}
+    public boolean getIsRewarded() { return questReward; }
+    public boolean getIsCompleted() {return  questCompleted;}
+    public int getQuestIndex() {return QUEST_INDEX; }
 }

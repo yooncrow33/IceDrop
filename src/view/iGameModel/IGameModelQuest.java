@@ -3,8 +3,11 @@ package view.iGameModel;
 public interface IGameModelQuest {
     String getFirstQuestExplanation();
     String getSecondQuestExplanation();
-    int getFirstQuestReward();
-    int getSecondQuestReward();
+    String getThirdQuestExplanation();
+    int getFirstQuestCoinReward();
+    int getSecondQuestCoinReward();
+    int getFirstQuestXpReward();
+    int getSecondQuestXpReward();
     boolean firstQuestCompleted();
     boolean secondQuestCompleted();
     boolean thirdQuestCompleted();
@@ -17,4 +20,5 @@ public interface IGameModelQuest {
     int getFirstQuestGoal();
     int getSecondQuestGoal();
     int getThirdQuestGoal();
+    int getQuestRefreshCost();
 }

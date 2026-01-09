@@ -41,7 +41,7 @@ public class InputHandler extends KeyAdapter{
         if (e.getKeyCode() == KeyEvent.VK_W) { gameModel.activateIceRushItem(2); }
         if (e.getKeyCode() == KeyEvent.VK_E) { gameModel.activateIceRushItem(3); }
         if (e.getKeyCode() == KeyEvent.VK_R) { gameModel.iceVacuumActive(); }
-        if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.addInfo(new Info("I am", "so", "pretty",gameModel.getPlayTick())); }
+        if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.addInfo("I am", "so", "pretty"); }
     }
     @Override
     public void keyReleased(KeyEvent e) {

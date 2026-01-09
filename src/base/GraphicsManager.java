@@ -293,15 +293,13 @@ public class GraphicsManager {
         g.fillRect(980 + x,430,915,240);
         g.fillRect(980 + x,680,915,240);
 
-        /*g.setColor(Color.gray);
+        g.setColor(Color.gray);
         g.fillRect(1340 + x, 130, 550, 45); // test
         g.setColor(Color.green);
         g.fillRect( 1345 + x, 135, 540, 35);
         g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString("Quest refresh", 1350 + x, 162); // test
-
-         */
+        g.drawString("Quest refresh : " + iGameModelQuest.getQuestRefreshCost() + " coin", 1350 + x, 162); // test
 
         g.setColor(Color.black);
         g.fillRect( 985 + x,185,905,230);
@@ -309,6 +307,7 @@ public class GraphicsManager {
         g.fillRect( 985 + x,685,905,230);
 
         g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("Session Quest", 1000 + x, 230);
         g.drawString("Session Quest", 1000 + x, 480);
         g.drawString("Long Time Quest", 1000 + x, 730);
@@ -320,9 +319,9 @@ public class GraphicsManager {
 
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.setColor(Color.CYAN);
-        g.drawString("Reward : " + iGameModelQuest.getFirstQuestReward() + " Coins", 1000 + x, 320);
-        g.drawString("Reward : " + iGameModelQuest.getSecondQuestReward() + " Coins", 1000 + x, 570);
-        g.drawString("Reward : " + "Permanently grants +5 Gold per Ice collected. and 1000 coins.", 1000 + x, 820);
+        g.drawString("Reward : " + iGameModelQuest.getFirstQuestCoinReward() + " Coins, + " + iGameModelQuest.getFirstQuestXpReward() + " xp.", 1000 + x, 320);
+        g.drawString("Reward : " + iGameModelQuest.getSecondQuestCoinReward() + " Coins, + " + iGameModelQuest.getSecondQuestXpReward() + " xp.", 1000 + x, 570);
+        g.drawString("Reward : " + iGameModelQuest.getThirdQuestExplanation(), 1000 + x, 820);
 
         if (iGameModelQuest.firstQuestCompleted()) {
             if (iGameModelQuest.firstQuestRewarded()) {
