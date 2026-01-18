@@ -26,7 +26,7 @@ public class Launcher {
     String password;
     String login;
     boolean setPass;
-    String SAVE_FILE = new File(System.getProperty("user.home"), "ice_drop_password.txt").getAbsolutePath();
+    String SAVE_FILE = new File(System.getProperty("user.home") + "/.SC", "ice_drop_password.txt").getAbsolutePath();
     final File file = new File(SAVE_FILE);
 
     String recent_news = "\n" +
@@ -35,11 +35,11 @@ public class Launcher {
             "\n" +
             "alpha 1.3!\n" +
             "   - 내가 똥같이 싼 코드 치우는중...\n" +
-            "       2025/10/28 -yooncrow33-\n"  +
+            "       2025/10/28 -yooncrow33-\n" +
             "\n" +
             "alpha 1.8!\n" +
             "   - 정신 나갈거 같음.\n" +
-            "       2025/11/02 -yooncrow33-\n"  +
+            "       2025/11/02 -yooncrow33-\n" +
             "\n" +
             "alpha 1.10!\n" +
             "   - 정신 나갈거 같음...\n" +
@@ -54,7 +54,7 @@ public class Launcher {
     String patch_notes = "\n" +
             "alpha 1.0\n" +
             "   [게임내용]\n" +
-            "   - 창의 비율조절 고정\n"+
+            "   - 창의 비율조절 고정\n" +
             "\n" +
             "alpha 1.1\n" +
             "   [최적화]\n" +
@@ -90,7 +90,7 @@ public class Launcher {
             "   [버그 수정]\n" +
             "   - 프로필 드롭다운 메뉴의 잘못된 크기 수정.\n" +
             "   [최적화]\n" +
-            "   - Main의 God-class 설계를 해결하기 위해 게임내용(a02.base.GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
+            "   - Main의 God-class 설계를 해결하기 위해 게임내용(a02.base.gameModel.GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
             "alpha 1.8\n" +
             "   [최적화]\n" +
@@ -154,7 +154,7 @@ public class Launcher {
             "   - 스킬포인트 추가.\n" +
             "   - XP추가.\n" +
             "   - 기본적으로 들어가있던 마우스 클릭 오프셋을 스킬포인트로 업그레이드하도록 변경.\n" +
-            "\n"+
+            "\n" +
             "alpha 1.13.1\n" +
             "   [게임내용]\n" +
             "   - Quest를 일정 코인을 내고 리프레쉬할수 있는 기능추가!\n" +
@@ -166,6 +166,21 @@ public class Launcher {
             "   - QuestTap에서 이제 퀘스트를 클리어 했을때 받는 XP도 표시.\n" +
             "   [버그 수정]\n" +
             "   - thirdQuest의 설명에서 \"Gold\" 라고 표시된것을 \"coin\"으로 반경..\n" +
+            "\n" +
+            "alpha 1.13.2\n" +
+            "   [게임내용]\n" +
+            "   - Quest를 리프레쉬 했을때 진행도가 초기화 되자 않았던 것을 초기화되도록 수정.\n" +
+            "   [최적화]\n" +
+            "   - GamModel에서 관리하던 Tap애니메이션을 다른 클래스로 분리->god class해체.\n" +
+            "   - GamModel에서 관리하던 Shop,Item을 다른 클래스로 분리->god class해체.\n" +
+            "   - GamModel에서 관리하던 level,xp,skill point를 다른 클래스로 분리->god class해체.\n" +
+            "   - GamModel에서 관리하던 ice들을 다른 클래스로 분리->god class해체.\n" +
+            "   - GamModel에서 관리하던 effect들을 다른 클래스로 분리->god class해체.\n" +
+            "   - GamModel에서 관리하던 Quest들을 묶어서 QuestManager 클래스로 분리->god class해체.\n" +
+            "   - 이로 인하여 GamModel의 코드가 1008줄->284줄로 극적 회복.\n" +
+            "   - IGameModelDebug를 폐기및 getPlayTick만 반환하는 IGameModelTick으로 변경.\n" +
+            "   [버그 수정]\n" +
+            "   - Quest를 리프레쉬 했을때 진행도가 초기화 되자 않았던 것을 초기화되도록 수정.\n" +
             "\n";
 
     String manual_text = "\n" +
@@ -218,7 +233,7 @@ public class Launcher {
         Area.setText(manual_text);
 
 
-        String[] profile = {"profile1", "profile2", "profile3"};
+        String[] profile = {"profile1", "profile2", "profile3", "⚠ CustomMode"};
         JComboBox<String> versionBox = new JComboBox<>(profile);
         String[] languages = {"The Language system is not implemented yet.","English", "Korean","Custom"};
         JComboBox languageBox = new JComboBox(languages);
@@ -244,7 +259,8 @@ public class Launcher {
         frame.add(patchNotes);
         frame.add(manual);
         frame.add(TitleArea)
-;
+        ;
+
         main.setBounds(10, 300,390,70);
         main.setHorizontalAlignment(SwingConstants.CENTER);
         main.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -278,6 +294,11 @@ public class Launcher {
                     } else {
                         // 패스워드 생성 및 파일 저장
                         try {
+                            String saveDirPath = System.getProperty("user.home") + "/SC";
+                            File saveDir = new File(saveDirPath);
+                            if (!saveDir.exists()) {
+                                saveDir.mkdirs(); // SC 폴더가 없으면 생성
+                            }
                             setPass = true; // 상태 업데이트
                             fux.setEnabled(false); // 버튼 비활성화 (핵심 개선)
                             fux.setText("password has already been created."); // 문구 변경 (선택 사항)
@@ -378,6 +399,8 @@ public class Launcher {
     public static void main(String[] args) {
         new Launcher();
     }
+    // Thanks for Java!
+    //Java Great Again!
 }
 
 

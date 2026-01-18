@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class IceRare {
+public class IceRare implements Ice {
     private final int WIDTH = 30;
     private final int HEIGHT = 30;
     private int x;
@@ -16,6 +16,8 @@ public class IceRare {
     ArrayList<IceAfterImage> iceAfterImages = new ArrayList<>();
     int offsetX[] = {0,2,4,6,8,10,12,14,16,18,20};
     int offsetY[] = {0,3,6,9,12,15,18,21,24,27,30};
+
+    final String name = "Rare";
 
     Random random = new Random();
 
@@ -68,6 +70,18 @@ public class IceRare {
 
     public boolean shouldBeCollected(int mouseX, int mouseY, int offsetIndex) {
         return mouseX + offsetX[offsetIndex] >= x && mouseX - offsetX[offsetIndex] <= x + WIDTH && mouseY + offsetY[offsetIndex] >= y && mouseY - offsetY[offsetIndex] <= y + HEIGHT;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public int getValue() {
+        return 5;
+    }
+
+    public int getTier() {
+        return 2;
     }
 
     public void setVacuumActive(boolean active) {

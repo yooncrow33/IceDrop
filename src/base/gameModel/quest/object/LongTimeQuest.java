@@ -1,32 +1,26 @@
-package base.gameModel;
+package base.gameModel.quest.object;
 
-import view.IInfo;
-import view.IQuest;
-import view.IQuestLT;
+import model.effects.IInfo;
 
 public class LongTimeQuest {
     private String questsExplanation = "Permanently grants +5 coin per Ice collected. and 1000 coins.";
 
     private final int QUEST_GOAL = 5000;
-    private boolean questCompleted = false;
+    public boolean questCompleted = false;
     private boolean questReward = false;
     IInfo iInfo;
     IQuest iQuest;
-    IQuestLT iQuestLT;
-
     final int ICE_COLLECT_BONUS = 5;
 
-    public LongTimeQuest(IInfo iInfo, IQuest iQuest, IQuestLT iQuestLT) {
+    public LongTimeQuest(IInfo iInfo, IQuest iQuest) {
         this.iQuest = iQuest;
-        this.iInfo = iInfo;
-        this.iQuestLT = iQuestLT;
-    }
+        this.iInfo = iInfo;}
 
     public void update(int iceBasicCollectCount) {
         if (!questCompleted) {
             if (iceBasicCollectCount >= QUEST_GOAL) {
                 questCompleted = true;
-                iQuestLT.setIsCompleted(true);
+                iQuest.loadIsCompleted(true);
             }
         }
     }
@@ -39,7 +33,7 @@ public class LongTimeQuest {
             iQuest.addXp(4000);
             iInfo.addInfo("third quest!","+ Ice Collect Bonus", "present coin : " + iQuest.getCoin());
             questReward = true;
-            iQuestLT.setIsRewarded(true);
+            iQuest.loadIsRewarded(true);
         }
     }
 

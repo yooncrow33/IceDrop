@@ -25,8 +25,8 @@ public interface IGameModelShop {
     int getIceLegendaryRushCoolTime();
     int getIceVacuumCoolTime();
 
-    boolean iceBasicRush();
-    boolean iceRareRush();
-    boolean iceLegendaryRush();
-    boolean iceVacuuming();
+    boolean isIceBasicRush();
+    boolean isIceRareRush();
+    boolean isIceLegendaryRush();
+    boolean isIceVacuuming();
 }

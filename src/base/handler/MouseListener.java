@@ -1,6 +1,6 @@
 package base.handler;
 
-import base.GameModel;
+import base.gameModel.GameModel;
 import base.ViewMetrics;
 
 import java.awt.*;
@@ -33,52 +33,52 @@ public class MouseListener extends MouseAdapter {
         gameModel.clicked(true);
         if (gameModel.getTap() == 4) {
             if (quest1Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.clamRewardedQuest(1);
+                gameModel.getQuestManager().clamRewardedQuest(1);
             }
             if (quest2Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.clamRewardedQuest(2);
+                gameModel.getQuestManager().clamRewardedQuest(2);
             }
             if (quest3Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.clamRewardedQuest(3);
+                gameModel.getQuestManager().clamRewardedQuest(3);
             }
             if (questRefreshRect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.refreshQuests();
+                gameModel.getQuestManager().refreshQuests();
             }
 
         }
         if (gameModel.getTap() == 3) {
             if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.upgradeIceSpawnChance(1);
+                gameModel.getSkillManager().upgradeIceSpawnChance(1);
             }
             if (iceRareRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.upgradeIceSpawnChance(2);
+                gameModel.getSkillManager().upgradeIceSpawnChance(2);
             }
             if (iceLegendaryRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.upgradeIceSpawnChance(3);
+                gameModel.getSkillManager().upgradeIceSpawnChance(3);
             }
             if (iceAutoCollect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.upgradeClickOffset();
+                gameModel.getSkillManager().upgradeClickOffset();
             }
             if (iceVacuum.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.upgradeItemCoolTime();
+                gameModel.getSkillManager().upgradeItemCoolTime();
             }
         }
 
         if (gameModel.getTap() == 2) {
             if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.purchaseIceRushItem(1);
+                gameModel.getShopManager().purchaseIceRushItem(1);
             }
             if (iceRareRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.purchaseIceRushItem(2);
+                gameModel.getShopManager().purchaseIceRushItem(2);
             }
             if (iceLegendaryRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.purchaseIceRushItem(3);
+                gameModel.getShopManager().purchaseIceRushItem(3);
             }
             if (iceAutoCollect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.upgradeIceAutoCollect();
+                gameModel.getShopManager().upgradeIceAutoCollect();
             }
             if (iceVacuum.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
-                gameModel.purchaseIceVacuum();
+                gameModel.getShopManager().purchaseIceVacuum();
             }
         }
 

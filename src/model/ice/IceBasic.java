@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class IceBasic {
+public class IceBasic implements Ice {
     private final int WIDTH = 30;
     private final int HEIGHT = 30;
     private int x;
@@ -13,6 +13,7 @@ public class IceBasic {
     private  final double FALL_SPEED = 6.0;
     private boolean afterImageLimit = false;
     boolean vacuumActive;
+    final String name = "Basic";
     ArrayList <IceAfterImage> iceAfterImages = new ArrayList<>();
     int offsetX[] = {0,2,4,6,8,10,12,14,16,18,20};
     int offsetY[] = {0,3,6,9,12,15,18,21,24,27,30};
@@ -70,6 +71,19 @@ public class IceBasic {
 
     public void setVacuumActive(boolean active) {
         this.vacuumActive = active;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    public int getValue() {
+        return 1;
+    }
+
+    public int getTier() {
+        return 1;
     }
 
     public void draw(Graphics g) {

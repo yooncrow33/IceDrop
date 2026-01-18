@@ -1,8 +1,7 @@
 package base.handler;
 
-import base.GameModel;
+import base.gameModel.GameModel;
 import base.ViewMetrics;
-import model.effects.Info;
 import view.IExit;
 
 import java.awt.event.KeyAdapter;
@@ -23,10 +22,10 @@ public class InputHandler extends KeyAdapter{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            gameModel.tapMoveRight();
+            gameModel.getTapManager().tapMoveRight();
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            gameModel.tapMoveLeft();
+            gameModel.getTapManager().tapMoveLeft();
         }
         if (key == KeyEvent.VK_SHIFT) {
             gameModel.setShiftPressed(true);
@@ -37,11 +36,11 @@ public class InputHandler extends KeyAdapter{
         if (e.getKeyCode() == KeyEvent.VK_M) {
             viewMetrics.calculateViewMetrics();
         }
-        if (e.getKeyCode() == KeyEvent.VK_Q) { gameModel.activateIceRushItem(1); }
-        if (e.getKeyCode() == KeyEvent.VK_W) { gameModel.activateIceRushItem(2); }
-        if (e.getKeyCode() == KeyEvent.VK_E) { gameModel.activateIceRushItem(3); }
-        if (e.getKeyCode() == KeyEvent.VK_R) { gameModel.iceVacuumActive(); }
-        if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.addInfo("I am", "so", "pretty"); }
+        if (e.getKeyCode() == KeyEvent.VK_Q) { gameModel.getShopManager().activateIceRushItem(1); }
+        if (e.getKeyCode() == KeyEvent.VK_W) { gameModel.getShopManager().activateIceRushItem(2); }
+        if (e.getKeyCode() == KeyEvent.VK_E) { gameModel.getShopManager().activateIceRushItem(3); }
+        if (e.getKeyCode() == KeyEvent.VK_R) { gameModel.getShopManager().iceVacuumActive(); }
+        if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.getEffectManager().addInfo("I am", "so", "pretty"); }
     }
     @Override
     public void keyReleased(KeyEvent e) {

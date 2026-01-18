@@ -1,10 +1,7 @@
-package base.gameModel;
+package base.gameModel.quest.object;
 
-import com.sun.source.tree.ReturnTree;
-import view.IInfo;
-import view.IQuest;
+import model.effects.IInfo;
 
-import java.awt.*;
 import java.util.Random;
 
 public class Quest {
@@ -42,8 +39,10 @@ public class Quest {
 
     public void claimRewardedQuest() {
         if (questReward) return;
+        System.out.println("[debug] claimFun");
 
         if (questCompleted) {
+            System.out.println("[debug] completed");
             iQuest.addCoin(questCoinRewardList[QUEST_INDEX]);
             iQuest.addXp(questXpReawardList[QUEST_INDEX]);
             iInfo.addInfo("quest rewarded!", "+ " + questCoinRewardList[QUEST_INDEX], "present coin : " + iQuest.getCoin());

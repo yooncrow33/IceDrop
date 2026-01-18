@@ -1,6 +1,5 @@
 package base;
 
-import view.*;
 import view.iGameModel.*;
 
 import java.awt.*;
@@ -68,7 +67,7 @@ public class GraphicsManager {
         g.drawString("total played time : " + iGameModel.getLast() + " min", 980 + x, 290);
         g.drawString("session played time : " + iGameModel.getSessionPlayTime() + " min", 980 + x, 360);
     }
-    public void renderShopTap(Graphics g,int x, IGameModelShop iGameModelShop, IGameModelDebug iGameModelDebug) {
+    public void renderShopTap(Graphics g,int x, IGameModelShop iGameModelShop, IGameModelTick iGameModelTick) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("SHOP Tap", 980 + x, 165);
@@ -89,28 +88,28 @@ public class GraphicsManager {
         g.fillRect( 985 + x,435,905,230);
         g.fillRect( 985 + x,685,905,230);
 
-        if (!iGameModelShop.iceBasicRush()) {
+        if (!iGameModelShop.isIceBasicRush()) {
             g.setColor(Color.cyan);
             g.drawString("Cooldown", 992 + x, 395 - 30);
         } else {
             g.setColor(Color.red);
             g.drawString("Rush!", 992 + x, 395 - 30);
         }
-        if (!iGameModelShop.iceRareRush()) {
+        if (!iGameModelShop.isIceRareRush()) {
             g.setColor(Color.cyan);
             g.drawString("Cooldown", 1300 + x, 395 - 30);
         } else {
             g.setColor(Color.red);
             g.drawString("Rush!", 1300 + x, 395 - 30);
         }
-        if (!iGameModelShop.iceLegendaryRush()) {
+        if (!iGameModelShop.isIceLegendaryRush()) {
             g.setColor(Color.cyan);
             g.drawString("Cooldown", 1610 + x, 395 - 30);
         } else {
             g.setColor(Color.red);
             g.drawString("Rush!", 1610 + x, 395 - 30);
         }
-        if (!iGameModelShop.iceVacuuming()) {
+        if (!iGameModelShop.isIceVacuuming()) {
             g.setColor(Color.cyan);
             g.drawString("Cooldown", 994 + x, 645 + 230 - 20);
         } else {
@@ -129,10 +128,10 @@ public class GraphicsManager {
         g.fillRect(990 + x, 685 + 230 - 40, 895, 30);
 
         g.setColor(Color.cyan);
-        iceBasicRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceBasicRushCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceBasicRushCoolDownTick()) * 268);
-        iceRareRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceRareRushCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceRareRushCoolDownTick()) * 268);
-        iceLegendaryRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceLegendaryRushCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceLegendaryRushCoolDownTick()) * 268);
-        iceVacuumCoolTimeBarWidth = (int) (((iGameModelShop.getIceVacuumCoolTime() - iGameModelDebug.getPlayTick()) / (float) iGameModelShop.getIceVacuumCoolDownTick()) * 885);
+        iceBasicRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceBasicRushCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceBasicRushCoolDownTick()) * 268);
+        iceRareRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceRareRushCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceRareRushCoolDownTick()) * 268);
+        iceLegendaryRushCoolTimeBarWidth = (int) (((iGameModelShop.getIceLegendaryRushCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceLegendaryRushCoolDownTick()) * 268);
+        iceVacuumCoolTimeBarWidth = (int) (((iGameModelShop.getIceVacuumCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceVacuumCoolDownTick()) * 885);
         iceAutoCollectLevelBarWidth = (int) ((iGameModelShop.getIceAutoCollectLevel() / (float) iGameModelShop.getIceAutoCollectMaxLevel()) * 885);
         if (iceBasicRushCoolTimeBarWidth >= 268) iceBasicRushCoolTimeBarWidth = 268;
         if (iceRareRushCoolTimeBarWidth >= 268) iceRareRushCoolTimeBarWidth = 268;

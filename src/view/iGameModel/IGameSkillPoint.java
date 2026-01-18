@@ -17,5 +17,5 @@ public interface IGameSkillPoint {
 
     int getXP();
     int getXPForNextLevel();
-    int getPresentLevel();
+    int getLevel();
 }
