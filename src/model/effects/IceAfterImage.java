@@ -23,13 +23,11 @@ public class IceAfterImage {
 
     public void draw(Graphics g) {
         if (tier == 1) {
-            g.setColor(new Color(255, 255, 255, alpha));
+            g.setColor(new Color(200, 220, 255, alpha));   // Basic - 연한 아이스
         } else if (tier == 2) {
-            g.setColor(new Color(135, 206, 250, alpha));
+            g.setColor(new Color(120, 200, 255, alpha));   // Rare - 블루
         } else if (tier == 3) {
-            g.setColor(new Color(255, 0, 0, alpha));
-        } else {
-            System.out.println("i am stupid");
+            g.setColor(new Color(255, 120, 120, alpha));   // Legendary - 핫 레드
         }
         g.setFont(new Font("굴림", Font.BOLD, 36));
         g.fillRect(x, y, 30 ,30);

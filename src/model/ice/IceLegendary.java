@@ -11,7 +11,7 @@ public class IceLegendary implements Ice {
     private final int HEIGHT = 30;
     private int x;
     private int y;
-    private  final double FALL_SPEED = 20.0;
+    private  final double FALL_SPEED = 17.0;
     private boolean afterImageLimit = false;
     ArrayList<IceAfterImage> iceAfterImages = new ArrayList<>();
     int offsetX[] = {0,2,4,6,8,10,12,14,16,18,20};
@@ -44,7 +44,7 @@ public class IceLegendary implements Ice {
         }
 
         if (!afterImageLimit) {
-            iceAfterImages.add(new IceAfterImage(x,y,1));
+            iceAfterImages.add(new IceAfterImage(x,y,2));
             afterImageLimit = true;
         } else {
             afterImageLimit = false;
@@ -65,7 +65,7 @@ public class IceLegendary implements Ice {
     }
 
     public boolean shouldBeRemoved() {
-        return y > 1090;
+        return y > 1140;
     }
 
     public boolean shouldBeCollected(int mouseX, int mouseY, int offsetIndex) {
@@ -92,7 +92,38 @@ public class IceLegendary implements Ice {
         for (IceAfterImage ai : iceAfterImages) {
             ai.draw(g);
         }
-        g.setColor(Color.RED);
-        g.fillRect(x, y, WIDTH, HEIGHT);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        // 외곽 냉기 글로우 (보라 살짝 섞은 블루)
+        g2.setStroke(new BasicStroke(7f));
+        g2.setColor(new Color(110, 160, 255, 70));
+        g2.drawRect(x - 3, y - 3, WIDTH + 6, HEIGHT + 6);
+
+        // 본체 (차갑고 묵직한 회청색)
+        g2.setColor(new Color(160, 185, 210));
+        g2.fillRect(x, y, WIDTH, HEIGHT);
+
+        // 메인 외곽 테두리 (딥 네이비)
+        g2.setStroke(new BasicStroke(3f));
+        g2.setColor(new Color(30, 60, 110));
+        g2.drawRect(x, y, WIDTH, HEIGHT);
+
+        // 내부 결정 테두리
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.setColor(new Color(255, 255, 255, 160));
+        g2.drawRect(x + 3, y + 3, WIDTH - 6, HEIGHT - 6);
+
+        // 광택 컷 (결정체 느낌)
+        g2.setColor(new Color(255, 255, 255, 120));
+        g2.drawLine(x + 3, y + 3, x + WIDTH - 6, y + 3);
+        g2.drawLine(x + 3, y + 3, x + 3, y + HEIGHT - 6);
+
+        // 미세한 하단 그림자 (무게감)
+        g2.setColor(new Color(0, 0, 0, 40));
+        g2.drawLine(x + 2, y + HEIGHT - 2, x + WIDTH - 2, y + HEIGHT - 2);
     }
+
+
+
 }

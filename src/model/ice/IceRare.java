@@ -44,7 +44,7 @@ public class IceRare implements Ice {
         }
 
         if (!afterImageLimit) {
-            iceAfterImages.add(new IceAfterImage(x,y,1));
+            iceAfterImages.add(new IceAfterImage(x,y,2));
             afterImageLimit = true;
         } else {
             afterImageLimit = false;
@@ -65,7 +65,7 @@ public class IceRare implements Ice {
     }
 
     public boolean shouldBeRemoved() {
-        return y > 1090;
+        return y > 1140;
     }
 
     public boolean shouldBeCollected(int mouseX, int mouseY, int offsetIndex) {
@@ -92,7 +92,28 @@ public class IceRare implements Ice {
         for (IceAfterImage ai : iceAfterImages) {
             ai.draw(g);
         }
-        g.setColor(new Color(135, 206, 255));
-        g.fillRect(x, y, WIDTH, HEIGHT);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        // 발광 레이어 (아우라)
+        g2.setStroke(new BasicStroke(6f));
+        g2.setColor(new Color(120, 200, 255, 60));
+        g2.drawRect(x - 2, y - 2, WIDTH + 4, HEIGHT + 4);
+
+        // 본체
+        g2.setStroke(new BasicStroke(1f));
+        g2.setColor(new Color(200, 240, 255));
+        g2.fillRect(x, y, WIDTH, HEIGHT);
+
+        // 메인 테두리
+        g2.setStroke(new BasicStroke(3f));
+        g2.setColor(new Color(40, 90, 160));
+        g2.drawRect(x, y, WIDTH, HEIGHT);
+
+        // 내부 하이라이트
+        g2.setStroke(new BasicStroke(1f));
+        g2.setColor(new Color(255, 255, 255, 140));
+        g2.drawRect(x + 3, y + 3, WIDTH - 6, HEIGHT - 6);
     }
+
 }

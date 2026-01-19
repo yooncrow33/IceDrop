@@ -78,7 +78,7 @@ public class IceManager {
                 if (Math.random() > iceAutoCollectChance[im.getIceAutoCollectLevel()]) {
                     continue;
                 } else {
-                    in.addInfo("Auto Collected!", "collected Ice : Basic", "");
+                    in.addInfo("Auto Collected!", "collected Ice : "+ ice.name(), "");
                     collectIce(1);
                     switch (ice.getTier()) {
                         case 1 : collectIce(1);

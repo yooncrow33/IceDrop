@@ -26,7 +26,7 @@ public class Launcher {
     String password;
     String login;
     boolean setPass;
-    String SAVE_FILE = new File(System.getProperty("user.home") + "/.SC", "ice_drop_password.txt").getAbsolutePath();
+    String SAVE_FILE = new File(System.getProperty("user.home") + "/SC", "ice_drop_password.txt").getAbsolutePath();
     final File file = new File(SAVE_FILE);
 
     String recent_news = "\n" +
@@ -48,6 +48,10 @@ public class Launcher {
             "alpha 1.13!\n" +
             "   - 정신 나갈거 같음...\n" +
             "       2026/1/9 -yooncrow33-\n" +
+            "\n" +
+            "alpha 1.13.3!\n" +
+            "   - 끝이 보인다...!\n" +
+            "       2026/1/19 -yooncrow33-\n" +
             "\n";
 
 
@@ -181,7 +185,14 @@ public class Launcher {
             "   - IGameModelDebug를 폐기및 getPlayTick만 반환하는 IGameModelTick으로 변경.\n" +
             "   [버그 수정]\n" +
             "   - Quest를 리프레쉬 했을때 진행도가 초기화 되자 않았던 것을 초기화되도록 수정.\n" +
-            "\n";
+            "\n" +
+            "alpha 1.13.3 \n" +
+            "   [버그 수정]\n" +
+            "   - AutoCollect로 수집된 Ice는 무조건 Basic이라 나왔던 버그 수정.\n" +
+            "   [최적화]\n" +
+            "   - Ice의 삭제 범위 증가..\n" +
+            "   [사용자 편의/ UX]\n" +
+            "   - 게임의 전체적인 테마 변경\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +

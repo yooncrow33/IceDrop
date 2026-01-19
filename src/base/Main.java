@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit {
-    JFrame frame = new JFrame("alpha 1.13.2");
+    JFrame frame = new JFrame("alpha 1.13.3");
 
     private long lastTime;
 
@@ -27,8 +27,6 @@ public class Main extends JPanel implements IFrameSize, IExit {
     private final SystemMonitor systemMonitor;
     private final GameModel gameModel;
     private final MouseListener mouseListener;
-
-    Font titleFont = new Font("SansSerif", Font.BOLD, 56);
 
     GraphicsManager graphicsManager = new GraphicsManager();
 
@@ -132,11 +130,15 @@ public class Main extends JPanel implements IFrameSize, IExit {
         super.paintComponent(g);
         Graphics2D d2 = (Graphics2D) g;
 
+        Color black = new Color(20, 25, 35);
+
         d2.translate(viewMetrics.getCurrentXOffset(), viewMetrics.getCurrentYOffset());
         d2.scale(viewMetrics.getCurrentScale(), viewMetrics.getCurrentScale());
 
-        g.setColor(Color.white);
-        g.setFont(titleFont);
+        g.setColor(black);
+        g.fillRect(10,10,1900,1060);
+        g.setColor(new Color(200, 215, 235));
+        g.setFont(new Font("SansSerif", Font.BOLD, 56));
         g.drawString("Coin : " + gameModel.getCoin() + "/ Level : " + gameModel.getLevel(), 980, 90);
 
         if (gameModel.getTapManager().isTap1enabled()) { graphicsManager.renderInfoTap(g, gameModel.getTapManager().getTap1X(), gameModel); }
@@ -158,17 +160,11 @@ public class Main extends JPanel implements IFrameSize, IExit {
         }
 
         graphicsManager.renderTapFrame(g);
-        g.setColor(Color.black);
-        g.fillRect(10,10,955,1060);
-
+        graphicsManager.renderBackGround(g);
         graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
-
         gameModel.getIceManager().renderIces(g);
-
         graphicsManager.renderBaseFrame(g);
         gameModel.getEffectManager().renderEffects(g);
-
-        //gameModel.FUCKYOUDEBUGRENDER(g);
     }
 
     public static void main(String[] args) {

@@ -24,7 +24,7 @@ public class IntegerEffect {
     }
 
     public void draw(Graphics g) {
-        g.setColor(new Color(0, 255, 0, alpha));
+        g.setColor(new Color(120, 255, 200, alpha));
         g.setFont(new Font("굴림", Font.BOLD, 36));
         g.drawString("+" + value, x, y - rise);
     }

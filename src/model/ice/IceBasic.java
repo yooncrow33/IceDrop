@@ -62,7 +62,7 @@ public class IceBasic implements Ice {
     }
 
     public boolean shouldBeRemoved() {
-        return y > 1090;
+        return y > 1140;
     }
 
     public boolean shouldBeCollected(int mouseX, int mouseY, int offsetIndex) {
@@ -90,7 +90,20 @@ public class IceBasic implements Ice {
         for (IceAfterImage ai : iceAfterImages) {
             ai.draw(g);
         }
-        g.setColor(Color.WHITE);
-        g.fillRect(x, y, WIDTH, HEIGHT);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        // 본체 (반투명)
+        g2.setComposite(AlphaComposite.getInstance(
+                AlphaComposite.SRC_OVER, 0.6f));
+        g2.setColor(new Color(120, 220, 255));
+        g2.fillRect(x, y, WIDTH, HEIGHT);
+
+        // 테두리
+        g2.setComposite(AlphaComposite.SrcOver);
+        g2.setStroke(new BasicStroke(2f));
+        g2.setColor(Color.WHITE);
+        g2.drawRect(x, y, WIDTH, HEIGHT);
     }
+
 }
