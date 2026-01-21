@@ -1,5 +1,6 @@
 package sc.base.gameModel.ice;
 
+import sc.base.gameModel.effects.EffectManager;
 import sc.base.gameModel.quest.QuestManager;
 
 public interface IIceManager {
@@ -16,4 +17,6 @@ public interface IIceManager {
     void addInfo(String l1,String l2,String l3);
     QuestManager getQuestManager();
     int getLastIceBasicCollectCount();
+    EffectManager getEffectManager();
+    int getPlayTick();
 }

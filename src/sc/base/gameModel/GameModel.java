@@ -69,7 +69,7 @@ public class GameModel implements IGameModel, IGameModelTick, IGameModelQuest, I
         shopManager.update(dt);
         tapManager.tapUpdate();
         skillManager.updateLevelStatus();
-        effectManager.update();
+        effectManager.update(dt);
         clicked = false;
     }
 

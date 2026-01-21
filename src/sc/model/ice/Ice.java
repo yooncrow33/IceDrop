@@ -12,4 +12,7 @@ public interface Ice {
     String name();
     int getValue();
     int getTier();
+    int getX();
+    int getY();
+    int getSize();
 }

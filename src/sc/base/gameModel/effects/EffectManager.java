@@ -1,8 +1,6 @@
 package sc.base.gameModel.effects;
 
-import sc.model.effects.Info;
-import sc.model.effects.IntegerEffect;
-import sc.model.effects.StringEffect;
+import sc.model.effects.*;
 import sc.view.IMouse;
 import sc.view.iGameModel.IGameModelTick;
 
@@ -13,6 +11,8 @@ public class EffectManager {
     ArrayList<IntegerEffect> integerEffects = new ArrayList<>();
     ArrayList<StringEffect> stringEffects = new ArrayList<>();
     ArrayList<Info> infos = new ArrayList<>();
+    ArrayList<Fa> fas = new ArrayList<>();
+    ArrayList<FaUltra> faUltras = new ArrayList<>();
 
     IMouse iMouse;
     IGameModelTick iTick;
@@ -22,7 +22,7 @@ public class EffectManager {
         this.iTick  = iTick;
     }
 
-    public void update() {
+    public void update(double dt) {
         for (int i = integerEffects.size() - 1; i >= 0; i--) {
             IntegerEffect integerEffect = integerEffects.get(i);
             integerEffect.update();
@@ -47,6 +47,22 @@ public class EffectManager {
                 infos.remove(i);
             }
         }
+
+        for (int i = fas.size() - 1; i >= 0; i--) {
+            Fa f = fas.get(i);
+            f.update(dt);
+            if (f.isFire()) {
+                fas.remove(i);
+            }
+        }
+
+        for (int i = faUltras.size() - 1; i >= 0; i--) {
+            FaUltra f = faUltras.get(i);
+            f.update(dt);
+            if (f.isFire()) {
+                faUltras.remove(i);
+            }
+        }
     }
 
     public void renderEffects(Graphics g) {
@@ -59,6 +75,12 @@ public class EffectManager {
         for (Info info : infos) {
             info.draw(g);
         }
+        for (Fa f : fas) {
+            f.renderFa(g);
+        }
+        for(FaUltra faUltra : faUltras) {
+            faUltra.renderFa(g);
+        }
     }
 
     public void addStrEffect(String str) {
@@ -69,5 +91,15 @@ public class EffectManager {
     }
     public void addInfo(String l1,String l2, String l3) {
         infos.add(new Info(l1,l2,l3,iTick.getPlayTick()));
+    }
+    public void addFa(int x, int y) {
+        for (int i = 0; i <= 30; i++) {
+            fas.add(new Fa(x, y));
+        }
+    }
+    public void addFaUltra() {
+        for (int i = 0; i <= 70; i++) {
+            faUltras.add(new FaUltra(498,555));
+        }
     }
 }

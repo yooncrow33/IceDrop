@@ -15,8 +15,9 @@ public class IceBasic implements Ice {
     boolean vacuumActive;
     final String name = "Basic";
     ArrayList <IceAfterImage> iceAfterImages = new ArrayList<>();
-    int offsetX[] = {0,2,4,6,8,10,12,14,16,18,20};
-    int offsetY[] = {0,3,6,9,12,15,18,21,24,27,30};
+    int offsetX[] = {10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
+    int offsetY[] = {20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40};
+
 
     Random random = new Random();
 
@@ -26,6 +27,13 @@ public class IceBasic implements Ice {
     }
 
     public void update(double dt) {
+        for (int i = iceAfterImages.size() - 1; i >= 0; i--) {
+            IceAfterImage ai = iceAfterImages.get(i);
+            ai.update();
+            if (ai.isExpired()) {
+                iceAfterImages.remove(i);
+            }
+        }
         if (!vacuumActive) {
             y += FALL_SPEED * (dt / (16.0 / 1000.0));
         } else {
@@ -45,13 +53,6 @@ public class IceBasic implements Ice {
             afterImageLimit = true;
         } else {
             afterImageLimit = false;
-        }
-        for (int i = iceAfterImages.size() - 1; i >= 0; i--) {
-            IceAfterImage ai = iceAfterImages.get(i);
-            ai.update();
-            if (ai.isExpired()) {
-                iceAfterImages.remove(i);
-            }
         }
     }
 
@@ -84,6 +85,16 @@ public class IceBasic implements Ice {
 
     public int getTier() {
         return 1;
+    }
+
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
+    public int getSize() {
+        return WIDTH;
     }
 
     public void draw(Graphics g) {

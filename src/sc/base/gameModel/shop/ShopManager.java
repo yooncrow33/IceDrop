@@ -105,7 +105,7 @@ public class ShopManager {
     public void iceVacuumClear() {
         is.getIceManager().iceVacuumClear();
         iceVacuumCount--;
-        iceVacuumCoolTime = iTick.getPlayTick() +  (int)(ICE_VACUUM_COOL_DOWN_TICK / is.getSkillManager().getCoolTimeMultiplier());
+        iceVacuumCoolTime = iTick.getPlayTick() +  (int)(ICE_VACUUM_COOL_DOWN_TICK / is.getSkillManager().getIceVacuumCoolTimeMultiplier());
 
         iceVacuumActive = false;
     }

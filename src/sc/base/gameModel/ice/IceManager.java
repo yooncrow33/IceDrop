@@ -25,7 +25,7 @@ public class IceManager {
     int iceRareCollectedCount = 0;
     int iceLegendaryCollectedCount = 0;
 
-    double iceAutoCollectChance[] = {0,0.0001,0.0005,0.001,0.005,0.007};
+    double iceAutoCollectChance[] = {0,0.001,0.005,0.01,0.05,0.07};
 
     IIceManager im;
     IInfo in;
@@ -37,6 +37,10 @@ public class IceManager {
     private final double iceRareCurrentSpawnChanceList[] = {1,0.008,0.015,0.025,0.035};
     private final double iceLegendaryCurrentSpawnChanceList[] = {1,0.001,0.002,0.005,0.01};
 
+    private int faTick = -1;
+    private int fa1tick = -1;
+    private int fa2tick = -1;
+
     public IceManager(IIceManager im, IInfo in,IMouse iMouse, Lang l) {
         this.in = in;
         this.im = im;
@@ -44,9 +48,9 @@ public class IceManager {
         this.l = l;
     }
 
-    public void addIceBasic() { ices.add(new IceBasic()); }
-    public void addIceRare() { ices.add(new IceRare()); }
-    public void addIceLegendary() { ices.add(new IceLegendary()); }
+    private void addIceBasic() { ices.add(new IceBasic()); }
+    private void addIceRare() { ices.add(new IceRare()); }
+    private void addIceLegendary() { ices.add(new IceLegendary()); }
 
     public void update(double dt) {
         if (!im.isIceVacuuming()) {
@@ -98,22 +102,33 @@ public class IceManager {
             }
             if (im.isClicked()) {
                 if (ice.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), im.getClickOffsetLevel())) {
+                    im.getEffectManager().addFa(ice.getX() + (ice.getSize() / 2), ice.getY() + (ice.getSize() / 2));
                     ices.remove(i);
                     switch (ice.getTier()) {
-                        case 1 : im.addIntEffect(ice.getValue());
+                        case 1:
+                            im.addIntEffect(ice.getValue());
                             collectIce(1);
                             break;
-                        case 2 : im.addIntEffect(ice.getValue());
+                        case 2:
+                            im.addIntEffect(ice.getValue());
                             collectIce(2);
                             break;
-                        case 3 : im.addIntEffect(ice.getValue());
+                        case 3:
+                            im.addIntEffect(ice.getValue());
                             collectIce(3);
                             break;
-                        default: im.addIntEffect(ice.getValue());
+                        default:
+                            im.addIntEffect(ice.getValue());
                             collectIce(1);
                             break;
                     }
                 }
+            }
+            if (fa1tick == im.getPlayTick()) {
+                im.getEffectManager().addFaUltra();
+            }
+            if (fa2tick == im.getPlayTick()) {
+                im.getEffectManager().addFaUltra();
             }
         }
     }
@@ -155,6 +170,10 @@ public class IceManager {
                     break;
             }
         }
+        im.getEffectManager().addFaUltra();
+        faTick = im.getPlayTick();
+        fa1tick = faTick + 8;
+        fa2tick = fa1tick + 10;
         ices.clear();
 
         im.addCoin(collectedIceBasics * ICE_BASIC_VALUE);
@@ -191,7 +210,6 @@ public class IceManager {
         //ㅠㅠㅎ
         if (tier == 1) {
             iceBasicCollectedCount++;
-            im.addXp(ICE_BASIC_VALUE);
             if (im.isThirdQuestComplete()) {
                 im.addCoin(ICE_BASIC_VALUE);
                 im.addCoin(ICE_BASIC_VALUE + im.getQuestManager().getBonus());
@@ -200,8 +218,7 @@ public class IceManager {
             }
         } else if (tier == 2) {
             iceRareCollectedCount++;
-
-            im.addXp(ICE_RARE_VALUE);
+            im.addXp(ICE_RARE_VALUE/2);
             if (im.isThirdQuestComplete()) {
                 im.addCoin(ICE_RARE_VALUE);
                 im.addCoin(ICE_RARE_VALUE + im.getQuestManager().getBonus());
@@ -210,7 +227,7 @@ public class IceManager {
             }
         } else if (tier == 3) {
             iceLegendaryCollectedCount++;
-            im.addXp(ICE_LEGENDARY_VALUE);
+            im.addXp(ICE_LEGENDARY_VALUE/2);
             if (im.isThirdQuestComplete()) {
                 im.addCoin(ICE_LEGENDARY_VALUE);
                 im.addCoin(ICE_LEGENDARY_VALUE + im.getQuestManager().getBonus());

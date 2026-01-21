@@ -57,15 +57,19 @@ public class Launcher {
             "alpha 1.13.3!\n" +
             "   - 끝이 보인다...!\n" +
             "       2026/1/19 -yooncrow33-\n" +
+            "\n" +
+            "alpha 1.13.5!\n" +
+            "   - 뭐였지?\n" +
+            "       2026/1/21 -yooncrow33-\n" +
             "\n";
 
 
     String patch_notes = "\n" +
-            "alpha 1.0\n" +
+            "alpha 1.0 : Foundation Setup\n" +
             "   [게임내용]\n" +
             "   - 창의 비율조절 고정\n" +
             "\n" +
-            "alpha 1.1\n" +
+            "alpha 1.1 : First Refactor & Profile System\n" +
             "   [최적화]\n" +
             "   - Gm클래스의 Main클래스 의존문제 해결..\n" +
             "   - static 변수 대거 삭제, 대량 캡슐화.\n" +
@@ -73,35 +77,35 @@ public class Launcher {
             "   [게임내용]\n" +
             "   - 프로필 기능.\n" +
             "\n" +
-            "alpha 1.2\n" +
+            "alpha 1.2 : Decoupling Graphics Layer\n" +
             "   [최적화]\n" +
             "   - 인터페이스를 만들어 GM(그래픽 매니저)와 Main클래스의 결합도를 낮춤..\n" +
             "\n" +
-            "alpha 1.3\n" +
+            "alpha 1.3 : Input Accuracy & Render Optimization\n" +
             "   [버그 수정]\n" +
             "   - 마우스의 좌표가 프레임을 포함하여 계산하던 문제 해결..\n" +
             "   [최적화]\n" +
             "   - 매 프레임마다 스케일을 계산하던 방식에서 창을 조절하거나 M키를 누르면 계산하도록 최적화...\n" +
             "\n" +
-            "alpha 1.4\n" +
+            "alpha 1.4 : Breaking the God-Class (Phase 1)\n" +
             "   [최적화]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 실험적으로 창크기 조절(a02.sc.base.ViewMetrics)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
-            "alpha 1.5\n" +
+            "alpha 1.5 : Visual Entry Point\n" +
             "   [게임내용]\n" +
             "   - 게임 실행시 스플래쉬 화면추가...\n" +
             "\n" +
-            "alpha 1.6\n" +
+            "alpha 1.6 : Breaking the God-Class (Phase 2)\n" +
             "   [최적화]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 디버그 및 성능정보(a02.sc.base.SystemMonitor)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
-            "alpha 1.7\n" +
+            "alpha 1.7 : Game Model Separation\n" +
             "   [버그 수정]\n" +
             "   - 프로필 드롭다운 메뉴의 잘못된 크기 수정.\n" +
             "   [최적화]\n" +
             "   - Main의 God-class 설계를 해결하기 위해 게임내용(a02.sc.base.gameModel.GameModel)클래스 분리및 메인 최적화 -> SRP(단일 책임 의무)\n" +
             "\n" +
-            "alpha 1.8\n" +
+            "alpha 1.8 : Input & State Responsibility Cleanup\n" +
             "   [최적화]\n" +
             "   - Main에서 viewMetrics를 초기화할때 아예 this로 자신을 넘겨 결합도를 높이던 문제를 인터페이스(a01_model.ISize)를 넘기는 것으로 개선\n" +
             "   - Main에 있던 거대한 키어댑터를 자체 클래스(a02.sc.base.handler.InputHandler)로 분리\n" +
@@ -109,16 +113,16 @@ public class Launcher {
             "   - 키어댑터에서 다 계산하던 tap값을 tapMoveRight(),tapMoveLeft() 생성하고 매서드를 GameModel클래스로 이동\n" +
             "   - debug창을 그릴떄 GM에서 Main의 static int를 참조하여 결합도를 높이는 문제를 viewMetrics로 이전해 결합도 해결\n" +
             "\n" +
-            "alpha 1.9\n" +
+            "alpha 1.9 : Core Gameplay Emergence\n" +
             "   [게임내용]\n" +
             "   - 드디어! Ice가 드롭됨..\n" +
             "\n" +
-            "alpha 1.9.1\n" +
+            "alpha 1.9.1 : Interactive Collection\n" +
             "   [게임내용]\n" +
             "   - Ice를 클릭으로 수집가능.\n" +
             "   - 게임의 클래스를 패키지로 묶음.\n" +
             "\n" +
-            "alpha 1.10\n" +
+            "alpha 1.10 : Quest & Session Expansion\n" +
             "   [사용자 편의]\n" +
             "   - TapBar 아래의 탭이름 추가..\n" +
             "   [게임내용]\n" +
@@ -131,13 +135,13 @@ public class Launcher {
             "   - 쓸때 없는 systemMonitor의 생성자 삭제..\n" +
             "   - 메인의 쓸때 없는 SystemMonitor클래스의 잔재 삭제..\n" +
             "\n" +
-            "alpha 1.10.1\n" +
+            "alpha 1.10.1 : Frame-Independent Update\n" +
             "   [게임내용]\n" +
             "   - Ice의 잔상 추가! \n" +
             "   [최적화]\n" +
             "   - ice.update();에서 dt를 사용해 fps에 상관없이 게임이 업데이트되게 최적화..\n" +
             "\n" +
-            "alpha 1.11\n" +
+            "alpha 1.11 : Economy & Shop Introduction\n" +
             "   [게임내용]\n" +
             "   - shop 시스템 추가!\n" +
             "   - 아이템 추가!\n" +
@@ -145,7 +149,7 @@ public class Launcher {
             "   - 더 나은 아이스 드롭.\n" +
             "   - Graphics Manager에서 QuestBar를 렌더링 할때 넓이를 매 프레임마다 지역변수로 선언하던 구조 개선 -> 클래스 변수\n" +
             "\n" +
-            "alpha 1.12\n" +
+            "alpha 1.12 : Feedback & Animation Systems\n" +
             "   [게임내용]\n" +
             "   - IceRush 아이템의 쿨타임 조정\n" +
             "   [최적화]\n" +
@@ -156,7 +160,7 @@ public class Launcher {
             "   - Info 시스템 구축: 팝업 알림창에 POPUP-STAY-REMOVE 3단계 애니메이션 적용 (가시성 향상)\n" +
             "   - Tap 인터페이스 개선: 1번-5번 탭이 끊김 없이 연결되는 Carousel(회전목마) 무한 루프 애니메이션 구현\n" +
             "\n" +
-            "alpha 1.13\n" +
+            "alpha 1.13 : Progression Core Complete\n" +
             "   [게임내용]\n" +
             "   - Shop에 AutoCollect아이템 추가.\n" +
             "   - Level추가.\n" +
@@ -164,7 +168,7 @@ public class Launcher {
             "   - XP추가.\n" +
             "   - 기본적으로 들어가있던 마우스 클릭 오프셋을 스킬포인트로 업그레이드하도록 변경.\n" +
             "\n" +
-            "alpha 1.13.1\n" +
+            "alpha 1.13.1 : Quest System Refactor\n" +
             "   [게임내용]\n" +
             "   - Quest를 일정 코인을 내고 리프레쉬할수 있는 기능추가!\n" +
             "   [최적화]\n" +
@@ -176,7 +180,7 @@ public class Launcher {
             "   [버그 수정]\n" +
             "   - thirdQuest의 설명에서 \"Gold\" 라고 표시된것을 \"coin\"으로 반경..\n" +
             "\n" +
-            "alpha 1.13.2\n" +
+            "alpha 1.13.2 : Internal & Clean Code\n" +
             "   [게임내용]\n" +
             "   - Quest를 리프레쉬 했을때 진행도가 초기화 되자 않았던 것을 초기화되도록 수정.\n" +
             "   [최적화]\n" +
@@ -191,7 +195,7 @@ public class Launcher {
             "   [버그 수정]\n" +
             "   - Quest를 리프레쉬 했을때 진행도가 초기화 되자 않았던 것을 초기화되도록 수정.\n" +
             "\n" +
-            "alpha 1.13.3 \n" +
+            "alpha 1.13.3 : Balance & Theme Shift\n" +
             "   [게임내용]\n" +
             "   - IceLegendary의 드롭속도 너프.\n" +
             "   - 쿨타임 게이지를 반전시킴(쿨타임 온일때)0 -> 100.\n" +
@@ -203,7 +207,7 @@ public class Launcher {
             "   [사용자 편의/ UX]\n" +
             "   - 게임의 전체적인 테마 변경\n" +
             "\n" +
-            "alpha 1.13.4\n" +
+            "alpha 1.13.4 : Localization & System Stability\n" +
             "   [게임내용]\n" +
             "   - 언어 시스템 추가!.\n" +
             "       - 기본지원 언어 -> 영어/한국어.\n" +
@@ -214,6 +218,17 @@ public class Launcher {
             "   [최적화]\n" +
             "   - 쓰레드 안정성 상향.\n" +
             "   - 비밀번호의 저장 디렉토리를 user.home이 아닌 home아래의 전용디렉토리 SC로 저장되게 변경.\n" +
+            "\n" +
+            "alpha 1.13.5 : Core Balance & Visual Feedback\n" +
+            "   [게임내용]\n" +
+            "   - XP의 획득량 밸런스 패치.\n" +
+            "   - IceVacuum의 쿨타임감소 밸런스 패치..\n" +
+            "   - AutoCollect확률 대폭상승.\n" +
+            "   - Click offset범위 상향.\n" +
+            "   [사용자 편의/ UX]\n" +
+            "   - Ice수집시, IceVacuum발동시에 이펙트추가!\n" +
+            "   [버그 수정]\n" +
+            "   - IceVacuum시의 각 Ice들의 잔상이 사라지지 않는 버그수정.\n" +
             "   \n";
 
     String manual_text = "\n" +
@@ -467,7 +482,7 @@ public class Launcher {
 
         p.setProperty(LangKey.TITLE_GAME_NAME, "FROZEN FIELD");
         p.setProperty(LangKey.TITLE_SUB_TEXT, "Collect the ice. Control the flow.");
-        p.setProperty(LangKey.VERSION_TEXT, "v1.13.3-alpha");
+        p.setProperty(LangKey.VERSION_TEXT, "v1.13.5-alpha");
 
         p.setProperty(LangKey.TAP_INFO, "INFO");
         p.setProperty(LangKey.TAP_SHOP, "SHOP");
@@ -587,7 +602,7 @@ public class Launcher {
 
         p.setProperty(LangKey.TITLE_GAME_NAME, "프로즌 필드");
         p.setProperty(LangKey.TITLE_SUB_TEXT, "얼음을 수집하라. 흐름을 지배하라.");
-        p.setProperty(LangKey.VERSION_TEXT, "v1.13.3-알파");
+        p.setProperty(LangKey.VERSION_TEXT, "v1.13.5-알파");
 
         p.setProperty(LangKey.TAP_INFO, "정보");
         p.setProperty(LangKey.TAP_SHOP, "상점");
@@ -708,7 +723,7 @@ public class Launcher {
 
         p.setProperty(LangKey.TITLE_GAME_NAME, "FROZEN FIELD");
         p.setProperty(LangKey.TITLE_SUB_TEXT, "Collect the ice. Control the flow.");
-        p.setProperty(LangKey.VERSION_TEXT, "v1.13.3-alpha");
+        p.setProperty(LangKey.VERSION_TEXT, "v1.13.5-alpha");
 
         p.setProperty(LangKey.TAP_INFO, "INFO");
         p.setProperty(LangKey.TAP_SHOP, "SHOP");

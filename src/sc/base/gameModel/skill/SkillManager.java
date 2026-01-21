@@ -16,6 +16,10 @@ public class SkillManager {
             1.0f, 0.95f, 0.9f, 0.8f, 0.75f,
             0.65f, 0.5f, 0.45f, 0.4f, 0.35f
     };
+    float[] iceVacuumCoolTimeMultiplier = {
+            1.0f, 0.95f, 0.9f, 0.87f, 0.85f,
+            0.82f, 0.78f, 0.75f, 0.72f, 0.7f
+    };
 
     private int level;
     public int xp;
@@ -162,6 +166,9 @@ public class SkillManager {
     }
     public float getCoolTimeMultiplier() {
         return coolTimeMultiplier[itemCoolTimeLevel];
+    }
+    public float getIceVacuumCoolTimeMultiplier() {
+        return iceVacuumCoolTimeMultiplier[itemCoolTimeLevel];
     }
 
     public void loadLevel(int value) {

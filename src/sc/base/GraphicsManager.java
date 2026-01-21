@@ -84,7 +84,7 @@ public class GraphicsManager {
 // 버전 정보 (구석으로 이동 & 투명도 활용)
         g.setFont(new Font("Monospaced", Font.PLAIN, 12)); // 고정폭 글꼴이 버전 정보에 잘 어울림
         g.setColor(new Color(120, 160, 200, 150)); // 마지막 150은 투명도 (0~255)
-        g.drawString("v1.13.4-alpha", 20, VIRTUAL_HEIGHT - 30);
+        g.drawString("v1.13.5-alpha", 20, VIRTUAL_HEIGHT - 30);
         // 화면 왼쪽 아래 끝
 
     }

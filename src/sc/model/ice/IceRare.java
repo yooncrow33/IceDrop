@@ -29,6 +29,13 @@ public class IceRare implements Ice {
     }
 
     public void update(double dt) {
+        for (int i = iceAfterImages.size() - 1; i >= 0; i--) {
+            IceAfterImage ai = iceAfterImages.get(i);
+            ai.update();
+            if (ai.isExpired()) {
+                iceAfterImages.remove(i);
+            }
+        }
         if (!vacuumActive) {
             y += FALL_SPEED * (dt / (16.0 / 1000.0));
         } else {
@@ -48,13 +55,6 @@ public class IceRare implements Ice {
             afterImageLimit = true;
         } else {
             afterImageLimit = false;
-        }
-        for (int i = iceAfterImages.size() - 1; i >= 0; i--) {
-            IceAfterImage ai = iceAfterImages.get(i);
-            ai.update();
-            if (ai.isExpired()) {
-                iceAfterImages.remove(i);
-            }
         }
     }
 
@@ -86,6 +86,16 @@ public class IceRare implements Ice {
 
     public void setVacuumActive(boolean active) {
         this.vacuumActive = active;
+    }
+
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
+    public int getSize() {
+        return WIDTH;
     }
 
     public void draw(Graphics g) {
