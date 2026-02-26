@@ -1,8 +1,8 @@
 package sc.base;
 
 import sc.base.gameModel.GameModel;
-import sc.base.handler.InputHandler;
-import sc.base.handler.MouseListener;
+import sc.base.input.InputHandler;
+import sc.base.input.MouseListener;
 import sc.base.splashScreen.EndSplashScreen;
 import sc.lang.Lang;
 import sc.view.IExit;
@@ -16,7 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit {
-    JFrame frame = new JFrame("alpha 1.13.5");
+    JFrame frame = new JFrame("alpha 1.13.6");
 
     private long lastTime;
 

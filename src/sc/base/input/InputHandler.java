@@ -1,4 +1,4 @@
-package sc.base.handler;
+package sc.base.input;
 
 import sc.base.gameModel.GameModel;
 import sc.base.ViewMetrics;
@@ -22,10 +22,10 @@ public class InputHandler extends KeyAdapter{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            gameModel.getTapManager().tapMoveRight();
+            gameModel.getTapManager().tabMoveRight();
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            gameModel.getTapManager().tapMoveLeft();
+            gameModel.getTapManager().tabMoveLeft();
         }
         if (key == KeyEvent.VK_SHIFT) {
             gameModel.setShiftPressed(true);

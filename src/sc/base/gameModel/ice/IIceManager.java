@@ -2,6 +2,7 @@ package sc.base.gameModel.ice;
 
 import sc.base.gameModel.effects.EffectManager;
 import sc.base.gameModel.quest.QuestManager;
+import sc.base.gameModel.sound.SoundManager;
 
 public interface IIceManager {
     void addCoin(int value);
@@ -19,4 +20,5 @@ public interface IIceManager {
     int getLastIceBasicCollectCount();
     EffectManager getEffectManager();
     int getPlayTick();
+    SoundManager getSoundManager();
 }

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="test for alpha 1.13.5 update:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/test_for_alpha_1_13_5_update_jar</output-path>
+    <root id="archive" name="SC.jar">
+      <element id="module-output" name="SC" />
+      <element id="library" level="project" name="YooncrowGameKit" />
+    </root>
+  </artifact>
+</component>

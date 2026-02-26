@@ -1,7 +1,6 @@
 package sc.base;
 
 import sc.lang.Lang;
-import sc.lang.LangKey;
 import sc.view.iGameModel.*;
 
 import java.awt.*;
@@ -444,6 +443,22 @@ public class GraphicsManager {
         g.setColor(white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString(l.getSettingTitle(), 980 + x, 165);
+
+        g.setFont(new Font("Arial", Font.BOLD ,70));
+        g.drawString("Bgm : ", 1000 + x, 300);
+        g.drawString("Bgm sfx : ", 1000 + x,400);
+        g.drawString("Sound : ", 1000 + x, 500);
+        g.drawString("Sound sfx : ", 1000 + x, 600);
+        g.drawString("Effect : ", 1000 + x, 700);
+        g.drawString("Help : ", 1000 + x,800);
+
+        g.setColor(gray);
+        g.fillRect(1400 + x,250,500,70);
+        g.fillRect(1400 + x,350,500,70);
+        g.fillRect(1400 + x,450,500,70);
+        g.fillRect(1400 + x,550,500,70);
+        g.fillRect(1400 + x,650,500,70);
+        g.fillRect(1400 + x,750,500,70);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {

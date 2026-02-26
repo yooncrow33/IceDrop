@@ -1,4 +1,4 @@
-package sc.base.handler;
+package sc.base.input;
 
 import sc.base.gameModel.GameModel;
 import sc.base.ViewMetrics;

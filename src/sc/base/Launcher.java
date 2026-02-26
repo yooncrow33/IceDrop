@@ -24,6 +24,7 @@ public class Launcher {
     JButton recentNews = new JButton("Recent News");
     JButton patchNotes = new JButton("Patch Notes");
     JButton manual = new JButton("Manual");
+    JButton init = new JButton("파일 무결성");
     JTextArea Area = new JTextArea();
     JScrollPane p = new JScrollPane(Area);
     JTextArea TitleArea = new JTextArea("Manual");
@@ -35,6 +36,7 @@ public class Launcher {
     final File file = new File(SAVE_FILE);
 
     String recent_news = "\n" +
+            /*
             "이것을 쓴 시점은 런처만 만든 시점임.\n" +
             "       2025/10/22 -yooncrow33-\n" +
             "\n" +
@@ -61,6 +63,8 @@ public class Launcher {
             "alpha 1.13.5!\n" +
             "   - 뭐였지?\n" +
             "       2026/1/21 -yooncrow33-\n" +
+
+             */
             "\n";
 
 
@@ -229,6 +233,8 @@ public class Launcher {
             "   - Ice수집시, IceVacuum발동시에 이펙트추가!\n" +
             "   [버그 수정]\n" +
             "   - IceVacuum시의 각 Ice들의 잔상이 사라지지 않는 버그수정.\n" +
+            "\n" +
+            "alpha 1.13.6\n" +
             "   \n";
 
     String manual_text = "\n" +
@@ -311,6 +317,7 @@ public class Launcher {
         frame.add(patchNotes);
         frame.add(manual);
         frame.add(TitleArea);
+        frame.add(init);
 
         main.setBounds(10, 270,390,70);
         main.setHorizontalAlignment(SwingConstants.CENTER);
@@ -331,9 +338,19 @@ public class Launcher {
         Area.setEditable(false);
         Area.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         Area.setLineWrap(true);
-        recentNews.setBounds(410,540,126,10);
-        patchNotes.setBounds(536,540,127,10);
-        manual.setBounds(663,540,126,10);
+        recentNews.setBounds(410,540,126,12);
+        patchNotes.setBounds(536,540,127,12);
+        manual.setBounds(663,540,126,12);
+        init.setFont(new Font("Arial",Font.BOLD,10));
+        init.setBounds(410,555,380,15);
+
+        init.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "게임의 진행상황을 제외한 모든것이 다시 초기화 되었습니다.");
+                init();
+            }
+        });
 
         fux.addActionListener(new ActionListener() {
             @Override
@@ -345,17 +362,7 @@ public class Launcher {
                     } else {
                         // 패스워드 생성 및 파일 저장
                         try {
-                            String saveDirPath = System.getProperty("user.home") + "/SC";
-                            File saveDir = new File(saveDirPath);
-                            if (!saveDir.exists()) {
-                                saveDir.mkdirs(); // SC 폴더가 없으면 생성
-                            }
-                            String saveDirPath1 = System.getProperty("user.home") + "/SC/lang";
-                            File saveDir1 = new File(saveDirPath1);
-                            if (!saveDir1.exists()) {
-                                saveDir1.mkdirs();
-                                saveCustom();
-                            }
+                            init();
                             setPass = true; // 상태 업데이트
                             fux.setEnabled(false); // 버튼 비활성화 (핵심 개선)
                             fux.setText("password has already been created."); // 문구 변경 (선택 사항)
@@ -402,8 +409,6 @@ public class Launcher {
                     String str = (String) languageBox.getSelectedItem();
 
                     int language = getLangIdFormMane(str);
-                    saveEnglish();
-                    saveKorean();
                     //JOptionPane.showMessageDialog(null, "Run the IceDrop Lite Edition profile : " + selectedVersion  /*"을(를) 실행합니다."*/);
                     // 3. a02.sc.base.Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
                     frame.dispose();
@@ -470,6 +475,29 @@ public class Launcher {
 
     public void loadEnglishFile() {
 
+    }
+
+    public void init() {
+        String saveDirPath = System.getProperty("user.home") + "/SC";
+        File saveDir = new File(saveDirPath);
+        if (!saveDir.exists()) {
+            saveDir.mkdirs(); // SC 폴더가 없으면 생성
+        }
+        String saveDirPath1 = System.getProperty("user.home") + "/SC/lang";
+        File saveDir1 = new File(saveDirPath1);
+        if (!saveDir1.exists()) {
+            saveDir1.mkdirs();
+            saveCustom();
+        }
+        String saveDirPath2 = System.getProperty("user.home") + "/SC/save";
+        File saveDir2 = new File(saveDirPath2);
+        if (!saveDir2.exists()) {
+            saveDir2.mkdirs();
+            saveCustom();
+        }
+        saveEnglish();
+        saveKorean();
+        saveCustom();
     }
 
     public static void main(String[] args) {
