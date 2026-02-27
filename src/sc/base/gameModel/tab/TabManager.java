@@ -1,6 +1,6 @@
 package sc.base.gameModel.tab;
 
-import sc.view.iGameModel.IGameModelTick;
+import sc.view.iGameModel.IGameModel;
 
 public class TabManager {
     final int tabWidth = 945;
@@ -24,10 +24,10 @@ public class TabManager {
     private int tab = 1;
     int tabBarPosition[] = {0,965,1154,1343,1532,1721,1721};
 
-    IGameModelTick iTick;
+    IGameModel iGameModel;
 
-    public TabManager(IGameModelTick iTick) {
-        this.iTick = iTick;
+    public TabManager(IGameModel iGameModel) {
+        this.iGameModel = iGameModel;
     }
 
     public void tabMoveRight() {
@@ -42,7 +42,7 @@ public class TabManager {
             tab++;
         }
 
-        tabMoveEndTick = iTick.getPlayTick() + tabMoveTime;
+        tabMoveEndTick = iGameModel.getTickManager().getPlayTick() + tabMoveTime;
         tabMoving = true;
         tabMoveRight = true;
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
@@ -61,7 +61,7 @@ public class TabManager {
             tab--;
         }
 
-        tabMoveEndTick = iTick.getPlayTick() + tabMoveTime;
+        tabMoveEndTick = iGameModel.getTickManager().getPlayTick() + tabMoveTime;
         tabMoving = true;
         tabMoveRight = false;
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
@@ -83,7 +83,7 @@ public class TabManager {
         }
 
         // 이동 완료 시점
-        if (iTick.getPlayTick() >= tabMoveEndTick) {
+        if (iGameModel.getTickManager().getPlayTick() >= tabMoveEndTick) {
             tabMoving = false;
             setTap(this.tab); // 정확한 위치로 좌표 강제 고정 (Snap)
             //updateEnabledTaps(); // 현재 탭만 빼고 다 끄기

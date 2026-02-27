@@ -1,12 +1,12 @@
 package sc.base.gameModel.ice;
 
 import sc.lang.Lang;
-import sc.model.effects.IInfo;
 import sc.model.ice.Ice;
 import sc.model.ice.IceBasic;
 import sc.model.ice.IceLegendary;
 import sc.model.ice.IceRare;
 import sc.view.IMouse;
+import sc.view.iGameModel.IGameModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,10 +25,37 @@ public class IceManager {
     int iceRareCollectedCount = 0;
     int iceLegendaryCollectedCount = 0;
 
+    int lastIceBasicCollectCount;
+    int lastIceRareCollectCount;
+    int lastIceLegendaryCollectCount;
+
+    public void loadLastIceBasicCollectCount(int lastIceBasicCollectCount) {
+        this.lastIceBasicCollectCount = lastIceBasicCollectCount;
+    }
+
+    public int getLastIceBasicCollectCount() {
+        return lastIceBasicCollectCount;
+    }
+
+    public int getLastIceRareCollectCount() {
+        return lastIceRareCollectCount;
+    }
+
+    public int getLastIceLegendaryCollectCount() {
+        return lastIceLegendaryCollectCount;
+    }
+
+    public void loadLastIceRareCollectCount(int lastIceRareCollectCount) {
+        this.lastIceRareCollectCount = lastIceRareCollectCount;
+    }
+
+    public void loadLastIceLegendaryCollectCount(int lastIceLegendaryCollectCount) {
+        this.lastIceLegendaryCollectCount = lastIceLegendaryCollectCount;
+    }
+
     double iceAutoCollectChance[] = {0,0.001,0.005,0.01,0.05,0.07};
 
-    IIceManager im;
-    IInfo in;
+    IGameModel iGameModel;
     IMouse iMouse;
     Lang l;
 
@@ -41,9 +68,8 @@ public class IceManager {
     private int fa1tick = -1;
     private int fa2tick = -1;
 
-    public IceManager(IIceManager im, IInfo in,IMouse iMouse, Lang l) {
-        this.in = in;
-        this.im = im;
+    public IceManager(IGameModel iGameModel, IMouse iMouse, Lang l) {
+        this.iGameModel = iGameModel;
         this.iMouse = iMouse;
         this.l = l;
     }
@@ -53,25 +79,25 @@ public class IceManager {
     private void addIceLegendary() { ices.add(new IceLegendary()); }
 
     public void update(double dt) {
-        if (!im.isIceVacuuming()) {
-            if (im.isIceRush(1)) {
+        if (!iGameModel.getShopManager().isIceVacuuming()) {
+            if (iGameModel.getShopManager().isIceBasicRush()) {
                 addIceBasic();
             } else {
-                if (Math.random() < iceBasicCurrentSpawnChanceList[im.getIceSpawnChanceLevel(1)]) {
+                if (Math.random() < iceBasicCurrentSpawnChanceList[iGameModel.getSkillManager().getIceBasicSpawnChanceLevel()]) {
                     addIceBasic();
                 }
             }
-            if (im.isIceRush(2)) {
+            if (iGameModel.getShopManager().isIceRareRush()) {
                 addIceRare();
             } else {
-                if (Math.random() < iceRareCurrentSpawnChanceList[im.getIceSpawnChanceLevel(2)]) {
+                if (Math.random() < iceRareCurrentSpawnChanceList[iGameModel.getSkillManager().getIceRareSpawnChanceLevel()]) {
                     addIceRare();
                 }
             }
-            if (im.isIceRush(3)) {
+            if (iGameModel.getShopManager().isIceLegendaryRush()) {
                 addIceLegendary();
             } else {
-                if (Math.random() < iceLegendaryCurrentSpawnChanceList[im.getIceSpawnChanceLevel(3)]) {
+                if (Math.random() < iceLegendaryCurrentSpawnChanceList[iGameModel.getSkillManager().getIceLegendarySpawnChanceLevel()]) {
                     addIceLegendary();
                 }
             }
@@ -82,10 +108,10 @@ public class IceManager {
             ice.update(dt);
             if (ice.shouldBeRemoved()) {
                 ices.remove(i);
-                if (Math.random() > iceAutoCollectChance[im.getIceAutoCollectLevel()]) {
+                if (Math.random() > iceAutoCollectChance[iGameModel.getShopManager().getIceAutoCollectLevel()]) {
                     continue;
                 } else {
-                    in.addInfo(l.getInfoAutoCollectedMsg(), l.getInfoCollectedIceMsg()+ ice.name(), "");
+                    iGameModel.getEffectManager().addInfo(l.getInfoAutoCollectedMsg(), l.getInfoCollectedIceMsg()+ ice.name(), "");
                     switch (ice.getTier()) {
                         case 1 : collectIce(1);
                             break;
@@ -100,35 +126,35 @@ public class IceManager {
                 }
                 continue;
             }
-            if (im.isClicked()) {
-                if (ice.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), im.getClickOffsetLevel())) {
-                    im.getEffectManager().addFa(ice.getX() + (ice.getSize() / 2), ice.getY() + (ice.getSize() / 2));
+            if (iGameModel.isClicked()) {
+                if (ice.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), iGameModel.getSkillManager().getClickOffsetLevel())) {
+                    iGameModel.getEffectManager().addFa(ice.getX() + (ice.getSize() / 2), ice.getY() + (ice.getSize() / 2));
                     ices.remove(i);
                     switch (ice.getTier()) {
                         case 1:
-                            im.addIntEffect(ice.getValue());
+                            iGameModel.getEffectManager().addIntEffect(ice.getValue());
                             collectIce(1);
                             break;
                         case 2:
-                            im.addIntEffect(ice.getValue());
+                            iGameModel.getEffectManager().addIntEffect(ice.getValue());
                             collectIce(2);
                             break;
                         case 3:
-                            im.addIntEffect(ice.getValue());
+                            iGameModel.getEffectManager().addIntEffect(ice.getValue());
                             collectIce(3);
                             break;
                         default:
-                            im.addIntEffect(ice.getValue());
+                            iGameModel.getEffectManager().addIntEffect(ice.getValue());
                             collectIce(1);
                             break;
                     }
                 }
             }
-            if (fa1tick == im.getPlayTick()) {
-                im.getEffectManager().addFaUltra();
+            if (fa1tick == iGameModel.getTickManager().getPlayTick()) {
+                iGameModel.getEffectManager().addFaUltra();
             }
-            if (fa2tick == im.getPlayTick()) {
-                im.getEffectManager().addFaUltra();
+            if (fa2tick == iGameModel.getTickManager().getPlayTick()) {
+                iGameModel.getEffectManager().addFaUltra();
             }
         }
     }
@@ -170,19 +196,19 @@ public class IceManager {
                     break;
             }
         }
-        im.getEffectManager().addFaUltra();
-        faTick = im.getPlayTick();
+        iGameModel.getEffectManager().addFaUltra();
+        faTick = iGameModel.getTickManager().getPlayTick();
         fa1tick = faTick + 8;
         fa2tick = fa1tick + 10;
         ices.clear();
 
-        im.addCoin(collectedIceBasics * ICE_BASIC_VALUE);
-        im.addCoin(collectedIceRares * ICE_RARE_VALUE);
-        im.addCoin(collectedIceLegendaryes * ICE_LEGENDARY_VALUE);
-        im.addXp(xpGained);
+        iGameModel.getShopManager().addCoin(collectedIceBasics * ICE_BASIC_VALUE);
+        iGameModel.getShopManager().addCoin(collectedIceRares * ICE_RARE_VALUE);
+        iGameModel.getShopManager().addCoin(collectedIceLegendaryes * ICE_LEGENDARY_VALUE);
+        iGameModel.getSkillManager().addXp(xpGained);
 
 
-        im.addInfo(l.getInfoVacuumActivatedMsg(),l.getInfoGetCoinMsg() + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!",l.getInfoGetXpMsg() + xpGained);
+        iGameModel.getEffectManager().addInfo(l.getInfoVacuumActivatedMsg(),l.getInfoGetCoinMsg() + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!",l.getInfoGetXpMsg() + xpGained);
 
     }
 
@@ -204,35 +230,35 @@ public class IceManager {
     public int getIceLegendaryCollectedCount() {
         return iceLegendaryCollectedCount;
     }
-    public int getIceBasicTotalCollectCount() {return iceBasicCollectedCount + im.getLastIceBasicCollectCount(); }
+    public int getIceBasicTotalCollectCount() {return iceBasicCollectedCount + lastIceBasicCollectCount; }
 
     public void collectIce(int tier) {
         //ㅠㅠㅎ
         if (tier == 1) {
             iceBasicCollectedCount++;
-            if (im.isThirdQuestComplete()) {
-                im.addCoin(ICE_BASIC_VALUE);
-                im.addCoin(ICE_BASIC_VALUE + im.getQuestManager().getBonus());
+            if (iGameModel.getQuestManager().isThirdQuestComplete()) {
+                iGameModel.getShopManager().addCoin(ICE_BASIC_VALUE);
+                iGameModel.getShopManager().addCoin(ICE_BASIC_VALUE + iGameModel.getQuestManager().getBonus());
             } else {
-                im.addCoin(ICE_BASIC_VALUE);
+                iGameModel.getShopManager().addCoin(ICE_BASIC_VALUE);
             }
         } else if (tier == 2) {
             iceRareCollectedCount++;
-            im.addXp(ICE_RARE_VALUE/2);
-            if (im.isThirdQuestComplete()) {
-                im.addCoin(ICE_RARE_VALUE);
-                im.addCoin(ICE_RARE_VALUE + im.getQuestManager().getBonus());
+            iGameModel.getSkillManager().addXp(ICE_RARE_VALUE/2);
+            if (iGameModel.getQuestManager().isThirdQuestComplete()) {
+                iGameModel.getShopManager().addCoin(ICE_RARE_VALUE);
+                iGameModel.getShopManager().addCoin(ICE_RARE_VALUE + iGameModel.getQuestManager().getBonus());
             } else {
-                im.addCoin(ICE_RARE_VALUE);
+                iGameModel.getShopManager().addCoin(ICE_RARE_VALUE);
             }
         } else if (tier == 3) {
             iceLegendaryCollectedCount++;
-            im.addXp(ICE_LEGENDARY_VALUE/2);
-            if (im.isThirdQuestComplete()) {
-                im.addCoin(ICE_LEGENDARY_VALUE);
-                im.addCoin(ICE_LEGENDARY_VALUE + im.getQuestManager().getBonus());
+            iGameModel.getSkillManager().addXp(ICE_LEGENDARY_VALUE/2);
+            if (iGameModel.getQuestManager().isThirdQuestComplete()) {
+                iGameModel.getShopManager().addCoin(ICE_LEGENDARY_VALUE);
+                iGameModel.getShopManager().addCoin(ICE_LEGENDARY_VALUE + iGameModel.getQuestManager().getBonus());
             } else {
-                im.addCoin(ICE_LEGENDARY_VALUE);
+                iGameModel.getShopManager().addCoin(ICE_LEGENDARY_VALUE);
             }
         }
     }

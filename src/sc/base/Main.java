@@ -55,8 +55,6 @@ public class Main extends JPanel implements IFrameSize, IExit {
         InputHandler inputHandler = new InputHandler(viewMetrics, gameModel, this);
         graphicsManager = new GraphicsManager(l);
 
-        gameModel.load(currentProfileId);
-
         setBackground(Color.BLACK);
 
         viewMetrics.calculateViewMetrics();
@@ -132,7 +130,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
 
     @Override public int getComponentWidth() { return this.getWidth(); }
     @Override public int getComponentHeight() { return this.getHeight(); }
-    @Override public void exitApplication() { gameModel.save(currentProfileId); frame.dispose(); EndSplashScreen.showSplashThenLaunchGame();}
+    @Override public void exitApplication() { gameModel.getFileManager().save(currentProfileId); frame.dispose(); EndSplashScreen.showSplashThenLaunchGame();}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -148,29 +146,29 @@ public class Main extends JPanel implements IFrameSize, IExit {
         g.fillRect(10,10,1900,1060);
         g.setColor(new Color(200, 215, 235));
         g.setFont(new Font("SansSerif", Font.BOLD, 56));
-        g.drawString("Coin : " + gameModel.getCoin() + "/ Level : " + gameModel.getLevel(), 980, 90);
+        g.drawString("Coin : " + gameModel.getShopManager().getCoin() + "/ Level : " + gameModel.getSkillManager().getLevel(), 980, 90);
 
-        if (gameModel.getTapManager().isTap1enabled()) { graphicsManager.renderInfoTap(g, gameModel.getTapManager().getTap1X(), gameModel); }
-        if (gameModel.getTapManager().isTap2enabled()) { graphicsManager.renderShopTap(g, gameModel.getTapManager().getTap2X(), gameModel,gameModel); }
-        if (gameModel.getTapManager().isTap3enabled()) { graphicsManager.renderSkillPointTap(g,gameModel, gameModel.getTapManager().getTap3X()); }
-        if (gameModel.getTapManager().isTap4enabled()) { graphicsManager.renderQuestsTap(g, gameModel.getTapManager().getTap4X(), gameModel); }
-        if (gameModel.getTapManager().isTap5enabled()) { graphicsManager.renderSettingTap(g, gameModel.getTapManager().getTap5X()); }
+        if (gameModel.getTabManager().isTap1enabled()) { graphicsManager.renderInfoTap(g, gameModel.getTabManager().getTap1X(), gameModel); }
+        if (gameModel.getTabManager().isTap2enabled()) { graphicsManager.renderShopTap(g, gameModel.getTabManager().getTap2X(), gameModel); }
+        if (gameModel.getTabManager().isTap3enabled()) { graphicsManager.renderSkillPointTap(g,gameModel, gameModel.getTabManager().getTap3X()); }
+        if (gameModel.getTabManager().isTap4enabled()) { graphicsManager.renderQuestsTap(g, gameModel.getTabManager().getTap4X(), gameModel); }
+        if (gameModel.getTabManager().isTap5enabled()) { graphicsManager.renderSettingTap(g, gameModel.getTabManager().getTap5X()); }
 
-        if (gameModel.getTap() == 1) {
-            graphicsManager.renderInfoTap(g,gameModel.getTapManager().getTap1X(), gameModel);
-        } else if (gameModel.getTap() == 2) {
-            graphicsManager.renderShopTap(g,gameModel.getTapManager().getTap2X(), gameModel,gameModel);
-        } else if (gameModel.getTap() == 3) {
-            graphicsManager.renderSkillPointTap(g,gameModel , gameModel.getTapManager().getTap3X());
-        } else if (gameModel.getTap() == 4) {
-            graphicsManager.renderQuestsTap(g,gameModel.getTapManager().getTap4X(), gameModel);
-        } else if (gameModel.getTap() == 5) {
-            graphicsManager.renderSettingTap(g, gameModel.getTapManager().getTap5X());
+        if (gameModel.getTabManager().getTap() == 1) {
+            graphicsManager.renderInfoTap(g,gameModel.getTabManager().getTap1X(), gameModel);
+        } else if (gameModel.getTabManager().getTap() == 2) {
+            graphicsManager.renderShopTap(g,gameModel.getTabManager().getTap2X(), gameModel);
+        } else if (gameModel.getTabManager().getTap() == 3) {
+            graphicsManager.renderSkillPointTap(g,gameModel , gameModel.getTabManager().getTap3X());
+        } else if (gameModel.getTabManager().getTap() == 4) {
+            graphicsManager.renderQuestsTap(g,gameModel.getTabManager().getTap4X(), gameModel);
+        } else if (gameModel.getTabManager().getTap() == 5) {
+            graphicsManager.renderSettingTap(g, gameModel.getTabManager().getTap5X());
         }
 
         graphicsManager.renderTapFrame(g);
         graphicsManager.renderBackGround(g);
-        graphicsManager.renderTapBar(g, gameModel.getTap(), gameModel.getTapBarPosition());
+        graphicsManager.renderTapBar(g, gameModel.getTabManager().getTap(), gameModel.getTabManager().getTapBarPosition());
         gameModel.getIceManager().renderIces(g);
         graphicsManager.renderBaseFrame(g);
         gameModel.getEffectManager().renderEffects(g);

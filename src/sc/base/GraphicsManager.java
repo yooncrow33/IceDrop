@@ -128,11 +128,11 @@ public class GraphicsManager {
 
         g.setFont(new Font("맑은 고딕", Font.BOLD, 50));
         g.setColor(yellow);
-        g.drawString(l.getInfoProfile() + iGameModel.getProfile(), 980 + x, 220);
-        g.drawString(l.getInfoTotalPlayTime() + iGameModel.getLast() + " min", 980 + x, 290);
-        g.drawString(l.getInfoSessionPlayTime() + iGameModel.getSessionPlayTime() + " min", 980 + x, 360);
+        g.drawString(l.getInfoProfile() + iGameModel.getCurrentProfileId(), 980 + x, 220);
+        g.drawString(l.getInfoTotalPlayTime() + iGameModel.getTickManager().getLastPlayTime() + " min", 980 + x, 290);
+        g.drawString(l.getInfoSessionPlayTime() + iGameModel.getTickManager().getSessionPlayTime() + " min", 980 + x, 360);
     }
-    public void renderShopTap(Graphics g,int x, IGameModelShop iGameModelShop, IGameModelTick iGameModelTick) {
+    public void renderShopTap(Graphics g,int x, IGameModel iGameModel) {
         g.setColor(white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString(l.getShopTitle(), 980 + x, 165);
@@ -153,28 +153,28 @@ public class GraphicsManager {
         g.fillRect( 985 + x,435,905,230);
         g.fillRect( 985 + x,685,905,230);
 
-        if (!iGameModelShop.isIceBasicRush()) {
+        if (!iGameModel.getShopManager().isIceBasicRush()) {
             g.setColor(blue);
             g.drawString(l.getShopCooldown(), 992 + x, 395 - 30);
         } else {
             g.setColor(Color.red);
             g.drawString(l.getShopRush(), 992 + x, 395 - 30);
         }
-        if (!iGameModelShop.isIceRareRush()) {
+        if (!iGameModel.getShopManager().isIceRareRush()) {
             g.setColor(blue);
             g.drawString(l.getShopCooldown(), 1300 + x, 395 - 30);
         } else {
             g.setColor(Color.red);
             g.drawString(l.getShopRush(), 1300 + x, 395 - 30);
         }
-        if (!iGameModelShop.isIceLegendaryRush()) {
+        if (!iGameModel.getShopManager().isIceLegendaryRush()) {
             g.setColor(blue);
             g.drawString(l.getShopCooldown(), 1610 + x, 395 - 30);
         } else {
             g.setColor(Color.red);
             g.drawString(l.getShopRush(), 1610 + x, 395 - 30);
         }
-        if (!iGameModelShop.isIceVacuuming()) {
+        if (!iGameModel.getShopManager().isIceVacuuming()) {
             g.setColor(blue);
             g.drawString(l.getShopCooldown(), 994 + x, 645 + 230 - 20);
         } else {
@@ -193,11 +193,11 @@ public class GraphicsManager {
         g.fillRect(990 + x, 685 + 230 - 40, 895, 30);
 
         g.setColor(blue);
-        iceBasicRushCoolTimeBarWidth = (int) ((1.0f -((iGameModelShop.getIceBasicRushCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceBasicRushCoolDownTick())) * 268);
-        iceRareRushCoolTimeBarWidth = (int) ((1.0f -((iGameModelShop.getIceRareRushCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceRareRushCoolDownTick())) * 268);
-        iceLegendaryRushCoolTimeBarWidth = (int) ((1.0f -((iGameModelShop.getIceLegendaryRushCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceLegendaryRushCoolDownTick())) * 268);
-        iceVacuumCoolTimeBarWidth = (int) ((1.0f -((iGameModelShop.getIceVacuumCoolTime() - iGameModelTick.getPlayTick()) / (float) iGameModelShop.getIceVacuumCoolDownTick())) * 885);
-        iceAutoCollectLevelBarWidth = (int) (((iGameModelShop.getIceAutoCollectLevel() / (float) iGameModelShop.getIceAutoCollectMaxLevel())) * 885);
+        iceBasicRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceBasicRushCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceBasicRushCoolDownTick())) * 268);
+        iceRareRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceRareRushCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceRareRushCoolDownTick())) * 268);
+        iceLegendaryRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceLegendaryRushCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceLegendaryRushCoolDownTick())) * 268);
+        iceVacuumCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceVacuumCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceVacuumCoolDownTick())) * 885);
+        iceAutoCollectLevelBarWidth = (int) (((iGameModel.getShopManager().getIceAutoCollectLevel() / (float) iGameModel.getShopManager().getIceAutoCollectMaxLevel())) * 885);
         if (iceBasicRushCoolTimeBarWidth >= 268) iceBasicRushCoolTimeBarWidth = 268;
         if (iceRareRushCoolTimeBarWidth >= 268) iceRareRushCoolTimeBarWidth = 268;
         if (iceLegendaryRushCoolTimeBarWidth >= 268) iceLegendaryRushCoolTimeBarWidth = 268;
@@ -228,22 +228,22 @@ public class GraphicsManager {
 
         g.setColor(white);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString(iGameModelShop.getIceBasicRushCost() +l.getShopCoinLabel(), 992 + x, 240);
-        g.drawString(iGameModelShop.getIceRareRushCost() +l.getShopCoinLabel(), 1300 + x, 240);
-        g.drawString(iGameModelShop.getIceLegendaryRushCost() +l.getShopCoinLabel(), 1608 + x, 240);
+        g.drawString(iGameModel.getShopManager().getIceBasicRushCost() +l.getShopCoinLabel(), 992 + x, 240);
+        g.drawString(iGameModel.getShopManager().getIceRareRushCost() +l.getShopCoinLabel(), 1300 + x, 240);
+        g.drawString(iGameModel.getShopManager().getIceLegendaryRushCost() +l.getShopCoinLabel(), 1608 + x, 240);
 
-        g.drawString(iGameModelShop.getIceAutoCollectCost() +l.getShopCoinLabel(), 1000 + x,515);
-        g.drawString(iGameModelShop.getIceVacuumCost() + l.getShopCoinLabel(), 1000 + x, 765);
+        g.drawString(iGameModel.getShopManager().getIceAutoCollectCost() +l.getShopCoinLabel(), 1000 + x,515);
+        g.drawString(iGameModel.getShopManager().getIceVacuumCost() + l.getShopCoinLabel(), 1000 + x, 765);
 
         g.setColor(green);
-        g.drawString(l.getShopOwned() + iGameModelShop.getIceBasicRushItemCount(), 992 + x, 270);
-        g.drawString(l.getShopOwned() + iGameModelShop.getIceRareRushItemCount(), 1300 + x, 270);
-        g.drawString(l.getShopOwned() + iGameModelShop.getIceLegendaryRushItemCount(), 1608 + x, 270);
-        g.drawString(l.getShopLevel() + iGameModelShop.getIceAutoCollectLevel(), 1000 + x, 545);
-        g.drawString(l.getShopOwned() + iGameModelShop.getIceVacuumCount(), 1000 + x, 795);
+        g.drawString(l.getShopOwned() + iGameModel.getShopManager().getIceBasicRushItemCount(), 992 + x, 270);
+        g.drawString(l.getShopOwned() + iGameModel.getShopManager().getIceRareRushItemCount(), 1300 + x, 270);
+        g.drawString(l.getShopOwned() + iGameModel.getShopManager().getIceLegendaryRushItemCount(), 1608 + x, 270);
+        g.drawString(l.getShopLevel() + iGameModel.getShopManager().getIceAutoCollectLevel(), 1000 + x, 545);
+        g.drawString(l.getShopOwned() + iGameModel.getShopManager().getIceVacuumCount(), 1000 + x, 795);
     }
 
-    public void renderSkillPointTap(Graphics g, IGameSkillPoint iGameSkillPoint, int x) {
+    public void renderSkillPointTap(Graphics g, IGameModel iGamModel, int x) {
 
         g.setColor(white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
@@ -260,11 +260,11 @@ public class GraphicsManager {
         g.setColor(gray);
         g.fillRect(1340 + x, 130, 550, 45); // test
         g.setColor(green);
-        xpBarWidth = (int) ((iGameSkillPoint.getXP() / (float) iGameSkillPoint.getXPForNextLevel()) * 540);
+        xpBarWidth = (int) ((iGamModel.getSkillManager().getXp() / (float) iGamModel.getSkillManager().getXPForNextLevel()) * 540);
         g.fillRect( 1345 + x, 135, xpBarWidth, 35); // test : 540
         g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString(l.getSkillPointXpRemain() + (iGameSkillPoint.getXPForNextLevel() - iGameSkillPoint.getXP()), 1350 + x, 162); // test
+        g.drawString(l.getSkillPointXpRemain() + (iGamModel.getSkillManager().getXPForNextLevel() - iGamModel.getSkillManager().getXp()), 1350 + x, 162); // test
 
         g.setColor(black);
         g.fillRect(985 + x, 185, 298 - 10, 240 - 10);
@@ -289,11 +289,11 @@ public class GraphicsManager {
         g.fillRect(990 + x, 685 + 230 - 40, 895, 30);
 
         g.setColor(green);
-        iceBasicSpawnChanceLevelBarWidth = (int) ((iGameSkillPoint.getIceBasicSpawnChanceLevel() / (float) iGameSkillPoint.getIceSpawnChanceMaxLevel()) * 268);
-        iceRareSpawnChanceLevelBarWidth = (int) ((iGameSkillPoint.getIceRareSpawnChanceLevel() / (float) iGameSkillPoint.getIceSpawnChanceMaxLevel()) * 268);
-        iceLegendarySpawnChanceLevelBarWidth = (int) ((iGameSkillPoint.getIceLegendarySpawnChanceLevel() / (float) iGameSkillPoint.getIceSpawnChanceMaxLevel()) * 268);
-        clickOffsetLevelBarWidth = (int) (iGameSkillPoint.getClickOffsetLevel() / (float) iGameSkillPoint.getClickOffsetMaxLevel() * 885);
-        itemCoolTimeLevelBarWidth = (int) ((iGameSkillPoint.getItemCoolTimeLevel() / (float) iGameSkillPoint.getItemCoolTimeMaxLevel()) * 885);
+        iceBasicSpawnChanceLevelBarWidth = (int) ((iGamModel.getSkillManager().getIceBasicSpawnChanceLevel() / (float) iGamModel.getSkillManager().getIceSpawnChanceMaxLevel()) * 268);
+        iceRareSpawnChanceLevelBarWidth = (int) ((iGamModel.getSkillManager().getIceRareSpawnChanceLevel() / (float) iGamModel.getSkillManager().getIceSpawnChanceMaxLevel()) * 268);
+        iceLegendarySpawnChanceLevelBarWidth = (int) ((iGamModel.getSkillManager().getIceLegendarySpawnChanceLevel() / (float) iGamModel.getSkillManager().getIceSpawnChanceMaxLevel()) * 268);
+        clickOffsetLevelBarWidth = (int) (iGamModel.getSkillManager().getClickOffsetLevel() / (float) iGamModel.getSkillManager().getClickOffsetMaxLevel() * 885);
+        itemCoolTimeLevelBarWidth = (int) ((iGamModel.getSkillManager().getItemCoolTimeLevel() / (float) iGamModel.getSkillManager().getItemCoolTimeMaxLevel()) * 885);
         if (iceBasicSpawnChanceLevelBarWidth >= 268) iceBasicSpawnChanceLevelBarWidth = 268;
         if (iceRareSpawnChanceLevelBarWidth >= 268) iceRareSpawnChanceLevelBarWidth = 268;
         if (iceLegendarySpawnChanceLevelBarWidth >= 268) iceLegendarySpawnChanceLevelBarWidth = 268;
@@ -336,18 +336,18 @@ public class GraphicsManager {
 
         g.setColor(green);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString(l.getShopLevel() + iGameSkillPoint.getIceBasicSpawnChanceLevel(), 992 + x, 270);
-        g.drawString(l.getShopLevel() + iGameSkillPoint.getIceRareSpawnChanceLevel(), 1300 + x, 270);
-        g.drawString(l.getShopLevel() + iGameSkillPoint.getIceLegendarySpawnChanceLevel(), 1608 + x, 270);
-        g.drawString(l.getShopLevel() + iGameSkillPoint.getClickOffsetLevel(), 1000 + x, 545);
-        g.drawString(l.getShopLevel() + iGameSkillPoint.getItemCoolTimeLevel(), 1000 + x, 795);
+        g.drawString(l.getShopLevel() + iGamModel.getSkillManager().getIceBasicSpawnChanceLevel(), 992 + x, 270);
+        g.drawString(l.getShopLevel() + iGamModel.getSkillManager().getIceRareSpawnChanceLevel(), 1300 + x, 270);
+        g.drawString(l.getShopLevel() + iGamModel.getSkillManager().getIceLegendarySpawnChanceLevel(), 1608 + x, 270);
+        g.drawString(l.getShopLevel() + iGamModel.getSkillManager().getClickOffsetLevel(), 1000 + x, 545);
+        g.drawString(l.getShopLevel() + iGamModel.getSkillManager().getItemCoolTimeLevel(), 1000 + x, 795);
 
         g.setColor(blue);
-        g.drawString(l.getSkillAvailable() + iGameSkillPoint.getSkillPoint(), 1000 + x, 575);
-        g.drawString(l.getSkillUsed() + iGameSkillPoint.getSkillPointUsed(), 1000 + x, 825);
+        g.drawString(l.getSkillAvailable() + iGamModel.getSkillManager().getSkillPoint(), 1000 + x, 575);
+        g.drawString(l.getSkillUsed() + iGamModel.getSkillManager().getSkillPointUsed(), 1000 + x, 825);
     }
 
-    public void renderQuestsTap(Graphics g,int x, IGameModelQuest iGameModelQuest) {
+    public void renderQuestsTap(Graphics g,int x, IGameModel iGameModel) {
         g.setColor(white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString(l.getQuestTitle(), 980 + x, 165);
@@ -363,7 +363,7 @@ public class GraphicsManager {
         g.fillRect( 1345 + x, 135, 540, 35);
         g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString(l.getQuestRefresh() + iGameModelQuest.getQuestRefreshCost() + l.getShopCoinLabel(), 1350 + x, 162); // test
+        g.drawString(l.getQuestRefresh() + iGameModel.getQuestManager().getRefreshCost() + l.getShopCoinLabel(), 1350 + x, 162); // test
 
         g.setColor(black);
         g.fillRect( 985 + x,185,905,230);
@@ -377,58 +377,58 @@ public class GraphicsManager {
         g.drawString(l.getQuestLongtime(), 1000 + x, 730);
 
         g.setColor(yellow);
-        g.drawString(iGameModelQuest.getFirstQuestExplanation(), 1000 + x, 280);
-        g.drawString(iGameModelQuest.getSecondQuestExplanation(), 1000 + x, 530);
+        g.drawString(iGameModel.getQuestManager().getFirstQuest().getExplanation(), 1000 + x, 280);
+        g.drawString(iGameModel.getQuestManager().getSecondQuest().getExplanation(), 1000 + x, 530);
         g.drawString(l.getQuestDescLongtime(), 1000 + x, 780);
 
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.setColor(green);
-        g.drawString(l.getQuestRewardLabel() + iGameModelQuest.getFirstQuestCoinReward() + l.getShopCoinLabel() + ", +" + iGameModelQuest.getFirstQuestXpReward() + l.getInfoGetXpMsg(), 1000 + x, 320);
-        g.drawString(l.getQuestRewardLabel() + iGameModelQuest.getSecondQuestCoinReward() + l.getShopCoinLabel() + ", +" + iGameModelQuest.getSecondQuestXpReward() + l.getInfoGetXpMsg(), 1000 + x, 570);
-        g.drawString(l.getQuestRewardLabel() + iGameModelQuest.getThirdQuestExplanation(), 1000 + x, 820);
+        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getFirstQuest().getCoinReward() + l.getShopCoinLabel() + ", +" + iGameModel.getQuestManager().getFirstQuest().getXpReward() + l.getInfoGetXpMsg(), 1000 + x, 320);
+        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getSecondQuest().getCoinReward() + l.getShopCoinLabel() + ", +" + iGameModel.getQuestManager().getSecondQuest().getXpReward() + l.getInfoGetXpMsg(), 1000 + x, 570);
+        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getThirdQuest().getExplanation(), 1000 + x, 820);
 
-        if (iGameModelQuest.firstQuestCompleted()) {
-            if (iGameModelQuest.firstQuestRewarded()) {
+        if (iGameModel.getQuestManager().getFirstQuest().getIsCompleted()) {
+            if (iGameModel.getQuestManager().getFirstQuest().getIsRewarded()) {
                 g.setColor(Color.green);
                 g.drawString(l.getQuestRewarded(), 1000 + x, 350);
             } else {
                 g.setColor(yellow);
                 g.drawString(l.getQuestNotRewarded(), 1000 + x, 350);
             }
-        } else if (!iGameModelQuest.firstQuestCompleted()) {
+        } else if (!iGameModel.getQuestManager().getFirstQuest().getIsCompleted()) {
             g.setColor(Color.red);
             g.drawString(l.getQuestNotCompleted(), 1000 + x, 350);
         }
 
-        if (iGameModelQuest.secondQuestCompleted()) {
-            if (iGameModelQuest.secondQuestRewarded()) {
+        if (iGameModel.getQuestManager().getSecondQuest().getIsCompleted()) {
+            if (iGameModel.getQuestManager().getSecondQuest().getIsRewarded()) {
                 g.setColor(Color.green);
                 g.drawString(l.getQuestRewarded(), 1000 + x, 600);
             } else {
                 g.setColor(yellow);
                 g.drawString(l.getQuestNotRewarded(), 1000 + x, 600);
             }
-        } else if (!iGameModelQuest.secondQuestCompleted()) {
+        } else if (!iGameModel.getQuestManager().getSecondQuest().getIsCompleted()) {
             g.setColor(Color.red);
             g.drawString(l.getQuestNotCompleted(), 1000 + x, 600);
         }
 
-        if (iGameModelQuest.thirdQuestCompleted()) {
-            if (iGameModelQuest.thirdQuestRewarded()) {
+        if (iGameModel.getQuestManager().getThirdQuest().getIsCompleted()) {
+            if (iGameModel.getQuestManager().getThirdQuest().getIsRewarded()) {
                 g.setColor(Color.green);
                 g.drawString(l.getQuestRewarded(), 1000 + x, 850);
             } else {
                 g.setColor(yellow);
                 g.drawString(l.getQuestNotRewarded(), 1000 + x, 850);
             }
-        } else if (!iGameModelQuest.thirdQuestCompleted()) {
+        } else if (!iGameModel.getQuestManager().getThirdQuest().getIsCompleted()) {
             g.setColor(Color.red);
             g.drawString(l.getQuestNotCompleted(), 1000 + x, 850);
         }
 
-        firstQuestProgress = (int) ((iGameModelQuest.getFirstQuestProgress() / (float) iGameModelQuest.getFirstQuestGoal()) * 905);
-        secondQuestProgress = (int) ((iGameModelQuest.getSecondQuestProgress() / (float) iGameModelQuest.getSecondQuestGoal()) * 905);
-        thirdQuestProgress = (int) ((iGameModelQuest.getThirdQuestProgress() / (float) iGameModelQuest.getThirdQuestGoal()) * 905);
+        firstQuestProgress = (int) ((iGameModel.getQuestManager().getCurrentQuestProgress(iGameModel.getQuestManager().getFirstQuest().getQuestIndex()) / (float) iGameModel.getQuestManager().getFirstQuest().getGoal()) * 905);
+        secondQuestProgress = (int) ((iGameModel.getQuestManager().getCurrentQuestProgress(iGameModel.getQuestManager().getSecondQuest().getQuestIndex()) / (float) iGameModel.getQuestManager().getSecondQuest().getGoal()) * 905);
+        thirdQuestProgress = (int) (((iGameModel.getIceManager().getLastIceBasicCollectCount() + iGameModel.getIceManager().getIceBasicTotalCollectCount())/ (float) iGameModel.getQuestManager().getThirdQuest().getQuestGoal()) * 905);
         if (firstQuestProgress >= 905) firstQuestProgress = 905;
         if (secondQuestProgress >= 905) secondQuestProgress = 905;
         if (thirdQuestProgress >= 905) thirdQuestProgress = 905;

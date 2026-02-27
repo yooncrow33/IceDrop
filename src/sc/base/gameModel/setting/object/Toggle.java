@@ -1,6 +1,6 @@
 package sc.base.gameModel.setting.object;
 
-import sc.view.iGameModel.IGameModelTick;
+import sc.view.iGameModel.IGameModel;
 
 import java.awt.*;
 
@@ -16,14 +16,14 @@ public class Toggle {
     final int y;
     final int width = 490;
     final int height = 60;
-    IGameModelTick iTick;
-    public Toggle(IGameModelTick iTick,int x, int y) {
-        this.iTick = iTick;
+    IGameModel iGameModel;
+    public Toggle(IGameModel iGameModel, int x, int y) {
+        this.iGameModel = iGameModel;
         this.x = x;
         this.y = y;
     }
     public void update() {
-        if (iTick.getPlayTick() >= changeEndTick) {
+        if (iGameModel.getTickManager().getPlayTick() >= changeEndTick) {
             changing = false;
         }
     }
@@ -31,12 +31,12 @@ public class Toggle {
         if (changing) {return;}
 
         bool = !bool;
-        changeEndTick = iTick.getPlayTick() + CHANGE_TICK;
+        changeEndTick = iGameModel.getTickManager().getPlayTick() + CHANGE_TICK;
         changing = true;
     }
     public void drawToggle(Graphics graphics) {
         if (changing) {
-            int remain = changeEndTick - iTick.getPlayTick();
+            int remain = changeEndTick - iGameModel.getTickManager().getPlayTick();
             float progress = 1f - (remain / (float) CHANGE_TICK);
             progress = Math.max(0f, Math.min(1f, progress));
 

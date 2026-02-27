@@ -22,10 +22,10 @@ public class InputHandler extends KeyAdapter{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            gameModel.getTapManager().tabMoveRight();
+            gameModel.getTabManager().tabMoveRight();
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            gameModel.getTapManager().tabMoveLeft();
+            gameModel.getTabManager().tabMoveLeft();
         }
         if (key == KeyEvent.VK_SHIFT) {
             gameModel.setShiftPressed(true);

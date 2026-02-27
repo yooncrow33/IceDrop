@@ -30,8 +30,8 @@ public class MouseListener extends MouseAdapter {
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        gameModel.clicked(true);
-        if (gameModel.getTap() == 4) {
+        gameModel.setClicked();
+        if (gameModel.getTabManager().getTap() == 4) {
             if (quest1Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.getQuestManager().clamRewardedQuest(1);
             }
@@ -46,7 +46,7 @@ public class MouseListener extends MouseAdapter {
             }
 
         }
-        if (gameModel.getTap() == 3) {
+        if (gameModel.getTabManager().getTap() == 3) {
             if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.getSkillManager().upgradeIceSpawnChance(1);
             }
@@ -64,7 +64,7 @@ public class MouseListener extends MouseAdapter {
             }
         }
 
-        if (gameModel.getTap() == 2) {
+        if (gameModel.getTabManager().getTap() == 2) {
             if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.getShopManager().purchaseIceRushItem(1);
             }

@@ -1,6 +1,7 @@
 package sc.base.gameModel.skill;
 
 import sc.lang.Lang;
+import sc.view.iGameModel.IGameModel;
 
 public class SkillManager {
     int iceBasicSpawnChanceLevel = 1;
@@ -32,12 +33,12 @@ public class SkillManager {
             21000,23100,25300,27600,30000,32500,35100,37800,40600,43500,
             46500,50000,0
     };
-    ISkillPointManager is;
+    IGameModel iGameModel;
     Lang l;
 
-    public SkillManager(ISkillPointManager is, Lang l) {
+    public SkillManager(IGameModel iGameModel, Lang l) {
         this.l = l;
-        this.is = is;
+        this.iGameModel = iGameModel;
     }
 
     public void updateLevelStatus() {
@@ -55,7 +56,7 @@ public class SkillManager {
 
     public void upgradeItemCoolTime() {
         if (itemCoolTimeLevel == MAX_ITEM_COOL_TIME_LEVEL) {
-            is.addStrEffect( l.getShopMaxLevelMsg());
+            iGameModel.getEffectManager().addStrEffect( l.getShopMaxLevelMsg());
             return;
         }
 
@@ -63,15 +64,15 @@ public class SkillManager {
             skillPoint--;
             skillPointUsed ++;
             itemCoolTimeLevel++;
-            is.addInfo(l.getSkillPointUpgrade(),l.getSkillCurrentLevel() + itemCoolTimeLevel, l.getSkillPresentXp() + xp);
+            iGameModel.getEffectManager().addInfo(l.getSkillPointUpgrade(),l.getSkillCurrentLevel() + itemCoolTimeLevel, l.getSkillPresentXp() + xp);
         } else {
-            is.addStrEffect(l.getSkillNotEnoughPointMsg());
+            iGameModel.getEffectManager().addStrEffect(l.getSkillNotEnoughPointMsg());
         }
     }
 
     public void upgradeClickOffset() {
         if (clickOffsetLevel == MAX_OFFSET_LEVEL) {
-            is.addStrEffect( l.getShopMaxLevelMsg());
+            iGameModel.getEffectManager().addStrEffect( l.getShopMaxLevelMsg());
             return;
         }
 
@@ -79,15 +80,15 @@ public class SkillManager {
             skillPoint--;
             skillPointUsed ++;
             clickOffsetLevel++;
-            is.addInfo(l.getSkillPointUpgrade(),l.getSkillCurrentLevel() + clickOffsetLevel, l.getSkillPresentXp() + xp);
+            iGameModel.getEffectManager().addInfo(l.getSkillPointUpgrade(),l.getSkillCurrentLevel() + clickOffsetLevel, l.getSkillPresentXp() + xp);
         } else {
-            is.addStrEffect(l.getSkillNotEnoughPointMsg());
+            iGameModel.getEffectManager().addStrEffect(l.getSkillNotEnoughPointMsg());
         }
     }
 
     public void upgradeIceSpawnChance(int tier) {
         if (skillPoint <= 0) {
-            is.addStrEffect(
+            iGameModel.getEffectManager().addStrEffect(
                     l.getSkillNotEnoughPointMsg()
             );
             return;
@@ -106,7 +107,7 @@ public class SkillManager {
         }
 
         if (currentLevel >= MAX_SPAWN_CHANCE_LEVEL) {
-            is.addStrEffect(
+            iGameModel.getEffectManager().addStrEffect(
                     l.getShopMaxLevelMsg()
             );
             return;
@@ -118,19 +119,19 @@ public class SkillManager {
 
         if (tier == 1) {
             iceBasicSpawnChanceLevel++;
-            is.addInfo(
+            iGameModel.getEffectManager().addInfo(
                     l.getSkillBasicUpMsg(),
                     l.getSkillCurrentLevel() + iceBasicSpawnChanceLevel,
                     "");
         } else if (tier == 2) {
             iceRareSpawnChanceLevel++;
-            is.addInfo(
+            iGameModel.getEffectManager().addInfo(
                     l.getSkillRareUpMsg(),
                     l.getSkillCurrentLevel() + iceRareSpawnChanceLevel,
                     "");
         } else {
             iceLegendarySpawnChanceLevel++;
-            is.addInfo(
+            iGameModel.getEffectManager().addInfo(
                     l.getSkillLegendaryUpMsg(),
                     l.getSkillCurrentLevel() + iceLegendarySpawnChanceLevel,
                     "");
@@ -198,13 +199,13 @@ public class SkillManager {
     public void loadItemCoolTimeLevel(int value) {
         itemCoolTimeLevel = value;
     }
-    public int getMAX_SPAWN_CHANCE_LEVEL() {
+    public int getIceSpawnChanceMaxLevel() {
         return MAX_SPAWN_CHANCE_LEVEL;
     }
-    public int getMAX_OFFSET_LEVEL() {
+    public int getClickOffsetMaxLevel() {
         return MAX_OFFSET_LEVEL;
     }
-    public int getMAX_ITEM_COOL_TIME_LEVEL() {
+    public int getItemCoolTimeMaxLevel() {
         return  MAX_ITEM_COOL_TIME_LEVEL;
     }
     public int getMAX_LEVEL() {

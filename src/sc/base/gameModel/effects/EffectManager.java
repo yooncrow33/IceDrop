@@ -2,7 +2,7 @@ package sc.base.gameModel.effects;
 
 import sc.model.effects.*;
 import sc.view.IMouse;
-import sc.view.iGameModel.IGameModelTick;
+import sc.view.iGameModel.IGameModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ public class EffectManager {
     ArrayList<FaUltra> faUltras = new ArrayList<>();
 
     IMouse iMouse;
-    IGameModelTick iTick;
+    IGameModel iGameModel;
 
-    public EffectManager(IMouse iMouse, IGameModelTick iTick) {
+    public EffectManager(IMouse iMouse, IGameModel iGameModel) {
         this.iMouse = iMouse;
-        this.iTick  = iTick;
+        this.iGameModel  = iGameModel;
     }
 
     public void update(double dt) {
@@ -90,7 +90,7 @@ public class EffectManager {
         integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),value));
     }
     public void addInfo(String l1,String l2, String l3) {
-        infos.add(new Info(l1,l2,l3,iTick.getPlayTick()));
+        infos.add(new Info(l1,l2,l3,iGameModel.getTickManager().getPlayTick()));
     }
     public void addFa(int x, int y) {
         for (int i = 0; i <= 30; i++) {

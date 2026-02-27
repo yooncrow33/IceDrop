@@ -2,6 +2,7 @@ package sc.base.gameModel.quest.object;
 
 import sc.lang.Lang;
 import sc.model.effects.IInfo;
+import sc.view.iGameModel.IGameModel;
 
 import java.util.Random;
 
@@ -18,17 +19,15 @@ public class Quest {
     private boolean questReward = false;
 
     Random random = new Random();
-    IInfo iInfo;
-    IQuest iQuest;
+    IGameModel iGameModel;
 
     Lang l;
 
-    public Quest(IInfo iInfo, IQuest iQuest, Lang l) {
+    public Quest(IGameModel iGameModel, Lang l) {
         this.QUEST_INDEX = random.nextInt(questGoalList.length - 1) + 1;
         this.QUEST_GOAL = questGoalList[QUEST_INDEX];
 
-        this.iQuest = iQuest;
-        this.iInfo = iInfo;
+        this.iGameModel = iGameModel;
         this.l = l;
 
         questsExplanation = new String[]{"empty",l.getQuestDescBasic(), l.getQuestDescRare(), l.getQuestDescLegendary(),
@@ -47,9 +46,9 @@ public class Quest {
         if (questReward) return;
 
         if (questCompleted) {
-            iQuest.addCoin(questCoinRewardList[QUEST_INDEX]);
-            iQuest.addXp(questXpReawardList[QUEST_INDEX]);
-            iInfo.addInfo(l.getQuestRewarded(), "+ " + questCoinRewardList[QUEST_INDEX], l.getSKillPresentCoin() + iQuest.getCoin());
+            iGameModel.getShopManager().addCoin(questCoinRewardList[QUEST_INDEX]);
+            iGameModel.getSkillManager().addXp(questXpReawardList[QUEST_INDEX]);
+            iGameModel.getEffectManager().addInfo(l.getQuestRewarded(), "+ " + questCoinRewardList[QUEST_INDEX], l.getSKillPresentCoin() + iGameModel.getShopManager().getCoin());
             questReward = true;
         }
     }
@@ -58,9 +57,9 @@ public class Quest {
         return questsExplanation[QUEST_INDEX];
     }
 
-    public int getRewardCoin() { return questCoinRewardList[QUEST_INDEX]; }
-    public int getRewardXp() { return questXpReawardList[QUEST_INDEX];}
-    public int getQuestGoal() {return questGoalList[QUEST_INDEX];}
+    public int getCoinReward() { return questCoinRewardList[QUEST_INDEX]; }
+    public int getXpReward() { return questXpReawardList[QUEST_INDEX];}
+    public int getGoal() {return questGoalList[QUEST_INDEX];}
     public boolean getIsRewarded() { return questReward; }
     public boolean getIsCompleted() {return  questCompleted;}
     public int getQuestIndex() {return QUEST_INDEX; }

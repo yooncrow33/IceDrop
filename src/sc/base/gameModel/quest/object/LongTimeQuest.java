@@ -2,6 +2,7 @@ package sc.base.gameModel.quest.object;
 
 import sc.lang.Lang;
 import sc.model.effects.IInfo;
+import sc.view.iGameModel.IGameModel;
 
 import java.awt.*;
 
@@ -11,14 +12,12 @@ public class LongTimeQuest {
     private final int QUEST_GOAL = 5000;
     public boolean questCompleted = false;
     private boolean questReward = false;
-    IInfo iInfo;
-    IQuest iQuest;
+    IGameModel iGameModel;
     final int ICE_COLLECT_BONUS = 5;
     Lang l;
 
-    public LongTimeQuest(IInfo iInfo, IQuest iQuest, Lang l) {
-        this.iQuest = iQuest;
-        this.iInfo = iInfo;
+    public LongTimeQuest(IGameModel iGameModel, Lang l) {
+        this.iGameModel = iGameModel;
         this.l = l;
         questsExplanation = l.getQuestThirdRewardMsg();
     }
@@ -27,7 +26,7 @@ public class LongTimeQuest {
         if (!questCompleted) {
             if (iceBasicCollectCount >= QUEST_GOAL) {
                 questCompleted = true;
-                iQuest.loadIsCompleted(true);
+                iGameModel.getQuestManager().loadCompleted(true);
             }
         }
     }
@@ -36,11 +35,11 @@ public class LongTimeQuest {
         if (questReward) return;
 
         if (questCompleted) {
-            iQuest.addCoin(50000);
-            iQuest.addXp(4000);
-            iInfo.addInfo(l.getQuestThirdRewardMsg(),l.getQuestThirdRewardMsg(), l.getSKillPresentCoin() + iQuest.getCoin());
+            iGameModel.getShopManager().addCoin(50000);
+            iGameModel.getSkillManager().addXp(4000);
+            iGameModel.getEffectManager().addInfo(l.getQuestThirdRewardMsg(),l.getQuestThirdRewardMsg(), l.getSKillPresentCoin() + iGameModel.getShopManager().getCoin());
             questReward = true;
-            iQuest.loadIsRewarded(true);
+            iGameModel.getQuestManager().loadRewarded(true);
         }
     }
 
