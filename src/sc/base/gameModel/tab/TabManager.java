@@ -1,6 +1,6 @@
 package sc.base.gameModel.tab;
 
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 public class TabManager {
     final int tabWidth = 945;
@@ -32,6 +32,7 @@ public class TabManager {
 
     public void tabMoveRight() {
         if (tabMoving) return;
+        iGameModel.getSoundManager().play("select.wav");
         recentTap = tab;
 
         if (tab >= 5) {
@@ -51,6 +52,7 @@ public class TabManager {
     // 2. 이동 시작 로직 (왼쪽 이동: 1 -> 5 -> 4 -> ...)
     public void tabMoveLeft() {
         if (tabMoving) return;
+        iGameModel.getSoundManager().play("select.wav");
         recentTap = tab;
 
         if (tab <= 1) {
@@ -70,6 +72,7 @@ public class TabManager {
     // 3. 핵심 업데이트 로직
     public void tabUpdate() {
         if (!tabMoving) return;
+
 
         // 매 프레임당 이동할 거리 계산
         int moveStep = tabMoveDistance / tabMoveTime;

@@ -6,7 +6,7 @@ import sc.model.ice.IceBasic;
 import sc.model.ice.IceLegendary;
 import sc.model.ice.IceRare;
 import sc.view.IMouse;
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -234,6 +234,7 @@ public class IceManager {
 
     public void collectIce(int tier) {
         //ㅠㅠㅎ
+        iGameModel.getSoundManager().play("420884__inspectorj__impact-ice-small-b 2.wav");
         if (tier == 1) {
             iceBasicCollectedCount++;
             if (iGameModel.getQuestManager().isThirdQuestComplete()) {

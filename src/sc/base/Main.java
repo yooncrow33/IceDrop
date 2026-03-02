@@ -172,6 +172,8 @@ public class Main extends JPanel implements IFrameSize, IExit {
         gameModel.getIceManager().renderIces(g);
         graphicsManager.renderBaseFrame(g);
         gameModel.getEffectManager().renderEffects(g);
+
+        gameModel.getConsole().render(g);
     }
 
     public static void main(String[] args) {

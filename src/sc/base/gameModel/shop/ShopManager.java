@@ -1,7 +1,7 @@
 package sc.base.gameModel.shop;
 
 import sc.lang.Lang;
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 public class ShopManager {
     private int coin;

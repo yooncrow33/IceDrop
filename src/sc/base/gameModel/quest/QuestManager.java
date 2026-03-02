@@ -1,10 +1,9 @@
 package sc.base.gameModel.quest;
 
-import sc.base.gameModel.quest.object.IQuest;
 import sc.base.gameModel.quest.object.LongTimeQuest;
 import sc.base.gameModel.quest.object.Quest;
 import sc.lang.Lang;
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 public class QuestManager {
 

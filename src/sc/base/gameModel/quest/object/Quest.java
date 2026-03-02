@@ -1,8 +1,7 @@
 package sc.base.gameModel.quest.object;
 
 import sc.lang.Lang;
-import sc.model.effects.IInfo;
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 import java.util.Random;
 

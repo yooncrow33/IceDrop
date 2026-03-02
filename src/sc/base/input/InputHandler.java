@@ -4,6 +4,7 @@ import sc.base.gameModel.GameModel;
 import sc.base.ViewMetrics;
 import sc.view.IExit;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -16,21 +17,37 @@ public class InputHandler extends KeyAdapter{
         this.gameModel = gameModel;
         this.viewMetrics = viewMetrics;
         this.iExit = iExit;
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getID() == KeyEvent.KEY_TYPED && gameModel.getConsole().isOpen()) {
+                char c = e.getKeyChar();
+                if (c != '\n' && c != '\b' && c != 27) {
+                    gameModel.getConsole().inputKey(c, 0);
+                }
+            }
+            return false;
+        });
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
+        if (e.getKeyCode() == KeyEvent.VK_F12) {
+            gameModel.getConsole().toggle();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (gameModel.getConsole().isOpen()) gameModel.getConsole().inputKey('\n', 10);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if (gameModel.getConsole().isOpen()) gameModel.getConsole().inputKey('\b', 8);
+        }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             gameModel.getTabManager().tabMoveRight();
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             gameModel.getTabManager().tabMoveLeft();
         }
-        if (key == KeyEvent.VK_SHIFT) {
-            gameModel.setShiftPressed(true);
-        }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (gameModel.getConsole().isOpen()) {gameModel.getConsole().inputKey('\b', 8); return;}
             iExit.exitApplication();
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
@@ -41,12 +58,5 @@ public class InputHandler extends KeyAdapter{
         if (e.getKeyCode() == KeyEvent.VK_E) { gameModel.getShopManager().activateIceRushItem(3); }
         if (e.getKeyCode() == KeyEvent.VK_R) { gameModel.getShopManager().iceVacuumActive(); }
         if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.getEffectManager().addInfo("I am", "so", "pretty"); }
-    }
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        if (key == KeyEvent.VK_SHIFT) {
-            gameModel.setShiftPressed(false);
-        }
     }
 }

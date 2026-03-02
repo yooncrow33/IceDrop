@@ -1,7 +1,7 @@
 package sc.base;
 
 import sc.lang.Lang;
-import sc.view.iGameModel.*;
+import sc.view.IGameModel;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
 package sc.base.gameModel.file;
 
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

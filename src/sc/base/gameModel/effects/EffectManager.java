@@ -2,7 +2,7 @@ package sc.base.gameModel.effects;
 
 import sc.model.effects.*;
 import sc.view.IMouse;
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package sc.base.gameModel.setting.object;
 
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 import java.awt.*;
 

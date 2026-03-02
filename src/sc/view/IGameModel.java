@@ -1,6 +1,7 @@
-package sc.view.iGameModel;
+package sc.view;
 
 import sc.base.gameModel.effects.EffectManager;
+import sc.base.gameModel.file.FileManager;
 import sc.base.gameModel.ice.IceManager;
 import sc.base.gameModel.quest.QuestManager;
 import sc.base.gameModel.setting.SettingManager;
@@ -9,7 +10,8 @@ import sc.base.gameModel.skill.SkillManager;
 import sc.base.gameModel.sound.SoundManager;
 import sc.base.gameModel.tab.TabManager;
 import sc.base.gameModel.tick.TickManager;
-import sc.model.ice.Ice;
+
+import java.io.File;
 
 public interface IGameModel {
     IceManager getIceManager();
@@ -21,6 +23,7 @@ public interface IGameModel {
     SoundManager getSoundManager();
     TickManager getTickManager();
     ShopManager getShopManager();
+    FileManager getFileManager();
     boolean isClicked();
     int getCurrentProfileId();
 }

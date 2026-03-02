@@ -1,7 +1,7 @@
 package sc.base.gameModel.skill;
 
 import sc.lang.Lang;
-import sc.view.iGameModel.IGameModel;
+import sc.view.IGameModel;
 
 public class SkillManager {
     int iceBasicSpawnChanceLevel = 1;
@@ -41,6 +41,10 @@ public class SkillManager {
         this.iGameModel = iGameModel;
     }
 
+    public void sound() {
+        iGameModel.getSoundManager().play("levelUP.wav");
+    }
+
     public void updateLevelStatus() {
         if (level >= MAX_LEVEL && xp >= xpTable[level]) {
             level = MAX_LEVEL;
@@ -51,6 +55,7 @@ public class SkillManager {
             xp -= xpTable[level];
             level++;
             skillPoint += 1;
+            iGameModel.getSoundManager().play("achivement.wav");
         }
     }
 
@@ -59,6 +64,8 @@ public class SkillManager {
             iGameModel.getEffectManager().addStrEffect( l.getShopMaxLevelMsg());
             return;
         }
+
+        sound();
 
         if (skillPoint > 0) {
             skillPoint--;
@@ -75,6 +82,8 @@ public class SkillManager {
             iGameModel.getEffectManager().addStrEffect( l.getShopMaxLevelMsg());
             return;
         }
+
+        sound();
 
         if (skillPoint > 0) {
             skillPoint--;
@@ -112,6 +121,8 @@ public class SkillManager {
             );
             return;
         }
+
+        sound();
 
         // 성공 루트
         skillPoint--;

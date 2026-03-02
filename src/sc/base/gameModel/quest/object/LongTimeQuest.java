@@ -1,10 +1,7 @@
 package sc.base.gameModel.quest.object;
 
 import sc.lang.Lang;
-import sc.model.effects.IInfo;
-import sc.view.iGameModel.IGameModel;
-
-import java.awt.*;
+import sc.view.IGameModel;
 
 public class LongTimeQuest {
     private String questsExplanation;
