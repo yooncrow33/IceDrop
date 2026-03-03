@@ -1,5 +1,6 @@
 package sc.base;
 
+import sc.base.gameModel.sound.SoundManager;
 import sc.base.splashScreen.StartSplashScreen;
 import sc.lang.Lang;
 import sc.lang.LangKey;
@@ -34,6 +35,7 @@ public class Launcher {
     boolean setPass;
     String SAVE_FILE = new File(System.getProperty("user.home") + "/SC", "ice_drop_password.txt").getAbsolutePath();
     final File file = new File(SAVE_FILE);
+    SoundManager s = new SoundManager();
 
     String recent_news = "\n" +
             /*
@@ -413,6 +415,7 @@ public class Launcher {
                     // 3. a02.sc.base.Main 클래스 생성자에 캡슐화된 int 값을 전달합니다.
                     frame.dispose();
                     StartSplashScreen.showSplashThenLaunchGame(profileId,language);
+                    s.play("logo1.wav");
 
 
 

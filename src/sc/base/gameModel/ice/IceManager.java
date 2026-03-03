@@ -207,6 +207,7 @@ public class IceManager {
         iGameModel.getShopManager().addCoin(collectedIceLegendaryes * ICE_LEGENDARY_VALUE);
         iGameModel.getSkillManager().addXp(xpGained);
 
+        iGameModel.getSoundManager().play("426679__roovy__ice-splash_small_5 2.wav");
 
         iGameModel.getEffectManager().addInfo(l.getInfoVacuumActivatedMsg(),l.getInfoGetCoinMsg() + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!",l.getInfoGetXpMsg() + xpGained);
 

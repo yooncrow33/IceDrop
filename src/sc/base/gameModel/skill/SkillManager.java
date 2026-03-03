@@ -60,46 +60,47 @@ public class SkillManager {
     }
 
     public void upgradeItemCoolTime() {
-        if (itemCoolTimeLevel == MAX_ITEM_COOL_TIME_LEVEL) {
+        if (itemCoolTimeLevel >= MAX_ITEM_COOL_TIME_LEVEL) {
             iGameModel.getEffectManager().addStrEffect( l.getShopMaxLevelMsg());
+            iGameModel.getSoundManager().play("retro.wav");
             return;
         }
-
-        sound();
 
         if (skillPoint > 0) {
             skillPoint--;
             skillPointUsed ++;
             itemCoolTimeLevel++;
             iGameModel.getEffectManager().addInfo(l.getSkillPointUpgrade(),l.getSkillCurrentLevel() + itemCoolTimeLevel, l.getSkillPresentXp() + xp);
+            sound();
         } else {
+            iGameModel.getSoundManager().play("retro.wav");
             iGameModel.getEffectManager().addStrEffect(l.getSkillNotEnoughPointMsg());
         }
     }
 
     public void upgradeClickOffset() {
-        if (clickOffsetLevel == MAX_OFFSET_LEVEL) {
+        if (clickOffsetLevel >= MAX_OFFSET_LEVEL) {
             iGameModel.getEffectManager().addStrEffect( l.getShopMaxLevelMsg());
+            iGameModel.getSoundManager().play("retro.wav");
             return;
         }
-
-        sound();
 
         if (skillPoint > 0) {
             skillPoint--;
             skillPointUsed ++;
             clickOffsetLevel++;
             iGameModel.getEffectManager().addInfo(l.getSkillPointUpgrade(),l.getSkillCurrentLevel() + clickOffsetLevel, l.getSkillPresentXp() + xp);
+            sound();
         } else {
+            iGameModel.getSoundManager().play("retro.wav");
             iGameModel.getEffectManager().addStrEffect(l.getSkillNotEnoughPointMsg());
         }
     }
 
     public void upgradeIceSpawnChance(int tier) {
         if (skillPoint <= 0) {
-            iGameModel.getEffectManager().addStrEffect(
-                    l.getSkillNotEnoughPointMsg()
-            );
+            iGameModel.getEffectManager().addStrEffect(l.getSkillNotEnoughPointMsg());
+            iGameModel.getSoundManager().play("retro.wav");
             return;
         }
 
@@ -119,6 +120,7 @@ public class SkillManager {
             iGameModel.getEffectManager().addStrEffect(
                     l.getShopMaxLevelMsg()
             );
+            iGameModel.getSoundManager().play("retro.wav");
             return;
         }
 

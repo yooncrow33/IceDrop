@@ -45,7 +45,7 @@ public class ShopManager {
     final int ICE_BASIC_RUSH_COOL_DOWN_TICK = 3600; // 2 minutes
     final int ICE_RARE_RUSH_COOL_DOWN_TICK = 7200; // 3 minutes
     final int ICE_LEGENDARY_RUSH_COOL_DOWN_TICK = 18000; // 5 minutes
-    final int ICE_VACUUM_COOL_DOWN_TICK = 72000; // just a 10 minute 내것이 되는 시간
+    final int ICE_VACUUM_COOL_DOWN_TICK = 72000/100; // just a 10 minute 내것이 되는 시간
 
     IGameModel iGameModel;
     Lang l;

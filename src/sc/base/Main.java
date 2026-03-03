@@ -1,6 +1,7 @@
 package sc.base;
 
 import sc.base.gameModel.GameModel;
+import sc.base.gameModel.sound.SoundManager;
 import sc.base.input.InputHandler;
 import sc.base.input.MouseListener;
 import sc.base.splashScreen.EndSplashScreen;
@@ -16,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit {
-    JFrame frame = new JFrame("alpha 1.13.6");
+    JFrame frame = new JFrame("alpha 1.14.0 test");
 
     private long lastTime;
 
@@ -130,7 +131,14 @@ public class Main extends JPanel implements IFrameSize, IExit {
 
     @Override public int getComponentWidth() { return this.getWidth(); }
     @Override public int getComponentHeight() { return this.getHeight(); }
-    @Override public void exitApplication() { gameModel.getFileManager().save(currentProfileId); frame.dispose(); EndSplashScreen.showSplashThenLaunchGame();}
+    @Override public void exitApplication() {
+        gameModel.getFileManager().save(currentProfileId);
+        frame.dispose();
+        EndSplashScreen.showSplashThenLaunchGame();
+        gameModel.getSoundManager().dispose();
+        SoundManager s = new SoundManager();
+        s.play("logo2.wav");
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
