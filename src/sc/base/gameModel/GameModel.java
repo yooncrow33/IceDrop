@@ -1,6 +1,7 @@
 package sc.base.gameModel;
 
 import sc.base.Console;
+import sc.base.gameModel.bar.BarManager;
 import sc.base.gameModel.effects.EffectManager;
 import sc.base.gameModel.file.FileManager;
 import sc.base.gameModel.ice.IceManager;
@@ -30,16 +31,16 @@ public class GameModel implements IGameModel {
     private final SoundManager soundManager;
     private final SettingManager settingManager;
     private final TickManager tickManager;
+    private final BarManager barManager;
     private final Console console;
-    private final IMouse iMouse;
-    private final Lang l;
+    private final IPause iPause;
 
-    public GameModel(int profileId, IMouse iMouse, Lang l) {
+    public GameModel(int profileId, IMouse iMouse, Lang l, IPause iPause, IExit iExit) {
         this.currentProfileId = profileId;
-        this.iMouse = iMouse;
-        this.l = l;
+        this.iPause = iPause;
 
         fileManager = new FileManager(this);
+        barManager = new BarManager(this,iMouse,iExit,iPause);
         tickManager = new TickManager();
         effectManager = new EffectManager(iMouse,this);
         iceManager = new IceManager(this,iMouse,l);
@@ -49,22 +50,24 @@ public class GameModel implements IGameModel {
         questManager = new QuestManager(this, l);
         soundManager = new SoundManager();
         settingManager = new SettingManager(this);
-        console = new Console(this);
+        console = new Console(this,iPause);
 
         fileManager.load(currentProfileId);
     }
 
-    public void update(double dt) {
-        iceManager.update(dt);
+    public void update(double dt, Boolean pause) {
         tickManager.update();
+        clicked = false;
+        if (pause) return;
+        iceManager.update(dt);
         questManager.update();
         shopManager.update(dt);
         tabManager.tabUpdate();
         skillManager.updateLevelStatus();
         effectManager.update(dt);
-        clicked = false;
     }
 
+    public BarManager getBarManager() { return barManager; }
     public IceManager getIceManager() {return iceManager;}
     public EffectManager getEffectManager() {return effectManager;}
     public SkillManager getSkillManager() {return skillManager;}

@@ -90,7 +90,7 @@ public class EffectManager {
         integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),value));
     }
     public void addInfo(String l1,String l2, String l3) {
-        infos.add(new Info(l1,l2,l3,iGameModel.getTickManager().getPlayTick()));
+        infos.add(new Info(l1,l2,l3,iGameModel.getTickManager().getTick()));
     }
     public void addFa(int x, int y) {
         for (int i = 0; i <= 30; i++) {

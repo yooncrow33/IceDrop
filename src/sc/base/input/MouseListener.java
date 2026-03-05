@@ -81,6 +81,6 @@ public class MouseListener extends MouseAdapter {
                 gameModel.getShopManager().purchaseIceVacuum();
             }
         }
-
+        gameModel.getBarManager().click();
     }
 }

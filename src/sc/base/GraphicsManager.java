@@ -193,10 +193,10 @@ public class GraphicsManager {
         g.fillRect(990 + x, 685 + 230 - 40, 895, 30);
 
         g.setColor(blue);
-        iceBasicRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceBasicRushCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceBasicRushCoolDownTick())) * 268);
-        iceRareRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceRareRushCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceRareRushCoolDownTick())) * 268);
-        iceLegendaryRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceLegendaryRushCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceLegendaryRushCoolDownTick())) * 268);
-        iceVacuumCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceVacuumCoolTime() - iGameModel.getTickManager().getPlayTick()) / (float) iGameModel.getShopManager().getIceVacuumCoolDownTick())) * 885);
+        iceBasicRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceBasicRushCoolTime() - iGameModel.getTickManager().getTick()) / (float) iGameModel.getShopManager().getIceBasicRushCoolDownTick())) * 268);
+        iceRareRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceRareRushCoolTime() - iGameModel.getTickManager().getTick()) / (float) iGameModel.getShopManager().getIceRareRushCoolDownTick())) * 268);
+        iceLegendaryRushCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceLegendaryRushCoolTime() - iGameModel.getTickManager().getTick()) / (float) iGameModel.getShopManager().getIceLegendaryRushCoolDownTick())) * 268);
+        iceVacuumCoolTimeBarWidth = (int) ((1.0f -((iGameModel.getShopManager().getIceVacuumCoolTime() - iGameModel.getTickManager().getTick()) / (float) iGameModel.getShopManager().getIceVacuumCoolDownTick())) * 885);
         iceAutoCollectLevelBarWidth = (int) (((iGameModel.getShopManager().getIceAutoCollectLevel() / (float) iGameModel.getShopManager().getIceAutoCollectMaxLevel())) * 885);
         if (iceBasicRushCoolTimeBarWidth >= 268) iceBasicRushCoolTimeBarWidth = 268;
         if (iceRareRushCoolTimeBarWidth >= 268) iceRareRushCoolTimeBarWidth = 268;

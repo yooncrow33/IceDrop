@@ -1,5 +1,7 @@
 package sc.view;
 
+import sc.base.Console;
+import sc.base.gameModel.bar.BarManager;
 import sc.base.gameModel.effects.EffectManager;
 import sc.base.gameModel.file.FileManager;
 import sc.base.gameModel.ice.IceManager;
@@ -24,6 +26,8 @@ public interface IGameModel {
     TickManager getTickManager();
     ShopManager getShopManager();
     FileManager getFileManager();
+    Console getConsole();
+    BarManager getBarManager();
     boolean isClicked();
     int getCurrentProfileId();
 }

@@ -43,7 +43,7 @@ public class TabManager {
             tab++;
         }
 
-        tabMoveEndTick = iGameModel.getTickManager().getPlayTick() + tabMoveTime;
+        tabMoveEndTick = iGameModel.getTickManager().getTick() + tabMoveTime;
         tabMoving = true;
         tabMoveRight = true;
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
@@ -63,7 +63,7 @@ public class TabManager {
             tab--;
         }
 
-        tabMoveEndTick = iGameModel.getTickManager().getPlayTick() + tabMoveTime;
+        tabMoveEndTick = iGameModel.getTickManager().getTick() + tabMoveTime;
         tabMoving = true;
         tabMoveRight = false;
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
@@ -86,7 +86,7 @@ public class TabManager {
         }
 
         // 이동 완료 시점
-        if (iGameModel.getTickManager().getPlayTick() >= tabMoveEndTick) {
+        if (iGameModel.getTickManager().getTick() >= tabMoveEndTick) {
             tabMoving = false;
             setTap(this.tab); // 정확한 위치로 좌표 강제 고정 (Snap)
             //updateEnabledTaps(); // 현재 탭만 빼고 다 끄기

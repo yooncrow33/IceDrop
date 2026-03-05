@@ -1,17 +1,17 @@
 package sc.base;
 
 import sc.view.IGameModel
+import sc.view.IPause
 import java.awt.*
 import java.util.*
 import kotlin.math.max
 
-class Console( var iGameModel: IGameModel) {
+class Console( var iGameModel: IGameModel, var iPause: IPause) {
     var isOpen: Boolean = false
         private set
     private val buffer = StringBuilder()
     private val logs = ArrayList<String>()
 
-    // 스크롤 처리를 위한 변수 (로그가 많아지면 위로 밀리게)
     private val MAX_LINES = 10
 
     //val help = Help();
@@ -20,7 +20,6 @@ class Console( var iGameModel: IGameModel) {
         isOpen = !isOpen
     }
 
-    // ★ 핵심: 키보드 입력을 받아먹는 함수
     fun inputKey(key: Char, code: Int) {
         if (!isOpen) return
 
@@ -31,8 +30,6 @@ class Console( var iGameModel: IGameModel) {
                 buffer.deleteCharAt(buffer.length - 1)
             }
         } else {
-            // 특수문자나 이상한 거 제외하고 출력 가능한 것만 받음
-            // (자바 char는 유니코드라 한글도 됨)
             if (key.code >= 32 && key.code <= 126) {
                 buffer.append(key)
             }
@@ -48,7 +45,6 @@ class Console( var iGameModel: IGameModel) {
         val args = input.split(" ")
         val cmd = args[0].lowercase()
 
-        // if-else if 대신 when을 쓰면 줄 맞춤이 편해져요
         when (cmd) {
             "clear" -> logs.clear()
             "close" -> isOpen = false;
@@ -86,6 +82,13 @@ class Console( var iGameModel: IGameModel) {
                 } else {
                     logs.add("[Console] Error: Value $value is out of range for $target")
                 }
+            }
+        } else if (type == "bool") {
+            val valueBool = valueStr.toBooleanStrictOrNull()
+            if (valueBool == null) { logs.add("[Console] Error: Not boolean value"); return}
+
+            when (target) {
+                "pause" -> { iPause.setPause(valueBool); logs.add("[System] $target set to $valueBool") }
             }
         }
     }
@@ -127,19 +130,11 @@ class Console( var iGameModel: IGameModel) {
             g2.drawString(line, 30, startY + (lineCount * lineHeight))
             lineCount++
         }
-
-        // -----------------------------------------------------
-        // [Input Line] 입력창 (맨 아래 고정)
-        // -----------------------------------------------------
         g2.setColor(Color(240, 240, 240))
         g2.setFont(Font("Consolas", Font.BOLD, 18))
         val cursor = if (System.currentTimeMillis() % 1000 > 300) "_" else ""
         g2.drawString("root@sc:~$ " + buffer.toString() + cursor, 30, 320)
 
-        // -----------------------------------------------------
-        // [Right Zone] 시스템 모니터 (간지용 대시보드)
-        // -----------------------------------------------------
-        // 구분선 (세로)
         g2.setColor(Color.DARK_GRAY)
         g2.drawLine(1500, 20, 1500, 320)
 
@@ -150,18 +145,8 @@ class Console( var iGameModel: IGameModel) {
         g2.setFont(Font("Consolas", Font.BOLD, 14))
         g2.setColor(Color.GRAY)
 
-
-        // 밑에 Scope 로고 작게
         g2.setColor(Color(40, 40, 40))
         g2.setFont(Font("Impact", Font.ITALIC, 40))
         g2.drawString("IceDrop", 1760, 300)
-    }
-
-    // 모니터링용 헬퍼 함수
-    private fun drawStat(g: Graphics2D, label: String?, value: String?, valColor: Color?, x: Int, y: Int) {
-        g.setColor(Color.GRAY)
-        g.drawString(label, x, y)
-        g.setColor(valColor)
-        g.drawString(value, x + 120, y)
     }
 }

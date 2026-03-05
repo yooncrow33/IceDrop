@@ -8,6 +8,7 @@ import sc.base.splashScreen.EndSplashScreen;
 import sc.lang.Lang;
 import sc.view.IExit;
 import sc.view.IFrameSize;
+import sc.view.IPause;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,12 +17,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JPanel implements IFrameSize, IExit {
+public class Main extends JPanel implements IFrameSize, IExit, IPause {
     JFrame frame = new JFrame("alpha 1.14.0 test");
 
     private long lastTime;
 
     private boolean isResizing = false;
+
+    private boolean pause = false;
 
     public final int currentProfileId;
     public final int language;
@@ -45,7 +48,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
         viewMetrics = new ViewMetrics(this);
         systemMonitor = new SystemMonitor();
         currentProfileId = profileId;
-        gameModel = new GameModel(profileId, viewMetrics,l);
+        gameModel = new GameModel(profileId, viewMetrics,l,this,this);
         mouseListener = new MouseListener(gameModel, viewMetrics);
 
         frame.add(this);
@@ -126,7 +129,7 @@ public class Main extends JPanel implements IFrameSize, IExit {
 
     private void update(double deltaTime) {
         systemMonitor.updateMetrics();
-        gameModel.update(deltaTime);
+        gameModel.update(deltaTime, pause);
     }
 
     @Override public int getComponentWidth() { return this.getWidth(); }
@@ -182,10 +185,14 @@ public class Main extends JPanel implements IFrameSize, IExit {
         gameModel.getEffectManager().renderEffects(g);
 
         gameModel.getConsole().render(g);
+
+        gameModel.getBarManager().render(g);
     }
 
     public static void main(String[] args) {
         new Main(1,2);
     }
 
+    @Override public boolean isPause() {return pause;}
+    @Override public void setPause(boolean b) {pause = b;}
 }

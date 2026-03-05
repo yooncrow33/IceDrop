@@ -57,7 +57,7 @@ public class ShopManager {
 
     public void update(double dt) {
         if (iceVacuumActive) {
-            if (iceVacuumEndTick <= iGameModel.getTickManager().getPlayTick()) {
+            if (iceVacuumEndTick <= iGameModel.getTickManager().getTick()) {
                 iceVacuumClear();
             }
         }
@@ -66,33 +66,33 @@ public class ShopManager {
 
     public void activateIceRushItem(int tier) {
         if (tier == 1) {
-            if (iceBasicRushItemCount > 0 && !iceBasicRush && iceBasicRushCoolTime <= iGameModel.getTickManager().getPlayTick()) {
+            if (iceBasicRushItemCount > 0 && !iceBasicRush && iceBasicRushCoolTime <= iGameModel.getTickManager().getTick()) {
                 iceBasicRushItemCount--;
                 iceBasicRush = true;
-                iceBasicRushEndTick = iGameModel.getTickManager().getPlayTick() + ICE_BASIC_RUSH_ENABLE_TICK;
+                iceBasicRushEndTick = iGameModel.getTickManager().getTick() + ICE_BASIC_RUSH_ENABLE_TICK;
                 iGameModel.getEffectManager().addInfo(l.getShopRushBasicOn(),l.getShopRushTime30(), "");
             }
         } else if (tier == 2) {
-            if (iceRareRushItemCount > 0 && !iceRareRush && iceRareRushCoolTime <= iGameModel.getTickManager().getPlayTick()) {
+            if (iceRareRushItemCount > 0 && !iceRareRush && iceRareRushCoolTime <= iGameModel.getTickManager().getTick()) {
                 iceRareRushItemCount--;
                 iceRareRush = true;
-                iceRareRushEndTick = iGameModel.getTickManager().getPlayTick() + ICE_RARE_RUSH_ENABLE_TICK;
+                iceRareRushEndTick = iGameModel.getTickManager().getTick() + ICE_RARE_RUSH_ENABLE_TICK;
                 iGameModel.getEffectManager().addInfo(l.getShopRushRareOn(),l.getShopRushTime60(), "");
             }
         } else if (tier == 3) {
-            if (iceLegendaryRushItemCount > 0 && !iceLegendaryRush && iceLegendaryRushCoolTime <= iGameModel.getTickManager().getPlayTick()) {
+            if (iceLegendaryRushItemCount > 0 && !iceLegendaryRush && iceLegendaryRushCoolTime <= iGameModel.getTickManager().getTick()) {
                 iceLegendaryRushItemCount--;
                 iceLegendaryRush = true;
-                iceLegendaryRushEndTick = iGameModel.getTickManager().getPlayTick() + ICE_LEGENDARY_RUSH_ENABLE_TICK;
+                iceLegendaryRushEndTick = iGameModel.getTickManager().getTick() + ICE_LEGENDARY_RUSH_ENABLE_TICK;
                 iGameModel.getEffectManager().addInfo(l.getShopRushLegendaryOn(),l.getShopRushTime60(), "");
             }
         }
     }
 
     public void iceVacuumActive() {
-        if (iceVacuumCount > 0 && !iceVacuumActive && iceVacuumCoolTime <= iGameModel.getTickManager().getPlayTick()) {
+        if (iceVacuumCount > 0 && !iceVacuumActive && iceVacuumCoolTime <= iGameModel.getTickManager().getTick()) {
             iceVacuumActive = true;
-            iceVacuumEndTick = iGameModel.getTickManager().getPlayTick() + ICE_VACUUM_ENABLE_TICK;
+            iceVacuumEndTick = iGameModel.getTickManager().getTick() + ICE_VACUUM_ENABLE_TICK;
             iGameModel.getIceManager().iceVacuumActive();
         }
     }
@@ -100,25 +100,25 @@ public class ShopManager {
     public void iceVacuumClear() {
         iGameModel.getIceManager().iceVacuumClear();
         iceVacuumCount--;
-        iceVacuumCoolTime = iGameModel.getTickManager().getPlayTick() +  (int)(ICE_VACUUM_COOL_DOWN_TICK / iGameModel.getSkillManager().getIceVacuumCoolTimeMultiplier());
+        iceVacuumCoolTime = iGameModel.getTickManager().getTick() +  (int)(ICE_VACUUM_COOL_DOWN_TICK / iGameModel.getSkillManager().getIceVacuumCoolTimeMultiplier());
 
         iceVacuumActive = false;
     }
 
     public void updateIceRushStatus() {
-        if (iceBasicRush && iGameModel.getTickManager().getPlayTick() >= iceBasicRushEndTick) {
+        if (iceBasicRush && iGameModel.getTickManager().getTick() >= iceBasicRushEndTick) {
             iceBasicRush = false;
-            iceBasicRushCoolTime = iGameModel.getTickManager().getPlayTick() + (int) (ICE_BASIC_RUSH_COOL_DOWN_TICK / iGameModel.getSkillManager().getCoolTimeMultiplier());
+            iceBasicRushCoolTime = iGameModel.getTickManager().getTick() + (int) (ICE_BASIC_RUSH_COOL_DOWN_TICK / iGameModel.getSkillManager().getCoolTimeMultiplier());
             iGameModel.getEffectManager().addInfo(l.getShopRushBasicOff(),"", "");
         }
-        if (iceRareRush && iGameModel.getTickManager().getPlayTick() >= iceRareRushEndTick) {
+        if (iceRareRush && iGameModel.getTickManager().getTick() >= iceRareRushEndTick) {
             iceRareRush = false;
-            iceRareRushCoolTime = iGameModel.getTickManager().getPlayTick() + (int) (ICE_RARE_RUSH_COOL_DOWN_TICK / iGameModel.getSkillManager().getCoolTimeMultiplier());
+            iceRareRushCoolTime = iGameModel.getTickManager().getTick() + (int) (ICE_RARE_RUSH_COOL_DOWN_TICK / iGameModel.getSkillManager().getCoolTimeMultiplier());
             iGameModel.getEffectManager().addInfo(l.getShopRushRareOff(),"", "");
         }
-        if (iceLegendaryRush && iGameModel.getTickManager().getPlayTick() >= iceLegendaryRushEndTick) {
+        if (iceLegendaryRush && iGameModel.getTickManager().getTick() >= iceLegendaryRushEndTick) {
             iceLegendaryRush = false;
-            iceLegendaryRushCoolTime = iGameModel.getTickManager().getPlayTick() + (int) (ICE_LEGENDARY_RUSH_COOL_DOWN_TICK / iGameModel.getSkillManager().getCoolTimeMultiplier());
+            iceLegendaryRushCoolTime = iGameModel.getTickManager().getTick() + (int) (ICE_LEGENDARY_RUSH_COOL_DOWN_TICK / iGameModel.getSkillManager().getCoolTimeMultiplier());
             iGameModel.getEffectManager().addInfo(l.getShopRushLegendaryOff(),"", "");
         }
     }

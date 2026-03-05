@@ -150,10 +150,10 @@ public class IceManager {
                     }
                 }
             }
-            if (fa1tick == iGameModel.getTickManager().getPlayTick()) {
+            if (fa1tick == iGameModel.getTickManager().getTick()) {
                 iGameModel.getEffectManager().addFaUltra();
             }
-            if (fa2tick == iGameModel.getTickManager().getPlayTick()) {
+            if (fa2tick == iGameModel.getTickManager().getTick()) {
                 iGameModel.getEffectManager().addFaUltra();
             }
         }
@@ -197,7 +197,7 @@ public class IceManager {
             }
         }
         iGameModel.getEffectManager().addFaUltra();
-        faTick = iGameModel.getTickManager().getPlayTick();
+        faTick = iGameModel.getTickManager().getTick();
         fa1tick = faTick + 8;
         fa2tick = fa1tick + 10;
         ices.clear();

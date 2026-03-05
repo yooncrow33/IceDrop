@@ -23,7 +23,7 @@ public class Toggle {
         this.y = y;
     }
     public void update() {
-        if (iGameModel.getTickManager().getPlayTick() >= changeEndTick) {
+        if (iGameModel.getTickManager().getTick() >= changeEndTick) {
             changing = false;
         }
     }
@@ -31,12 +31,12 @@ public class Toggle {
         if (changing) {return;}
 
         bool = !bool;
-        changeEndTick = iGameModel.getTickManager().getPlayTick() + CHANGE_TICK;
+        changeEndTick = iGameModel.getTickManager().getTick() + CHANGE_TICK;
         changing = true;
     }
     public void drawToggle(Graphics graphics) {
         if (changing) {
-            int remain = changeEndTick - iGameModel.getTickManager().getPlayTick();
+            int remain = changeEndTick - iGameModel.getTickManager().getTick();
             float progress = 1f - (remain / (float) CHANGE_TICK);
             progress = Math.max(0f, Math.min(1f, progress));
 
