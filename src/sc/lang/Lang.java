@@ -2,7 +2,6 @@ package sc.lang;
 
 import javax.swing.*;
 import java.io.*;
-import java.nio.file.*;
 import java.util.Properties;
 
 public final class Lang {
@@ -140,7 +139,7 @@ public final class Lang {
             TAP_SHOP = p.getProperty(LangKey.TAP_SHOP);
             TAP_SKILLPOINT = p.getProperty(LangKey.TAP_SKILLPOINT);
             TAP_QUESTS = p.getProperty(LangKey.TAP_QUESTS);
-            TAP_SETTING = p.getProperty(LangKey.TAP_SETTING);
+            TAP_SETTING = p.getProperty(LangKey.TAP_ACHIEVEMENT);
 
             INFO_TITLE = p.getProperty(LangKey.INFO_TITLE);
             INFO_CURRENT_PROFILE = p.getProperty(LangKey.INFO_CURRENT_PROFILE);
@@ -190,7 +189,7 @@ public final class Lang {
             QUEST_COMPLETED = p.getProperty(LangKey.QUEST_COMPLETED);
             QUEST_NOT_COMPLETED = p.getProperty(LangKey.QUEST_NOT_COMPLETED);
 
-            SETTING_TITLE = p.getProperty(LangKey.SETTING_TITLE);
+            SETTING_TITLE = p.getProperty(LangKey.ACHIEVEMENT);
 
             // ===== INFO / EFFECT =====
             INFO_AUTO_COLLECTED = p.getProperty(LangKey.INFO_AUTO_COLLECTED);

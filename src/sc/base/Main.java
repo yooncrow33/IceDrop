@@ -1,7 +1,6 @@
 package sc.base;
 
 import sc.base.gameModel.GameModel;
-import sc.base.gameModel.sound.SoundManager;
 import sc.base.input.InputHandler;
 import sc.base.input.MouseListener;
 import sc.base.splashScreen.EndSplashScreen;
@@ -18,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main extends JPanel implements IFrameSize, IExit, IPause {
-    JFrame frame = new JFrame("alpha 1.14.0 test");
+    JFrame frame = new JFrame("beta 1.0.0 test");
 
     private long lastTime;
 
@@ -32,13 +31,11 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
     private final ViewMetrics viewMetrics;
     private final SystemMonitor systemMonitor;
     private final GameModel gameModel;
-    private final MouseListener mouseListener;
     private final GraphicsManager graphicsManager;
-    private final Lang l;
 
     public Main(int profileId, int language) {
         this.language = language;
-        l = new Lang(language);
+        Lang l = new Lang(language);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
 
@@ -48,8 +45,8 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         viewMetrics = new ViewMetrics(this);
         systemMonitor = new SystemMonitor();
         currentProfileId = profileId;
-        gameModel = new GameModel(profileId, viewMetrics,l,this,this);
-        mouseListener = new MouseListener(gameModel, viewMetrics);
+        gameModel = new GameModel(profileId, viewMetrics, l,this,this);
+        MouseListener mouseListener = new MouseListener(gameModel, viewMetrics);
 
         frame.add(this);
         frame.setVisible(true);
@@ -120,7 +117,7 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
 
                 update(deltaTime);
             } catch (Throwable t) {
-                t.printStackTrace(); // 로그 남기고
+                t.printStackTrace();
             }
             SwingUtilities.invokeLater(this::repaint);
 
@@ -138,9 +135,8 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         gameModel.getFileManager().save(currentProfileId);
         frame.dispose();
         EndSplashScreen.showSplashThenLaunchGame();
-        gameModel.getSoundManager().dispose();
-        SoundManager s = new SoundManager();
-        s.play("logo2.wav");
+        gameModel.getSoundManager().stopBgm();
+        gameModel.getSoundManager().play("logo2.wav");
     }
 
     @Override
@@ -163,7 +159,7 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         if (gameModel.getTabManager().isTap2enabled()) { graphicsManager.renderShopTap(g, gameModel.getTabManager().getTap2X(), gameModel); }
         if (gameModel.getTabManager().isTap3enabled()) { graphicsManager.renderSkillPointTap(g,gameModel, gameModel.getTabManager().getTap3X()); }
         if (gameModel.getTabManager().isTap4enabled()) { graphicsManager.renderQuestsTap(g, gameModel.getTabManager().getTap4X(), gameModel); }
-        if (gameModel.getTabManager().isTap5enabled()) { graphicsManager.renderSettingTap(g, gameModel.getTabManager().getTap5X()); }
+        if (gameModel.getTabManager().isTap5enabled()) { graphicsManager.renderEmptyMan(g, gameModel.getTabManager().getTap5X()); }
 
         if (gameModel.getTabManager().getTap() == 1) {
             graphicsManager.renderInfoTap(g,gameModel.getTabManager().getTap1X(), gameModel);
@@ -174,10 +170,10 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         } else if (gameModel.getTabManager().getTap() == 4) {
             graphicsManager.renderQuestsTap(g,gameModel.getTabManager().getTap4X(), gameModel);
         } else if (gameModel.getTabManager().getTap() == 5) {
-            graphicsManager.renderSettingTap(g, gameModel.getTabManager().getTap5X());
+            graphicsManager.renderEmptyMan(g, gameModel.getTabManager().getTap5X());
         }
 
-        graphicsManager.renderTapFrame(g);
+        graphicsManager.renderTabFrame(g, gameModel);
         graphicsManager.renderBackGround(g);
         graphicsManager.renderTapBar(g, gameModel.getTabManager().getTap(), gameModel.getTabManager().getTapBarPosition());
         gameModel.getIceManager().renderIces(g);
@@ -187,6 +183,7 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         gameModel.getConsole().render(g);
 
         gameModel.getBarManager().render(g);
+        gameModel.getExitPopup().render(g);
     }
 
     public static void main(String[] args) {

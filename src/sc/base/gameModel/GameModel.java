@@ -13,6 +13,7 @@ import sc.base.gameModel.sound.SoundManager;
 import sc.base.gameModel.tab.TabManager;
 import sc.base.gameModel.tick.TickManager;
 import sc.lang.Lang;
+import sc.model.ExitPopup;
 import sc.view.*;
 
 import java.awt.*;
@@ -33,11 +34,10 @@ public class GameModel implements IGameModel {
     private final TickManager tickManager;
     private final BarManager barManager;
     private final Console console;
-    private final IPause iPause;
+    private final ExitPopup exitPopup;
 
     public GameModel(int profileId, IMouse iMouse, Lang l, IPause iPause, IExit iExit) {
         this.currentProfileId = profileId;
-        this.iPause = iPause;
 
         fileManager = new FileManager(this);
         barManager = new BarManager(this,iMouse,iExit,iPause);
@@ -51,13 +51,15 @@ public class GameModel implements IGameModel {
         soundManager = new SoundManager();
         settingManager = new SettingManager(this);
         console = new Console(this,iPause);
+        exitPopup = new ExitPopup(iMouse, iExit);
 
         fileManager.load(currentProfileId);
     }
 
     public void update(double dt, Boolean pause) {
         tickManager.update();
-        clicked = false;
+        barManager.update();
+        exitPopup.update();
         if (pause) return;
         iceManager.update(dt);
         questManager.update();
@@ -65,6 +67,7 @@ public class GameModel implements IGameModel {
         tabManager.tabUpdate();
         skillManager.updateLevelStatus();
         effectManager.update(dt);
+        clicked = false;
     }
 
     public BarManager getBarManager() { return barManager; }
@@ -78,6 +81,8 @@ public class GameModel implements IGameModel {
     public SoundManager getSoundManager() { return soundManager; }
     public TickManager getTickManager() {return tickManager;}
     public FileManager getFileManager() {return fileManager;}
+    public ExitPopup getExitPopup() {return exitPopup; }
+
     public Console getConsole() {return console;}
     public boolean isClicked() {return clicked;}
     public int getCurrentProfileId() {return currentProfileId;}

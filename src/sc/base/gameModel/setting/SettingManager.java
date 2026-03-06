@@ -6,6 +6,6 @@ public class SettingManager {
     final IGameModel iGameModel;
     public SettingManager(IGameModel iGameModel) {
         this.iGameModel = iGameModel;
-        iGameModel.getSoundManager().loopBgm("bgm3.wav");
+        iGameModel.getSoundManager().loopBgm("bgm2.wav");
     }
 }

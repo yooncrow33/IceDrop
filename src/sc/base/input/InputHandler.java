@@ -48,7 +48,7 @@ public class InputHandler extends KeyAdapter{
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             if (gameModel.getConsole().isOpen()) {gameModel.getConsole().inputKey('\b', 8); return;}
-            iExit.exitApplication();
+            gameModel.getExitPopup().setVisible();
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
             viewMetrics.calculateViewMetrics();

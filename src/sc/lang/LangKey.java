@@ -13,7 +13,7 @@ public final class LangKey {
     public static final String TAP_SHOP = "tap.shop";
     public static final String TAP_SKILLPOINT = "tap.skillpoint";
     public static final String TAP_QUESTS = "tap.quests";
-    public static final String TAP_SETTING = "tap.setting";
+    public static final String TAP_ACHIEVEMENT = "tap.achievement";
 
     // ===== INFO TAP =====
     public static final String INFO_TITLE = "info.title";
@@ -68,7 +68,7 @@ public final class LangKey {
     public static final String QUEST_NOT_COMPLETED = "quest.not.completed";
 
     // ===== SETTING =====
-    public static final String SETTING_TITLE = "setting.title";
+    public static final String ACHIEVEMENT = "achievement.title";
 
     // ===== EFFECT / INFO =====
     public static final String INFO_AUTO_COLLECTED = "info.auto.collected";

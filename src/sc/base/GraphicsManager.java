@@ -83,7 +83,7 @@ public class GraphicsManager {
 // 버전 정보 (구석으로 이동 & 투명도 활용)
         g.setFont(new Font("Monospaced", Font.PLAIN, 12)); // 고정폭 글꼴이 버전 정보에 잘 어울림
         g.setColor(new Color(120, 160, 200, 150)); // 마지막 150은 투명도 (0~255)
-        g.drawString("v1.13.5-alpha", 20, VIRTUAL_HEIGHT - 30);
+        g.drawString("v1.0.0-beta", 20, VIRTUAL_HEIGHT - 30);
         // 화면 왼쪽 아래 끝
 
     }
@@ -106,19 +106,31 @@ public class GraphicsManager {
         //center y = 525
     }
 
-    public void renderTapFrame(Graphics g) {
+    public void renderTabFrame(Graphics g, IGameModel iGameModel) {
         g.setColor(gray);
         g.fillRect(965,120,945,5);
         g.fillRect(965,120,5,820);
         g.fillRect(1905,120,5,820);
         g.fillRect(965,935,945,5);
 
-        g.setColor(white);
-        g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString("   INFO              SHOP       SKILLPOINT     QUESTS        SETTING", 1000, 1010);
+        renderTabBarNames(g,iGameModel);
 
         g.setColor(black);
         g.fillRect(10,10,955,1060);
+    }
+    private void renderTabBarNames(Graphics g, IGameModel iGameModel) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        String[] str = {"INFO", "SHOP", "SKILLPOINT", "QUEST", "ACHIEVEMENT"};
+
+        int startX = 965;
+        int totalWidth = 945;
+        int sectionWidth = totalWidth / str.length;
+
+        for (int i = 0; i < str.length; i++) {
+            int centerX = startX + (i * sectionWidth) + (sectionWidth / 2);
+            RenderUtils.drawStringCenter(g, str[i], centerX, 1010);
+        }
     }
 
     public void renderInfoTap(Graphics g,int x, IGameModel iGameModel) {
@@ -363,7 +375,7 @@ public class GraphicsManager {
         g.fillRect( 1345 + x, 135, 540, 35);
         g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString(l.getQuestRefresh() + iGameModel.getQuestManager().getRefreshCost() + l.getShopCoinLabel(), 1350 + x, 162); // test
+        RenderUtils.drawStringCenter(g,l.getQuestRefresh() + iGameModel.getQuestManager().getRefreshCost() + l.getShopCoinLabel(), 1340 + 275 + x, 162); // test
 
         g.setColor(black);
         g.fillRect( 985 + x,185,905,230);
@@ -439,26 +451,12 @@ public class GraphicsManager {
         g.fillRect(985 + x, 895,thirdQuestProgress, 20);
 
     }
-    public void renderSettingTap(Graphics g, int x) {
+    public void renderEmptyMan(Graphics g, int x) {
         g.setColor(white);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString(l.getSettingTitle(), 980 + x, 165);
 
-        g.setFont(new Font("Arial", Font.BOLD ,70));
-        g.drawString("Bgm : ", 1000 + x, 300);
-        g.drawString("Bgm sfx : ", 1000 + x,400);
-        g.drawString("Sound : ", 1000 + x, 500);
-        g.drawString("Sound sfx : ", 1000 + x, 600);
-        g.drawString("Effect : ", 1000 + x, 700);
-        g.drawString("Help : ", 1000 + x,800);
 
-        g.setColor(gray);
-        g.fillRect(1400 + x,250,500,70);
-        g.fillRect(1400 + x,350,500,70);
-        g.fillRect(1400 + x,450,500,70);
-        g.fillRect(1400 + x,550,500,70);
-        g.fillRect(1400 + x,650,500,70);
-        g.fillRect(1400 + x,750,500,70);
     }
     public void renderTapBar(Graphics g, int tap, int tapBarX) {
         if (tap != 6) {

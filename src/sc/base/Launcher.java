@@ -2,7 +2,6 @@ package sc.base;
 
 import sc.base.gameModel.sound.SoundManager;
 import sc.base.splashScreen.StartSplashScreen;
-import sc.lang.Lang;
 import sc.lang.LangKey;
 
 import javax.swing.*;
@@ -11,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Properties;
 
 public class Launcher {
@@ -25,7 +22,7 @@ public class Launcher {
     JButton recentNews = new JButton("Recent News");
     JButton patchNotes = new JButton("Patch Notes");
     JButton manual = new JButton("Manual");
-    JButton init = new JButton("파일 무결성");
+    JButton init = new JButton("파일 초기화");
     JTextArea Area = new JTextArea();
     JScrollPane p = new JScrollPane(Area);
     JTextArea TitleArea = new JTextArea("Manual");
@@ -242,11 +239,11 @@ public class Launcher {
             "   - BGM 추가.\n" +
             "   - Pause시스템 및 빨리감기 기능 추가.(예정)\n" +
             "   [사용자 편의/ UX]\n" +
+            "   - 화면위에 접근할수 있는 바 추가..\n" +
             "   - 콘솔추가.\n" +
             "       - 게임 진행중에 유동적인 save/load가능.\n" +
             "   - 시작/종료 로고 사운드 추가.\n" +
             "   - 텍스트 깨짐 현상 수정.(예정)\n" +
-            "   - 탭시스템 개선.(예정)\n" +
             "   - Mac및 Linux사용자를 위한 권한 문제 해결용 sh스크립트 추가.\n" +
             "   - 버전업시의 파일깨짐 방지를 위한 무결성 검사 추가.\n" +
             "   - 세팅 추가..\n" +
@@ -540,7 +537,7 @@ public class Launcher {
         p.setProperty(LangKey.TAP_SHOP, "SHOP");
         p.setProperty(LangKey.TAP_SKILLPOINT, "SKILLPOINT");
         p.setProperty(LangKey.TAP_QUESTS, "QUESTS");
-        p.setProperty(LangKey.TAP_SETTING, "SETTING");
+        p.setProperty(LangKey.TAP_ACHIEVEMENT, "SETTING");
 
         p.setProperty(LangKey.INFO_TITLE, "INFO Tap");
         p.setProperty(LangKey.INFO_CURRENT_PROFILE, "current profile : ");
@@ -590,7 +587,7 @@ public class Launcher {
         p.setProperty(LangKey.QUEST_COMPLETED, "Completed");
         p.setProperty(LangKey.QUEST_NOT_COMPLETED, "Not Completed");
 
-        p.setProperty(LangKey.SETTING_TITLE, "SETTING Tap");
+        p.setProperty(LangKey.ACHIEVEMENT, "SETTING Tap");
 
         p.setProperty(LangKey.INFO_AUTO_COLLECTED, "Auto Collected!");
         p.setProperty(LangKey.INFO_COLLECTED_ICE, "Collected Ice : ");
@@ -660,7 +657,7 @@ public class Launcher {
         p.setProperty(LangKey.TAP_SHOP, "상점");
         p.setProperty(LangKey.TAP_SKILLPOINT, "스킬포인트");
         p.setProperty(LangKey.TAP_QUESTS, "퀘스트");
-        p.setProperty(LangKey.TAP_SETTING, "설정");
+        p.setProperty(LangKey.TAP_ACHIEVEMENT, "설정");
 
         p.setProperty(LangKey.INFO_TITLE, "정보 탭");
         p.setProperty(LangKey.INFO_CURRENT_PROFILE, "현재 프로필 : ");
@@ -710,7 +707,7 @@ public class Launcher {
         p.setProperty(LangKey.QUEST_COMPLETED, "완료");
         p.setProperty(LangKey.QUEST_NOT_COMPLETED, "미완료");
 
-        p.setProperty(LangKey.SETTING_TITLE, "설정 탭");
+        p.setProperty(LangKey.ACHIEVEMENT, "설정 탭");
 
         p.setProperty(LangKey.INFO_AUTO_COLLECTED, "자동 수집!");
         p.setProperty(LangKey.INFO_COLLECTED_ICE, "수집한 얼음 : ");
@@ -781,7 +778,7 @@ public class Launcher {
         p.setProperty(LangKey.TAP_SHOP, "SHOP");
         p.setProperty(LangKey.TAP_SKILLPOINT, "SKILLPOINT");
         p.setProperty(LangKey.TAP_QUESTS, "QUESTS");
-        p.setProperty(LangKey.TAP_SETTING, "SETTING");
+        p.setProperty(LangKey.TAP_ACHIEVEMENT, "SETTING");
 
         p.setProperty(LangKey.INFO_TITLE, "INFO Tap");
         p.setProperty(LangKey.INFO_CURRENT_PROFILE, "current profile : ");
@@ -831,7 +828,7 @@ public class Launcher {
         p.setProperty(LangKey.QUEST_COMPLETED, "Completed");
         p.setProperty(LangKey.QUEST_NOT_COMPLETED, "Not Completed");
 
-        p.setProperty(LangKey.SETTING_TITLE, "SETTING Tap");
+        p.setProperty(LangKey.ACHIEVEMENT, "SETTING Tap");
 
         p.setProperty(LangKey.INFO_AUTO_COLLECTED, "Auto Collected!");
         p.setProperty(LangKey.INFO_COLLECTED_ICE, "Collected Ice : ");

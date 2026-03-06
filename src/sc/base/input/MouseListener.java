@@ -30,6 +30,8 @@ public class MouseListener extends MouseAdapter {
     }
     @Override
     public void mousePressed(MouseEvent e) {
+        gameModel.getBarManager().click();
+        gameModel.getExitPopup().click();
         gameModel.setClicked();
         if (gameModel.getTabManager().getTap() == 4) {
             if (quest1Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
@@ -81,6 +83,5 @@ public class MouseListener extends MouseAdapter {
                 gameModel.getShopManager().purchaseIceVacuum();
             }
         }
-        gameModel.getBarManager().click();
     }
 }

@@ -12,8 +12,7 @@ import sc.base.gameModel.skill.SkillManager;
 import sc.base.gameModel.sound.SoundManager;
 import sc.base.gameModel.tab.TabManager;
 import sc.base.gameModel.tick.TickManager;
-
-import java.io.File;
+import sc.model.ExitPopup;
 
 public interface IGameModel {
     IceManager getIceManager();
@@ -28,6 +27,7 @@ public interface IGameModel {
     FileManager getFileManager();
     Console getConsole();
     BarManager getBarManager();
+    ExitPopup getExitPopup();
     boolean isClicked();
     int getCurrentProfileId();
 }

@@ -22,7 +22,7 @@ public class TabManager {
     public boolean tab5enabled = true;
 
     private int tab = 1;
-    int tabBarPosition[] = {0,965,1154,1343,1532,1721,1721};
+    int tabBarPosition[] = {0,965,1154,1343,1532,1721,1721}; //1910
 
     IGameModel iGameModel;
 
@@ -37,7 +37,6 @@ public class TabManager {
 
         if (tab >= 5) {
             tab = 1;
-            // 5에서 1로 갈 때: 1번 탭을 5번 탭 바로 오른쪽(tabWidth)으로 순간이동 시킴
             tab1X = tab5X + tabWidth;
         } else {
             tab++;
@@ -49,7 +48,6 @@ public class TabManager {
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
     }
 
-    // 2. 이동 시작 로직 (왼쪽 이동: 1 -> 5 -> 4 -> ...)
     public void tabMoveLeft() {
         if (tabMoving) return;
         iGameModel.getSoundManager().play("select.wav");
@@ -57,7 +55,6 @@ public class TabManager {
 
         if (tab <= 1) {
             tab = 5;
-            // 1에서 5로 갈 때: 5번 탭을 1번 탭 바로 왼쪽(-tabWidth)으로 순간이동 시킴
             tab5X = tab1X - tabWidth;
         } else {
             tab--;
@@ -69,16 +66,10 @@ public class TabManager {
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
     }
 
-    // 3. 핵심 업데이트 로직
     public void tabUpdate() {
         if (!tabMoving) return;
-
-
-        // 매 프레임당 이동할 거리 계산
         int moveStep = tabMoveDistance / tabMoveTime;
 
-        // 오른쪽 이동: 화면 전체가 왼쪽으로 밀려야 함 (-)
-        // 왼쪽 이동: 화면 전체가 오른쪽으로 밀려야 함 (+)
         if (tabMoveRight) {
             moveAllTaps(-moveStep);
         } else {
@@ -88,8 +79,8 @@ public class TabManager {
         // 이동 완료 시점
         if (iGameModel.getTickManager().getTick() >= tabMoveEndTick) {
             tabMoving = false;
-            setTap(this.tab); // 정확한 위치로 좌표 강제 고정 (Snap)
-            //updateEnabledTaps(); // 현재 탭만 빼고 다 끄기
+            setTap(this.tab);
+            updateEnabledTaps();
         }
     }
 
@@ -102,10 +93,8 @@ public class TabManager {
         tab5X += step;
     }
 
-    // 5. 좌표 정렬 및 초기화 (Snap)
     public void setTap(int tab) {
         this.tab = tab;
-        // 현재 탭(tab)을 기준으로 0, 945, 1890... 순서로 정렬
         tab1X = (1 - tab) * tabWidth;
         tab2X = (2 - tab) * tabWidth;
         tab3X = (3 - tab) * tabWidth;
@@ -113,9 +102,8 @@ public class TabManager {
         tab5X = (5 - tab) * tabWidth;
     }
 
-    // 6. 현재 탭만 켜두는 로직
     private void updateEnabledTaps() {
-        setTapDisable(); // 일단 다 끔
+        setTapDisable();
         if (tab == 1) tab1enabled = true;
         else if (tab == 2) tab2enabled = true;
         else if (tab == 3) tab3enabled = true;

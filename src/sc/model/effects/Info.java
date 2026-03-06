@@ -57,9 +57,9 @@ public class Info {
         Color white = new Color(200,215,235);
 
         g.setColor(white); // info background color
-        g.fillRect(x,y + rise, 400,height);
+        g.fillRect(x,y + rise, width,height);
         g.setColor(black); // info top bar color
-        g.fillRect(x, y + rise, 400,20);
+        g.fillRect(x, y + rise, width,20);
         g.setColor(gray); // info right square color
         g.fillRect(x + width - 20, y + rise, 20,20);
 
@@ -72,6 +72,12 @@ public class Info {
         g.drawString(firstLine, 20, y + 50 + rise);
         g.drawString(secondLine, 20, y + 80 + rise);
         g.drawString(thirdLine, 20, y + 110 + rise);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(4f));
+
+        g.setColor(black);
+        g.drawRect(x,y + rise, width,height);
 
 /*
         g.setColor(new Color(191,222,255)); // info background color
