@@ -1,17 +1,9 @@
 package sc.view;
 
 import sc.base.Console;
-import sc.base.gameModel.bar.BarManager;
-import sc.base.gameModel.effects.EffectManager;
-import sc.base.gameModel.file.FileManager;
-import sc.base.gameModel.ice.IceManager;
+import sc.base.gameModel.*;
 import sc.base.gameModel.quest.QuestManager;
 import sc.base.gameModel.setting.SettingManager;
-import sc.base.gameModel.shop.ShopManager;
-import sc.base.gameModel.skill.SkillManager;
-import sc.base.gameModel.sound.SoundManager;
-import sc.base.gameModel.tab.TabManager;
-import sc.base.gameModel.tick.TickManager;
 import sc.model.ExitPopup;
 
 public interface IGameModel {
@@ -28,6 +20,9 @@ public interface IGameModel {
     Console getConsole();
     BarManager getBarManager();
     ExitPopup getExitPopup();
+    IPause getiPause();
+    IMouse getiMouse();
     boolean isClicked();
+    boolean isShift();
     int getCurrentProfileId();
 }

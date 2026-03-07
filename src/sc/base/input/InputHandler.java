@@ -7,8 +7,10 @@ import sc.view.IExit;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
-public class InputHandler extends KeyAdapter{
+public class InputHandler extends KeyAdapter {
     private final ViewMetrics viewMetrics;
     private final GameModel gameModel;
     private final IExit iExit;
@@ -28,9 +30,14 @@ public class InputHandler extends KeyAdapter{
         });
 
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            gameModel.setShift(true);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            gameModel.getiPause().setPause(!gameModel.getiPause().isPause());
+        }
         if (e.getKeyCode() == KeyEvent.VK_F12) {
             gameModel.getConsole().toggle();
         }
@@ -59,4 +66,12 @@ public class InputHandler extends KeyAdapter{
         if (e.getKeyCode() == KeyEvent.VK_R) { gameModel.getShopManager().iceVacuumActive(); }
         if (e.getKeyCode() == KeyEvent.VK_P) { gameModel.getEffectManager().addInfo("I am", "so", "pretty"); }
     }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            gameModel.setShift(false);
+        }
+    }
+
 }

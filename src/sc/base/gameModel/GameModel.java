@@ -1,25 +1,16 @@
 package sc.base.gameModel;
 
 import sc.base.Console;
-import sc.base.gameModel.bar.BarManager;
-import sc.base.gameModel.effects.EffectManager;
-import sc.base.gameModel.file.FileManager;
-import sc.base.gameModel.ice.IceManager;
 import sc.base.gameModel.quest.QuestManager;
 import sc.base.gameModel.setting.SettingManager;
-import sc.base.gameModel.shop.ShopManager;
-import sc.base.gameModel.skill.SkillManager;
-import sc.base.gameModel.sound.SoundManager;
-import sc.base.gameModel.tab.TabManager;
-import sc.base.gameModel.tick.TickManager;
+import sc.base.gameModel.setting.object.Knob;
 import sc.lang.Lang;
 import sc.model.ExitPopup;
 import sc.view.*;
 
-import java.awt.*;
-
-public class GameModel implements IGameModel {
+public final class GameModel implements IGameModel {
     private boolean clicked = false;
+    private boolean shift = false;
 
     private final int currentProfileId;
     private final FileManager fileManager;
@@ -35,23 +26,27 @@ public class GameModel implements IGameModel {
     private final BarManager barManager;
     private final Console console;
     private final ExitPopup exitPopup;
+    private final IPause iPause;
+    private final IMouse iMouse;
 
     public GameModel(int profileId, IMouse iMouse, Lang l, IPause iPause, IExit iExit) {
         this.currentProfileId = profileId;
+        this.iPause = iPause;
+        this.iMouse = iMouse;
 
         fileManager = new FileManager(this);
-        barManager = new BarManager(this,iMouse,iExit,iPause);
+        barManager = new BarManager(this,iExit);
         tickManager = new TickManager();
-        effectManager = new EffectManager(iMouse,this);
-        iceManager = new IceManager(this,iMouse,l);
+        effectManager = new EffectManager(this);
+        iceManager = new IceManager(this,l);
         tabManager = new TabManager(this);
         skillManager = new SkillManager(this, l);
         shopManager = new ShopManager(this,l);
         questManager = new QuestManager(this, l);
         soundManager = new SoundManager();
         settingManager = new SettingManager(this);
-        console = new Console(this,iPause);
-        exitPopup = new ExitPopup(iMouse, iExit);
+        console = new Console(this);
+        exitPopup = new ExitPopup(iExit,this);
 
         fileManager.load(currentProfileId);
     }
@@ -60,6 +55,7 @@ public class GameModel implements IGameModel {
         tickManager.update();
         barManager.update();
         exitPopup.update();
+        settingManager.update();
         if (pause) return;
         iceManager.update(dt);
         questManager.update();
@@ -82,9 +78,13 @@ public class GameModel implements IGameModel {
     public TickManager getTickManager() {return tickManager;}
     public FileManager getFileManager() {return fileManager;}
     public ExitPopup getExitPopup() {return exitPopup; }
-
+    public IPause getiPause() {return iPause;}
+    public IMouse getiMouse() {return iMouse;}
     public Console getConsole() {return console;}
-    public boolean isClicked() {return clicked;}
+
     public int getCurrentProfileId() {return currentProfileId;}
+    public boolean isClicked() {return clicked;}
     public void setClicked() {clicked = true;}
+    public boolean isShift() {return shift;}
+    public void setShift(boolean b) {shift = b;}
 }

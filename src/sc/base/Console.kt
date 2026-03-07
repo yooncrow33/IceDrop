@@ -6,7 +6,7 @@ import java.awt.*
 import java.util.*
 import kotlin.math.max
 
-class Console( var iGameModel: IGameModel, var iPause: IPause) {
+class Console(var iGameModel: IGameModel) {
     var isOpen: Boolean = false
         private set
     private val buffer = StringBuilder()
@@ -88,7 +88,7 @@ class Console( var iGameModel: IGameModel, var iPause: IPause) {
             if (valueBool == null) { logs.add("[Console] Error: Not boolean value"); return}
 
             when (target) {
-                "pause" -> { iPause.setPause(valueBool); logs.add("[System] $target set to $valueBool") }
+                "pause" -> { iGameModel.getiPause().setPause(valueBool); logs.add("[System] $target set to $valueBool") }
             }
         }
     }

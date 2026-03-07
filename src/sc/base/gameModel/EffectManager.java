@@ -1,4 +1,4 @@
-package sc.base.gameModel.effects;
+package sc.base.gameModel;
 
 import sc.model.effects.*;
 import sc.view.IMouse;
@@ -14,11 +14,9 @@ public class EffectManager {
     ArrayList<Fa> fas = new ArrayList<>();
     ArrayList<FaUltra> faUltras = new ArrayList<>();
 
-    IMouse iMouse;
     IGameModel iGameModel;
 
-    public EffectManager(IMouse iMouse, IGameModel iGameModel) {
-        this.iMouse = iMouse;
+    public EffectManager(IGameModel iGameModel) {
         this.iGameModel  = iGameModel;
     }
 
@@ -84,20 +82,24 @@ public class EffectManager {
     }
 
     public void addStrEffect(String str) {
-        stringEffects.add(new StringEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),str));
+        if (!iGameModel.getSettingManager().getGraphicSetting().isStrEffect()) return;
+        stringEffects.add(new StringEffect(iGameModel.getiMouse().getVirtualMouseX(),iGameModel.getiMouse().getVirtualMouseY(),str));
     }
     public void addIntEffect(int value) {
-        integerEffects.add(new IntegerEffect(iMouse.getVirtualMouseX(),iMouse.getVirtualMouseY(),value));
+        if (!iGameModel.getSettingManager().getGraphicSetting().isStrEffect()) return;
+        integerEffects.add(new IntegerEffect(iGameModel.getiMouse().getVirtualMouseX(),iGameModel.getiMouse().getVirtualMouseY(),value));
     }
     public void addInfo(String l1,String l2, String l3) {
         infos.add(new Info(l1,l2,l3,iGameModel.getTickManager().getTick()));
     }
     public void addFa(int x, int y) {
+        if (!iGameModel.getSettingManager().getGraphicSetting().isFaEffect()) return;
         for (int i = 0; i <= 30; i++) {
             fas.add(new Fa(x, y));
         }
     }
     public void addFaUltra() {
+        if (!iGameModel.getSettingManager().getGraphicSetting().isFaEffect()) return;
         for (int i = 0; i <= 70; i++) {
             faUltras.add(new FaUltra(498,555));
         }

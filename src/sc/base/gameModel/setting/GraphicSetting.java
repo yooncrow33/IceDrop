@@ -1,0 +1,94 @@
+package sc.base.gameModel.setting;
+
+import sc.base.gameModel.setting.object.Knob;
+
+import java.awt.*;
+
+public class GraphicSetting {
+    private final Knob knob;
+
+    public GraphicSetting(Knob knob) {
+        this.knob = knob;
+        knob.setShowValueFont(new Font("Arial",Font.BOLD,20));
+        knob.setShowValueOffset(9);
+    }
+
+    public void update() {
+        switch (mapToRange()) {
+            case 0 :
+                allOff();
+                knob.setShowValue("MIN");
+                break;
+            case 1 :
+                allOff();
+                knob.setShowValue("LOW");
+                strEffect = true;
+                break;
+            case 2 :
+                allOff();
+                knob.setShowValue("MEDIUM");
+                strEffect = true;
+                ai = true;
+                break;
+            case 3 :
+                allOff();
+                knob.setShowValue("HIGH");
+                strEffect = true;
+                ai = true;
+                faEffect = true;
+                break;
+            case 4 :
+                allOff();
+                knob.setShowValue("ULTRA");
+                strEffect = true;
+                ai = true;
+                faEffect = true;
+                aa = true;
+                break;
+            default:
+                allOff();
+                break;
+        }
+    }
+
+    private boolean aa = false;
+    private boolean ai = false;
+    private boolean strEffect = false;
+    private boolean faEffect = false;
+
+    public boolean isFullyCharged() {
+        return knob.getCurrentValue() >= 1.0;
+    }
+
+    private int mapToRange() {
+        // 1.0을 넘지 않게 보정 (안전장치)
+        double clamped = Math.max(0.0, Math.min(1.0, knob.getCurrentValue()));
+
+        // 소수점을 반올림(round)해서 정수로 변환
+        // (int) (0.5 * 6 + 0.5) -> 3 이런 식으로 딱딱 끊어짐
+        return (int) Math.round(clamped * 4);
+    }
+
+    public void allOff() {
+        aa = false;
+        ai = false;
+        strEffect = false;
+        faEffect = false;
+    }
+
+    public boolean isAa() {
+        return aa;
+    }
+
+    public boolean isAi() {
+        return ai;
+    }
+
+    public boolean isStrEffect() {
+        return strEffect;
+    }
+
+    public boolean isFaEffect() {
+        return faEffect;
+    }
+}

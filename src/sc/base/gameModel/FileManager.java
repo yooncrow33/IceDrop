@@ -1,4 +1,4 @@
-package sc.base.gameModel.file;
+package sc.base.gameModel;
 
 import sc.view.IGameModel;
 

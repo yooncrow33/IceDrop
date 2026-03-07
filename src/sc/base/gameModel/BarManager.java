@@ -1,4 +1,4 @@
-package sc.base.gameModel.bar;
+package sc.base.gameModel;
 
 import sc.view.IExit;
 import sc.view.IGameModel;
@@ -12,9 +12,7 @@ import static sc.base.RenderUtils.drawStringCenter;
 
 public class BarManager {
     final IGameModel iGameModel;
-    final IMouse iMouse;
     final IExit iExit;
-    final IPause iPause;
 
     final int width = 110;
     final int height = 30;
@@ -66,6 +64,50 @@ public class BarManager {
             "Check your posture.",
             "Go is fast, but Kotlin is cool.",
 
+            // --- [M-Series Mac & Dev Sarcasm] ---
+            "So Rosetta 2 is trash of the world.",
+            "M1, M2, M3... My wallet is empty.",
+            "Kernel Panic: See you soon.",
+            "Xcode is the heaviest game in the world.",
+
+            // --- [Real World Pain] ---
+            "House prices go UP, My soul goes DOWN.",
+            "The stock market is a roller coaster with no seatbelts.",
+            "Monday is inevitable. Run while you can.",
+            "Is your ramen delicious? That's your dinner.",
+
+            // --- [Pure Nonsense] ---
+            "Wombats have square poop. Think about it.",
+            "A shrimp's heart is in its head.",
+            "I'm actually a human trapped in this code. Help!",
+            "Error 418: I'm a teapot.", // 고전적인 HTTP 드립
+
+            "How to open .hwp file on Mac?",
+            "I will finish this game by tomorrow. (Lie)",
+            "The 8GB RAM is enough for everyone. (Apple said that)",
+            "System.out.println('I am tired');",
+            "I drink 5 cups of coffee a day. (Not a lie)",
+            "Is the earth flat? No, but this UI is.",
+            "Don't look at the source code. It's a mess.",
+
+            "99% Bug Free. (The 1% is this message)",
+            "How to open .hwp on Mac? Just buy a Windows PC. (Joke)",
+            "Wait, did I just see a NullPointerException?",
+            "The developer is actually a cat. Meow.",
+            "This message exists because you turned on 'Nonsense'.",
+
+            // --- [게임 밸런스 & 시스템 폭로] ---
+            "Honestly, even I think the 'Ice Rush' is too expensive.",
+            "Actually, you can duplicate money using the console. (Shh!)",
+            "Beta 1.0.0 alert: All save files will be encrypted!",
+            "This was NOT made for Windows. Mac is the only way.",
+
+            // --- [불안] ---
+            "Is that a bug or a new gameplay mechanic?",
+            "Your MacBook fan is preparing for takeoff.",
+            "Warning: System rebooting... (Just kidding)",
+            "Error 404: My motivation not found.",
+
             // --- [기타 짧은 것들] ---
             "404 Not Found.", "Hello World.", "SC!", "Wait...", "Look behind you.",
             "Click Save!", "Don't alt-f4.", "Processing...", "Beep boop.", "Loading awesomeness."
@@ -89,11 +131,9 @@ public class BarManager {
     private int moveYTime = 20;
     private int moveYDistance = 40;
 
-    public BarManager(IGameModel iGameModel, IMouse iMouse, IExit iExit, IPause iPause) {
+    public BarManager(IGameModel iGameModel, IExit iExit) {
         this.iGameModel = iGameModel;
-        this.iMouse = iMouse;
         this.iExit = iExit;
-        this.iPause = iPause;
     }
 
     private void execute(int i) {
@@ -111,13 +151,13 @@ public class BarManager {
                 iGameModel.getFileManager().load(iGameModel.getCurrentProfileId());
                 break;
             case 3 :
-                if (iPause.isPause()) {
-                    iPause.setPause(false);
+                if (iGameModel.getiPause().isPause()) {
+                    iGameModel.getiPause().setPause(false);
                     putSystemMessage("Game Run!");
-                } else { iPause.setPause(true); putSystemMessage("Game Pause!");}
+                } else { iGameModel.getiPause().setPause(true); putSystemMessage("Game Pause!");}
                 break;
             case 4 :
-
+                iGameModel.getSettingManager().toggle();
                 break;
             case 5 :
                 iGameModel.getConsole().toggle();
@@ -137,8 +177,8 @@ public class BarManager {
         for (int i = 0; i < strs.length; i++) {
             int xPos = i * width;
 
-            if (iMouse.getVirtualMouseX() >= xPos && iMouse.getVirtualMouseX() < xPos + width &&
-                    iMouse.getVirtualMouseY() >= 0 && iMouse.getVirtualMouseY() <= height) {
+            if (iGameModel.getiMouse().getVirtualMouseX() >= xPos && iGameModel.getiMouse().getVirtualMouseX() < xPos + width &&
+                    iGameModel.getiMouse().getVirtualMouseY() >= 0 && iGameModel.getiMouse().getVirtualMouseY() <= height) {
                 execute(i);
                 highLightCool = highLightTime;
             }
@@ -151,8 +191,8 @@ public class BarManager {
         if (messageCool >= 0) {messageCool--;} else { messageCool = 0;}
 
 
-        open = iMouse.getVirtualMouseY() <= 30 + 10;
-        if (iPause.isPause()) {open = true;}
+        open = iGameModel.getiMouse().getVirtualMouseY() <= 30 + 10;
+        if (iGameModel.getiPause().isPause()) {open = true;}
 
         targetY = open ? 0f : -40f;
         y += ((targetY - y) * lerpSpeed);
@@ -179,8 +219,8 @@ public class BarManager {
         for (int i = 0; i < strs.length; i++) {
             int xPos = i * width;
 
-            if (iMouse.getVirtualMouseX() >= xPos && iMouse.getVirtualMouseX() < xPos + width &&
-                    iMouse.getVirtualMouseY() >= 0 && iMouse.getVirtualMouseY() <= height) {
+            if (iGameModel.getiMouse().getVirtualMouseX() >= xPos && iGameModel.getiMouse().getVirtualMouseX() < xPos + width &&
+                    iGameModel.getiMouse().getVirtualMouseY() >= 0 && iGameModel.getiMouse().getVirtualMouseY() <= height) {
 
                 if (highLightCool >= 1) {
                     g.setColor(new Color(255, 255, 255, 150));
@@ -216,7 +256,7 @@ public class BarManager {
         g.setColor(Color.black);
         g.fillOval(1889,y + 1,28,28);
 
-        if (iPause.isPause()) {
+        if (iGameModel.getiPause().isPause()) {
             g.setColor(Color.red);
         } else g.setColor(Color.green);
         g.fillOval(1890,y + 2,26,26);

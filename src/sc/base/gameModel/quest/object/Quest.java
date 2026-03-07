@@ -49,6 +49,9 @@ public class Quest {
             iGameModel.getSkillManager().addXp(questXpReawardList[QUEST_INDEX]);
             iGameModel.getEffectManager().addInfo(l.getQuestRewarded(), "+ " + questCoinRewardList[QUEST_INDEX], l.getSKillPresentCoin() + iGameModel.getShopManager().getCoin());
             questReward = true;
+            iGameModel.getSoundManager().play("656643__ienba__game-reward.wav");
+        } else {
+            iGameModel.getSoundManager().play("retro.wav");
         }
     }
 

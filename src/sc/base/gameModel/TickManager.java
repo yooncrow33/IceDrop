@@ -1,4 +1,4 @@
-package sc.base.gameModel.tick;
+package sc.base.gameModel;
 
 public class TickManager {
     int sessionPlayTick = 0;

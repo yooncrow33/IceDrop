@@ -1,6 +1,6 @@
 package sc.base;
 
-import sc.base.gameModel.sound.SoundManager;
+import sc.base.gameModel.SoundManager;
 import sc.base.splashScreen.StartSplashScreen;
 import sc.lang.LangKey;
 
@@ -237,20 +237,20 @@ public class Launcher {
             "   [게임내용]\n" +
             "   - 사운드 추가.\n" +
             "   - BGM 추가.\n" +
-            "   - Pause시스템 및 빨리감기 기능 추가.(예정)\n" +
+            "   - Pause시스템 추가.\n" +
             "   [사용자 편의/ UX]\n" +
-            "   - 화면위에 접근할수 있는 바 추가..\n" +
+            "   - 화면위에 접근할수 있는 바 추가.\n" +
             "   - 콘솔추가.\n" +
             "       - 게임 진행중에 유동적인 save/load가능.\n" +
             "   - 시작/종료 로고 사운드 추가.\n" +
             "   - 텍스트 깨짐 현상 수정.(예정)\n" +
-            "   - Mac및 Linux사용자를 위한 권한 문제 해결용 sh스크립트 추가.\n" +
+            "   - Mac및 Linux사용자를 위한 권한 문제 해결용 sh파일 추가.\n" +
             "   - 버전업시의 파일깨짐 방지를 위한 무결성 검사 추가.\n" +
             "   - 세팅 추가..\n" +
             "       - 그래픽 옵션, 사운드 옵션 조절 가능.\n" +
             "   [최적화]\n" +
             "   - 내부 코드정리.\n" +
-            "       - GameModel클래스의 인터페이스 개선 300줄 -> 80줄.\n" +
+            "       - GameModel클래스의 구조 개선 300줄 -> 80줄.\n" +
             "       - 과도한 인터페이스 대량 삭제.\n" +
             "   [버그 수정]\n" +
             "   - 저정파일의 암호화 추가.\n" +

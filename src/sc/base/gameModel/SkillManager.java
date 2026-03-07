@@ -1,4 +1,4 @@
-package sc.base.gameModel.skill;
+package sc.base.gameModel;
 
 import sc.lang.Lang;
 import sc.view.IGameModel;
@@ -55,7 +55,7 @@ public class SkillManager {
             xp -= xpTable[level];
             level++;
             skillPoint += 1;
-            iGameModel.getSoundManager().play("achivement.wav");
+            iGameModel.getSoundManager().play("achievement.wav");
         }
     }
 

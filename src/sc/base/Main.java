@@ -61,6 +61,7 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         viewMetrics.calculateViewMetrics();
 
         this.addMouseListener(mouseListener);
+        this.addMouseWheelListener(mouseListener);
 
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -74,10 +75,9 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
             public void componentResized(ComponentEvent e) {
                 if (isResizing) return;
 
-                int currentW = frame.getWidth(); // 프레임의 크기를 사용
-                int currentH = frame.getHeight(); // 프레임의 크기를 사용
+                int currentW = frame.getWidth();
+                int currentH = frame.getHeight();
 
-                // 현재 비율 계산
                 double ratio = (double) currentW / currentH;
                 double targetRatio = 16.0 / 9.0;
 
@@ -144,6 +144,8 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         super.paintComponent(g);
         Graphics2D d2 = (Graphics2D) g;
 
+        if (gameModel.getSettingManager().getGraphicSetting().isAa()) RenderUtils.applyQualityHints(d2);
+
         Color black = new Color(20, 25, 35);
 
         d2.translate(viewMetrics.getCurrentXOffset(), viewMetrics.getCurrentYOffset());
@@ -179,6 +181,8 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         gameModel.getIceManager().renderIces(g);
         graphicsManager.renderBaseFrame(g);
         gameModel.getEffectManager().renderEffects(g);
+
+        gameModel.getSettingManager().render(g);
 
         gameModel.getConsole().render(g);
 

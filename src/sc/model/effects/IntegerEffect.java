@@ -1,5 +1,7 @@
 package sc.model.effects;
 
+import sc.base.RenderUtils;
+
 import java.awt.*;
 
 public class IntegerEffect {
@@ -26,6 +28,6 @@ public class IntegerEffect {
     public void draw(Graphics g) {
         g.setColor(new Color(120, 255, 200, alpha));
         g.setFont(new Font("굴림", Font.BOLD, 36));
-        g.drawString("+" + value, x, y - rise);
+        RenderUtils.drawStringCenter(g,"+" + value, x, y - rise);
     }
 }

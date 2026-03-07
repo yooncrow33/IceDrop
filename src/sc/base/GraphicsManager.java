@@ -395,8 +395,8 @@ public class GraphicsManager {
 
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.setColor(green);
-        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getFirstQuest().getCoinReward() + l.getShopCoinLabel() + ", +" + iGameModel.getQuestManager().getFirstQuest().getXpReward() + l.getInfoGetXpMsg(), 1000 + x, 320);
-        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getSecondQuest().getCoinReward() + l.getShopCoinLabel() + ", +" + iGameModel.getQuestManager().getSecondQuest().getXpReward() + l.getInfoGetXpMsg(), 1000 + x, 570);
+        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getFirstQuest().getCoinReward() + l.getShopCoinLabel() + "," +l.getInfoGetXpMsg() + "+" + iGameModel.getQuestManager().getFirstQuest().getXpReward(), 1000 + x, 320);
+        g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getSecondQuest().getCoinReward() + l.getShopCoinLabel() + ", " +l.getInfoGetXpMsg() + "+" + iGameModel.getQuestManager().getSecondQuest().getXpReward(), 1000 + x, 570);
         g.drawString(l.getQuestRewardLabel() + iGameModel.getQuestManager().getThirdQuest().getExplanation(), 1000 + x, 820);
 
         if (iGameModel.getQuestManager().getFirstQuest().getIsCompleted()) {

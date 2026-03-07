@@ -1,4 +1,4 @@
-package sc.base.gameModel.ice;
+package sc.base.gameModel;
 
 import sc.lang.Lang;
 import sc.model.ice.Ice;
@@ -36,27 +36,19 @@ public class IceManager {
     public int getLastIceBasicCollectCount() {
         return lastIceBasicCollectCount;
     }
-
     public int getLastIceRareCollectCount() {
         return lastIceRareCollectCount;
     }
-
     public int getLastIceLegendaryCollectCount() {
         return lastIceLegendaryCollectCount;
     }
 
-    public void loadLastIceRareCollectCount(int lastIceRareCollectCount) {
-        this.lastIceRareCollectCount = lastIceRareCollectCount;
-    }
-
-    public void loadLastIceLegendaryCollectCount(int lastIceLegendaryCollectCount) {
-        this.lastIceLegendaryCollectCount = lastIceLegendaryCollectCount;
-    }
+    public void loadLastIceRareCollectCount(int lastIceRareCollectCount) {this.lastIceRareCollectCount = lastIceRareCollectCount;}
+    public void loadLastIceLegendaryCollectCount(int lastIceLegendaryCollectCount) {this.lastIceLegendaryCollectCount = lastIceLegendaryCollectCount;}
 
     double iceAutoCollectChance[] = {0,0.001,0.005,0.01,0.05,0.07};
 
     IGameModel iGameModel;
-    IMouse iMouse;
     Lang l;
 
     ArrayList<Ice> ices = new ArrayList<>();
@@ -68,15 +60,14 @@ public class IceManager {
     private int fa1tick = -1;
     private int fa2tick = -1;
 
-    public IceManager(IGameModel iGameModel, IMouse iMouse, Lang l) {
+    public IceManager(IGameModel iGameModel, Lang l) {
         this.iGameModel = iGameModel;
-        this.iMouse = iMouse;
         this.l = l;
     }
 
-    private void addIceBasic() { ices.add(new IceBasic()); }
-    private void addIceRare() { ices.add(new IceRare()); }
-    private void addIceLegendary() { ices.add(new IceLegendary()); }
+    private void addIceBasic() { ices.add(new IceBasic(iGameModel.getSettingManager().getGraphicSetting().isAi())); }
+    private void addIceRare() { ices.add(new IceRare(iGameModel.getSettingManager().getGraphicSetting().isAi())); }
+    private void addIceLegendary() { ices.add(new IceLegendary(iGameModel.getSettingManager().getGraphicSetting().isAi())); }
 
     public void update(double dt) {
         if (!iGameModel.getShopManager().isIceVacuuming()) {
@@ -127,7 +118,7 @@ public class IceManager {
                 continue;
             }
             if (iGameModel.isClicked()) {
-                if (ice.shouldBeCollected(iMouse.getVirtualMouseX(), iMouse.getVirtualMouseY(), iGameModel.getSkillManager().getClickOffsetLevel())) {
+                if (ice.shouldBeCollected(iGameModel.getiMouse().getVirtualMouseX(), iGameModel.getiMouse().getVirtualMouseY(), iGameModel.getSkillManager().getClickOffsetLevel())) {
                     iGameModel.getEffectManager().addFa(ice.getX() + (ice.getSize() / 2), ice.getY() + (ice.getSize() / 2));
                     ices.remove(i);
                     switch (ice.getTier()) {
@@ -207,7 +198,7 @@ public class IceManager {
         iGameModel.getShopManager().addCoin(collectedIceLegendaryes * ICE_LEGENDARY_VALUE);
         iGameModel.getSkillManager().addXp(xpGained);
 
-        iGameModel.getSoundManager().play("426679__roovy__ice-splash_small_5 2.wav");
+        iGameModel.getSoundManager().play("36940__schalkalwis__eisklirr.wav");
 
         iGameModel.getEffectManager().addInfo(l.getInfoVacuumActivatedMsg(),l.getInfoGetCoinMsg() + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!",l.getInfoGetXpMsg() + xpGained);
 

@@ -1,10 +1,11 @@
 package sc.model;
 
 import sc.view.IExit
+import sc.view.IGameModel
 import sc.view.IMouse
 import java.awt.*
 
-class ExitPopup(var iMouse: IMouse, var iExit: IExit) {
+class ExitPopup(var iExit: IExit, var iGameModel: IGameModel) {
     var isVisible: Boolean = false
     var select: Int = 0
 
@@ -14,10 +15,12 @@ class ExitPopup(var iMouse: IMouse, var iExit: IExit) {
     }
 
     fun click() {
-        if (select == 1) {
-            iExit.exitApplication()
-        } else if (select == 2) {
-            this.isVisible = false
+        if (isVisible) {
+            if (select == 1) {
+                iExit.exitApplication()
+            } else if (select == 2) {
+                this.isVisible = false
+            }
         }
     }
 
@@ -30,9 +33,9 @@ class ExitPopup(var iMouse: IMouse, var iExit: IExit) {
         val btnY = py + 160
 
         select = 0
-        if (iMouse.virtualMouseX >= px + 40 && iMouse.virtualMouseX <= px + 220 && iMouse.virtualMouseY >= btnY && iMouse.virtualMouseY <= btnY + btnHeight) {
+        if (iGameModel.getiMouse().virtualMouseX >= px + 40 && iGameModel.getiMouse().virtualMouseX <= px + 220 && iGameModel.getiMouse().virtualMouseY >= btnY && iGameModel.getiMouse().virtualMouseY <= btnY + btnHeight) {
             select = 1
-        } else if (iMouse.virtualMouseX >= px + 280 && iMouse.virtualMouseX <= px + 460 && iMouse.virtualMouseY >= btnY && iMouse.virtualMouseY <= btnY + btnHeight)  {
+        } else if (iGameModel.getiMouse().virtualMouseX >= px + 280 && iGameModel.getiMouse().virtualMouseX <= px + 460 && iGameModel.getiMouse().virtualMouseY >= btnY && iGameModel.getiMouse().virtualMouseY <= btnY + btnHeight)  {
             select = 2
         }
     }

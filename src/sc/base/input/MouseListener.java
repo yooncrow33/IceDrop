@@ -6,8 +6,10 @@ import sc.base.ViewMetrics;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
-public class MouseListener extends MouseAdapter {
+public class MouseListener extends MouseAdapter implements MouseWheelListener {
     
     private GameModel gameModel;
     private ViewMetrics viewMetrics;
@@ -23,6 +25,17 @@ public class MouseListener extends MouseAdapter {
 
     Rectangle iceAutoCollect = new Rectangle(980,430,915,240);
     Rectangle iceVacuum = new Rectangle(980,680,915,240);
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int notches = e.getWheelRotation(); // 음수: 위로, 양수: 아래로
+        gameModel.getSettingManager().handleMouseWheel(notches);
+        if (notches < 0) {
+            //up scroll
+        } else {
+            //down scroll
+        }
+    }
     
     public MouseListener(GameModel gameModel, ViewMetrics viewMetrics) {
         this.gameModel = gameModel;

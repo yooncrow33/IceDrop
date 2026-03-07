@@ -1,4 +1,4 @@
-package sc.base.gameModel.shop;
+package sc.base.gameModel;
 
 import sc.lang.Lang;
 import sc.view.IGameModel;
@@ -91,13 +91,15 @@ public class ShopManager {
 
     public void iceVacuumActive() {
         if (iceVacuumCount > 0 && !iceVacuumActive && iceVacuumCoolTime <= iGameModel.getTickManager().getTick()) {
+            iGameModel.getSoundManager().play("184312__swiftoid__vacuum-chord-being-pulled-out-02-floppy.wav");
             iceVacuumActive = true;
             iceVacuumEndTick = iGameModel.getTickManager().getTick() + ICE_VACUUM_ENABLE_TICK;
             iGameModel.getIceManager().iceVacuumActive();
         }
     }
 
-    public void iceVacuumClear() {
+    private void iceVacuumClear() {
+        iGameModel.getSoundManager().play("36940__schalkalwis__eisklirr.wav");
         iGameModel.getIceManager().iceVacuumClear();
         iceVacuumCount--;
         iceVacuumCoolTime = iGameModel.getTickManager().getTick() +  (int)(ICE_VACUUM_COOL_DOWN_TICK / iGameModel.getSkillManager().getIceVacuumCoolTimeMultiplier());
@@ -127,26 +129,32 @@ public class ShopManager {
         if (tier == 1) {
             if (coin >= ICE_BASIC_RUSH_ITEM_COST) {
                 coin -= ICE_BASIC_RUSH_ITEM_COST;
+                iGameModel.getSoundManager().play("518888__ash_rez__1up-video-game.wav");
                 iceBasicRushItemCount++;
                 iGameModel.getEffectManager().addInfo(l.getShopPurchasedMsg(),"- " + ICE_BASIC_RUSH_ITEM_COST, l.getSKillPresentCoin() + coin);
             } else {
                 iGameModel.getEffectManager().addStrEffect(l.getQuestNotEnoughMoneyMsg());
+                iGameModel.getSoundManager().play("retro.wav");
             }
         } else if (tier == 2) {
             if (coin >= ICE_RARE_RUSH_ITEM_COST) {
                 coin -= ICE_RARE_RUSH_ITEM_COST;
+                iGameModel.getSoundManager().play("518888__ash_rez__1up-video-game.wav");
                 iceRareRushItemCount++;
                 iGameModel.getEffectManager().addInfo(l.getShopPurchasedMsg(),"- " + ICE_RARE_RUSH_ITEM_COST, l.getSKillPresentCoin() + coin);
             } else {
                 iGameModel.getEffectManager().addStrEffect(l.getQuestNotEnoughMoneyMsg());
+                iGameModel.getSoundManager().play("retro.wav");
             }
         } else if (tier == 3) {
             if (coin >= ICE_LEGENDARY_RUSH_ITEM_COST) {
                 coin -= ICE_LEGENDARY_RUSH_ITEM_COST;
+                iGameModel.getSoundManager().play("518888__ash_rez__1up-video-game.wav");
                 iceLegendaryRushItemCount++;
                 iGameModel.getEffectManager().addInfo(l.getShopPurchasedMsg(),"- " + ICE_LEGENDARY_RUSH_ITEM_COST, l.getSKillPresentCoin() + coin);
             } else {
                 iGameModel.getEffectManager().addStrEffect(l.getQuestNotEnoughMoneyMsg());
+                iGameModel.getSoundManager().play("retro.wav");
             }
         }
     }

@@ -21,17 +21,22 @@ public class IceBasic implements Ice {
 
     Random random = new Random();
 
-    public IceBasic() {
+    final boolean activeAfterImage;
+
+    public IceBasic(boolean activeAfterImage) {
         x = random.nextInt(915) + 10;
         y = -30;
+        this.activeAfterImage = activeAfterImage;
     }
 
     public void update(double dt) {
-        for (int i = iceAfterImages.size() - 1; i >= 0; i--) {
-            IceAfterImage ai = iceAfterImages.get(i);
-            ai.update();
-            if (ai.isExpired()) {
-                iceAfterImages.remove(i);
+        if (activeAfterImage) {
+            for (int i = iceAfterImages.size() - 1; i >= 0; i--) {
+                IceAfterImage ai = iceAfterImages.get(i);
+                ai.update();
+                if (ai.isExpired()) {
+                    iceAfterImages.remove(i);
+                }
             }
         }
         if (!vacuumActive) {
@@ -98,8 +103,11 @@ public class IceBasic implements Ice {
     }
 
     public void draw(Graphics g) {
-        for (IceAfterImage ai : iceAfterImages) {
-            ai.draw(g);
+        if (activeAfterImage) {
+            for (IceAfterImage ai : iceAfterImages) {
+                ai.draw(g);
+            }
+
         }
 
         Graphics2D g2 = (Graphics2D) g;

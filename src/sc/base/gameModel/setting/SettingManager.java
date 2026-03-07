@@ -1,11 +1,101 @@
 package sc.base.gameModel.setting;
 
+import sc.base.RenderUtils;
+import sc.base.gameModel.setting.object.Knob;
 import sc.view.IGameModel;
+import sc.view.IMouse;
+
+import java.awt.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SettingManager {
-    final IGameModel iGameModel;
+    private final IGameModel iGameModel;
+    private final Map<String, Knob> knobs = new LinkedHashMap<>();
+    private final String[] settings = {"BGM SFX", "SOUND SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS"};
+    private final double[] knobsInitValue = {0.5, 0.5, 0.5, 0.0,1.0, 1.0};
+
+    private final GraphicSetting graphicSetting;
+
+    private boolean open = false;
+
+    Color black = new Color(10, 15, 25);
+    Color white = new Color(200,215,235);
+
+    public GraphicSetting getGraphicSetting() {
+        return graphicSetting;
+    }
+
     public SettingManager(IGameModel iGameModel) {
         this.iGameModel = iGameModel;
-        iGameModel.getSoundManager().loopBgm("bgm2.wav");
+        initKnobs();
+
+        graphicSetting = new GraphicSetting(knobs.get("GRAPHICS"));
+    }
+
+    private void initKnobs() {
+        int centerX = 960;
+        int centerY = 540;
+
+        final int clos = 4;
+        final int columnsGap = 220;
+        final int rowGap = 200;
+
+
+        int startX = centerX - ((clos - 1) * columnsGap) / 2;
+        int startY = centerY - rowGap / 2;
+
+        for (int i = 0; i < 6; i++) {
+            int row = i / clos; // 0, 0, 0, 0, 1, 1, 1, 1
+            int col = i % clos; // 0, 1, 2, 3, 0, 1, 2, 3
+
+            int x = startX + (col * columnsGap);
+            int y = startY + (row * rowGap);
+
+            knobs.put(settings[i],new Knob(iGameModel.getiMouse(),iGameModel,settings[i],knobsInitValue[i], x, y));
+        }
+
+    }
+
+    public void handleMouseWheel(int wheelRotation) {
+        if (!open) return;
+        for (Map.Entry<String, Knob> entry : knobs.entrySet()) {
+            Knob knob = entry.getValue();
+
+            knob.handleMouseWheel(wheelRotation);
+        }
+    }
+
+    public void toggle() {
+        open = !open;
+    }
+
+    public void update() {
+        if (!open) return;
+        graphicSetting.update();
+        for (Map.Entry<String, Knob> entry : knobs.entrySet()) {
+            Knob knob = entry.getValue();
+
+            knob.update();
+        }
+    }
+
+    public void render(Graphics g) {
+        if (!open) return;
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(4f));
+        g.setColor(new Color(10, 10, 10, 200));
+        g.fillRect(-2000, -2000, 60000, 6000);
+        g.setColor(black);
+        g.fillRect(400,200,1120,680);
+        g.setColor(white);
+        g.drawRect(400,200,1120,680);
+        g.setFont(new Font("Arial", Font.BOLD, 64));
+        RenderUtils.drawStringCenter(g,"SETTINGS",960,300);
+        for (Map.Entry<String, Knob> entry : knobs.entrySet()) {
+            Knob knob = entry.getValue();
+
+            knob.render(g);
+        }
     }
 }
