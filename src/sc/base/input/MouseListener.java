@@ -46,7 +46,7 @@ public class MouseListener extends MouseAdapter implements MouseWheelListener {
         gameModel.getBarManager().click();
         gameModel.getExitPopup().click();
         gameModel.setClicked();
-        if (gameModel.getTabManager().getTap() == 4) {
+        if (gameModel.getTabManager().getTab() == 4) {
             if (quest1Rect.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.getQuestManager().clamRewardedQuest(1);
             }
@@ -61,7 +61,7 @@ public class MouseListener extends MouseAdapter implements MouseWheelListener {
             }
 
         }
-        if (gameModel.getTabManager().getTap() == 3) {
+        if (gameModel.getTabManager().getTab() == 3) {
             if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.getSkillManager().upgradeIceSpawnChance(1);
             }
@@ -79,7 +79,7 @@ public class MouseListener extends MouseAdapter implements MouseWheelListener {
             }
         }
 
-        if (gameModel.getTabManager().getTap() == 2) {
+        if (gameModel.getTabManager().getTab() == 2) {
             if (iceBasicRush.contains(viewMetrics.getVirtualMouseX(),viewMetrics.getVirtualMouseY())) {
                 gameModel.getShopManager().purchaseIceRushItem(1);
             }

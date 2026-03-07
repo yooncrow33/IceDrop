@@ -79,7 +79,7 @@ public class Knob {
         double dx = x - iMouse.getVirtualMouseX();
         double dy = y - iMouse.getVirtualMouseY();
         double distSq = dx * dx + dy * dy;
-        double radiusSum = radius + 2;
+        double radiusSum = radius + 20;
 
         // 제곱 비교로 먼저 충돌 여부 확인 (루트 연산 아끼기)
         selected = distSq < radiusSum * radiusSum;

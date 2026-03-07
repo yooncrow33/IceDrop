@@ -192,7 +192,9 @@ public class BarManager {
 
 
         open = iGameModel.getiMouse().getVirtualMouseY() <= 30 + 10;
-        if (iGameModel.getiPause().isPause()) {open = true;}
+
+        if (iGameModel.getiPause().isPause()) { open = true; }
+        if (iGameModel.getSettingManager().getUiSetting().isBarFixed()) {open = true;}
 
         targetY = open ? 0f : -40f;
         y += ((targetY - y) * lerpSpeed);
@@ -242,10 +244,12 @@ public class BarManager {
 
         g.setFont(new Font("Arial", Font.BOLD, 24));
         if (messageCool <= 0) {
-            g.setColor(Color.black);
-            drawStringCenter(g,randomMessages[currentMessageIndex], 960-2,y+24);
-            g.setColor(Color.white);
-            drawStringCenter(g,randomMessages[currentMessageIndex], 960,y+24);
+            if (iGameModel.getSettingManager().getUiSetting().isNonsense()) {
+                g.setColor(Color.black);
+                drawStringCenter(g,randomMessages[currentMessageIndex], 960-2,y+24);
+                g.setColor(Color.white);
+                drawStringCenter(g,randomMessages[currentMessageIndex], 960,y+24);
+            }
         } else {
             g.setColor(Color.black);
             drawStringCenter(g,currentMessage, 960-2,y+24);

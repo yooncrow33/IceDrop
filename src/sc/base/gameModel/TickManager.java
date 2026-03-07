@@ -1,6 +1,14 @@
 package sc.base.gameModel;
 
+import sc.view.IGameModel;
+
 public class TickManager {
+    final IGameModel iGameModel;
+
+    public TickManager(IGameModel iGameModel) {
+        this.iGameModel = iGameModel;
+    }
+
     int sessionPlayTick = 0;
     int tick = 0;
     int lastPlayTime;
@@ -23,10 +31,16 @@ public class TickManager {
         return sessionPlayTime;
     }
 
+    public void init() {
+        sessionPlayTick = 0;
+        tick = 0;
+    }
+
     public void update() {
-        tick++;
         sessionPlayTick++;
         sessionPlayTime = (int) Math.ceil(sessionPlayTick / 3600f);
         totalPlayTime = lastPlayTime + sessionPlayTime;
+        if (iGameModel.getiPause().isPause()) return;
+        tick++;
     }
 }

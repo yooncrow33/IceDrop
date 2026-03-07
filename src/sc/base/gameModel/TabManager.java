@@ -11,7 +11,8 @@ public class TabManager {
     public int tab5X = tabWidth * 4;
     boolean tabMoving = false;
     boolean tabMoveRight = true;
-    int tabMoveTime = 21;
+    final int tapSpeedMax = 6;
+    final int tapSpeedMin = 36;
     int tabMoveDistance = 945;
     int tabMoveEndTick = 0;
     int recentTap = 0;
@@ -42,7 +43,7 @@ public class TabManager {
             tab++;
         }
 
-        tabMoveEndTick = iGameModel.getTickManager().getTick() + tabMoveTime;
+        tabMoveEndTick = iGameModel.getTickManager().getTick() + iGameModel.getSettingManager().getUiSetting().getTapSpeed();
         tabMoving = true;
         tabMoveRight = true;
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
@@ -60,7 +61,7 @@ public class TabManager {
             tab--;
         }
 
-        tabMoveEndTick = iGameModel.getTickManager().getTick() + tabMoveTime;
+        tabMoveEndTick = iGameModel.getTickManager().getTick() + iGameModel.getSettingManager().getUiSetting().getTapSpeed();
         tabMoving = true;
         tabMoveRight = false;
         tab1enabled = tab2enabled = tab3enabled = tab4enabled = tab5enabled = true;
@@ -68,7 +69,7 @@ public class TabManager {
 
     public void tabUpdate() {
         if (!tabMoving) return;
-        int moveStep = tabMoveDistance / tabMoveTime;
+        int moveStep = tabMoveDistance / iGameModel.getSettingManager().getUiSetting().getTapSpeed();
 
         if (tabMoveRight) {
             moveAllTaps(-moveStep);
@@ -119,39 +120,20 @@ public class TabManager {
         tab5enabled = false;
     }
 
-    public int getTap() {
-        return tab; }
-    public boolean isTap1enabled() {
-        return tab1enabled;
+    public int getTab() { return tab; }
+    public boolean isTab1enabled() { return tab1enabled; }
+    public boolean isTab2enabled() { return tab2enabled; }
+    public boolean isTab3enabled() { return tab3enabled; }
+    public boolean isTab4enabled() { return tab4enabled; }
+    public boolean isTab5enabled() { return tab5enabled; }
+    public int getTab1X() { return tab1X; }
+    public int getTab2X() { return tab2X; }
+    public int getTab3X() { return tab3X; }
+    public int getTab4X() { return tab4X; }
+    public int getTab5X() { return  tab5X; }
+    public int getTabBarPosition() {
+        return  tabBarPosition[getTab()];
     }
-    public boolean isTap2enabled() {
-        return tab2enabled;
-    }
-    public boolean isTap3enabled() {
-        return tab3enabled;
-    }
-    public boolean isTap4enabled() {
-        return tab4enabled;
-    }
-    public boolean isTap5enabled() {
-        return tab5enabled;
-    }
-    public int getTap1X() {
-        return tab1X;
-    }
-    public int getTap2X() {
-        return tab2X;
-    }
-    public int getTap3X() {
-        return tab3X;
-    }
-    public int getTap4X() {
-        return tab4X;
-    }
-    public int getTap5X() {
-        return  tab5X;
-    }
-    public int getTapBarPosition() {
-        return  tabBarPosition[getTap()];
-    }
+    public int getTabSpeedMax() {return tapSpeedMax;}
+    public int getTabSpeedMin() {return tapSpeedMin;}
 }

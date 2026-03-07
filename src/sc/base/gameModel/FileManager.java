@@ -108,6 +108,7 @@ public class FileManager {
             props.load(new StringReader(decryptedData));
             props.load(in);
 
+            iGameModel.getTickManager().init();
             iGameModel.getShopManager().loadCoin(Integer.parseInt(props.getProperty("coin", "7")));
             iGameModel.getTickManager().loadLastPlayTime(Integer.parseInt(props.getProperty("last", "0")));
             iGameModel.getIceManager().loadLastIceBasicCollectCount(Integer.parseInt(props.getProperty("lastIceBasicCollectCount", "0")));

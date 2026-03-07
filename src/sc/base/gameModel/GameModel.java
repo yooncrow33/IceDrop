@@ -36,7 +36,7 @@ public final class GameModel implements IGameModel {
 
         fileManager = new FileManager(this);
         barManager = new BarManager(this,iExit);
-        tickManager = new TickManager();
+        tickManager = new TickManager(this);
         effectManager = new EffectManager(this);
         iceManager = new IceManager(this,l);
         tabManager = new TabManager(this);

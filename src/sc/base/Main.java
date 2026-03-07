@@ -100,6 +100,8 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
             }
         });
 
+
+
         startGameLoop();
 
         frame.addKeyListener(inputHandler);
@@ -157,27 +159,27 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         g.setFont(new Font("SansSerif", Font.BOLD, 56));
         g.drawString("Coin : " + gameModel.getShopManager().getCoin() + "/ Level : " + gameModel.getSkillManager().getLevel(), 980, 90);
 
-        if (gameModel.getTabManager().isTap1enabled()) { graphicsManager.renderInfoTap(g, gameModel.getTabManager().getTap1X(), gameModel); }
-        if (gameModel.getTabManager().isTap2enabled()) { graphicsManager.renderShopTap(g, gameModel.getTabManager().getTap2X(), gameModel); }
-        if (gameModel.getTabManager().isTap3enabled()) { graphicsManager.renderSkillPointTap(g,gameModel, gameModel.getTabManager().getTap3X()); }
-        if (gameModel.getTabManager().isTap4enabled()) { graphicsManager.renderQuestsTap(g, gameModel.getTabManager().getTap4X(), gameModel); }
-        if (gameModel.getTabManager().isTap5enabled()) { graphicsManager.renderEmptyMan(g, gameModel.getTabManager().getTap5X()); }
+        if (gameModel.getTabManager().isTab1enabled()) { graphicsManager.renderInfoTap(g, gameModel.getTabManager().getTab1X(), gameModel); }
+        if (gameModel.getTabManager().isTab2enabled()) { graphicsManager.renderShopTap(g, gameModel.getTabManager().getTab2X(), gameModel); }
+        if (gameModel.getTabManager().isTab3enabled()) { graphicsManager.renderSkillPointTap(g,gameModel, gameModel.getTabManager().getTab3X()); }
+        if (gameModel.getTabManager().isTab4enabled()) { graphicsManager.renderQuestsTap(g, gameModel.getTabManager().getTab4X(), gameModel); }
+        if (gameModel.getTabManager().isTab5enabled()) { graphicsManager.renderEmptyMan(g, gameModel.getTabManager().getTab5X()); }
 
-        if (gameModel.getTabManager().getTap() == 1) {
-            graphicsManager.renderInfoTap(g,gameModel.getTabManager().getTap1X(), gameModel);
-        } else if (gameModel.getTabManager().getTap() == 2) {
-            graphicsManager.renderShopTap(g,gameModel.getTabManager().getTap2X(), gameModel);
-        } else if (gameModel.getTabManager().getTap() == 3) {
-            graphicsManager.renderSkillPointTap(g,gameModel , gameModel.getTabManager().getTap3X());
-        } else if (gameModel.getTabManager().getTap() == 4) {
-            graphicsManager.renderQuestsTap(g,gameModel.getTabManager().getTap4X(), gameModel);
-        } else if (gameModel.getTabManager().getTap() == 5) {
-            graphicsManager.renderEmptyMan(g, gameModel.getTabManager().getTap5X());
+        if (gameModel.getTabManager().getTab() == 1) {
+            graphicsManager.renderInfoTap(g,gameModel.getTabManager().getTab1X(), gameModel);
+        } else if (gameModel.getTabManager().getTab() == 2) {
+            graphicsManager.renderShopTap(g,gameModel.getTabManager().getTab2X(), gameModel);
+        } else if (gameModel.getTabManager().getTab() == 3) {
+            graphicsManager.renderSkillPointTap(g,gameModel , gameModel.getTabManager().getTab3X());
+        } else if (gameModel.getTabManager().getTab() == 4) {
+            graphicsManager.renderQuestsTap(g,gameModel.getTabManager().getTab4X(), gameModel);
+        } else if (gameModel.getTabManager().getTab() == 5) {
+            graphicsManager.renderEmptyMan(g, gameModel.getTabManager().getTab5X());
         }
 
         graphicsManager.renderTabFrame(g, gameModel);
         graphicsManager.renderBackGround(g);
-        graphicsManager.renderTapBar(g, gameModel.getTabManager().getTap(), gameModel.getTabManager().getTapBarPosition());
+        graphicsManager.renderTapBar(g, gameModel.getTabManager().getTab(), gameModel.getTabManager().getTabBarPosition());
         gameModel.getIceManager().renderIces(g);
         graphicsManager.renderBaseFrame(g);
         gameModel.getEffectManager().renderEffects(g);

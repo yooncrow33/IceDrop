@@ -11,11 +11,18 @@ import java.util.Map;
 
 public class SettingManager {
     private final IGameModel iGameModel;
+
+    public boolean isOpen() {
+        return open;
+    }
+
     private final Map<String, Knob> knobs = new LinkedHashMap<>();
-    private final String[] settings = {"BGM SFX", "SOUND SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS"};
-    private final double[] knobsInitValue = {0.5, 0.5, 0.5, 0.0,1.0, 1.0};
+    private final String[] settings = {"BGM", "SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS"};
+    private final double[] knobsInitValue = {0.5, 1.0, 0.5, 0.0,1.0, 1.0};
 
     private final GraphicSetting graphicSetting;
+    private final UiSetting uiSetting;
+    private final SoundSetting soundSetting;
 
     private boolean open = false;
 
@@ -26,11 +33,18 @@ public class SettingManager {
         return graphicSetting;
     }
 
+    public UiSetting getUiSetting() {
+        return uiSetting;
+    }
+
     public SettingManager(IGameModel iGameModel) {
         this.iGameModel = iGameModel;
+        iGameModel.getSoundManager().loopBgm("698690__dantethehater__mmo-theme-bgm-music-synth-retro.wav");
         initKnobs();
 
         graphicSetting = new GraphicSetting(knobs.get("GRAPHICS"));
+        uiSetting = new UiSetting(iGameModel,knobs.get("FIXED BAR"),knobs.get("TAB SPEED"),knobs.get("NONSENSE"));
+        soundSetting = new SoundSetting(iGameModel,knobs.get("BGM"),knobs.get("SFX"));
     }
 
     private void initKnobs() {
@@ -73,6 +87,8 @@ public class SettingManager {
     public void update() {
         if (!open) return;
         graphicSetting.update();
+        uiSetting.update();
+        soundSetting.update();
         for (Map.Entry<String, Knob> entry : knobs.entrySet()) {
             Knob knob = entry.getValue();
 
