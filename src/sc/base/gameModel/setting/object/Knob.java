@@ -1,6 +1,8 @@
 package sc.base.gameModel.setting.object;
 
 import sc.base.RenderUtils;
+import sc.model.overlay.MessageConfig;
+import sc.model.overlay.MessageKey;
 import sc.view.IGameModel;
 import sc.view.IMouse;
 
@@ -19,6 +21,15 @@ public class Knob {
     private final boolean toggle;
 
     private String showValue = "SC";
+
+    MessageConfig knobSystemConfig = new MessageConfig(
+            "Analog Knob UI",
+            "Rotate with Mouse Wheel.",
+            "Hold SHIFT for precise control.",
+            "Range: 270 degrees (7:30 to 4:30).",
+            "Built with AffineTransform & Trigonometry.",
+            MessageKey.key.knob
+    );
 
     public void setShowValueOffset(int showValueOffset) {
         this.showValueOffset = showValueOffset;

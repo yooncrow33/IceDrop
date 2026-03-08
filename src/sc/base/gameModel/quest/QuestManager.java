@@ -3,6 +3,8 @@ package sc.base.gameModel.quest;
 import sc.base.gameModel.quest.object.LongTimeQuest;
 import sc.base.gameModel.quest.object.Quest;
 import sc.lang.Lang;
+import sc.model.overlay.MessageConfig;
+import sc.model.overlay.MessageKey;
 import sc.view.IGameModel;
 
 public class QuestManager {
@@ -33,6 +35,7 @@ public class QuestManager {
     public LongTimeQuest getThirdQuest() {
         return thirdQuest;
     }
+
 
     public QuestManager(IGameModel iGameModel, Lang l) {
         this.l = l;

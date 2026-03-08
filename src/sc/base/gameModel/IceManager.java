@@ -228,7 +228,7 @@ public class IceManager {
     public void collectIce(int tier) {
         //ㅠㅠㅎ
         iGameModel.getSoundManager().play("420884__inspectorj__impact-ice-small-b 2.wav");
-        iGameModel.getEffectManager().setShake(3,4);
+        iGameModel.getEffectManager().setShake(4,4);
         if (tier == 1) {
             iceBasicCollectedCount++;
             if (iGameModel.getQuestManager().isThirdQuestComplete()) {

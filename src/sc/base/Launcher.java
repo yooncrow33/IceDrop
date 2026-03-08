@@ -236,7 +236,7 @@ public class Launcher {
             "   [버그 수정]\n" +
             "   - IceVacuum시의 각 Ice들의 잔상이 사라지지 않는 버그수정.\n" +
             "\n" +
-            "beta 1.0.0 : Move Forward into the ExperienceZn" +
+            "beta 1.0.0 : Move Forward into the Experience" +
             "   [게임내용]\n" +
             "   - 사운드 추가.\n" +
             "   - BGM 추가.\n" +
@@ -251,9 +251,10 @@ public class Launcher {
             "   - 화면 흔들림 추가.\n" +
             "   - AntiAliasing 추가.\n" +
             "   [사용자 편의/ UX]\n" +
+            "   - 게임의 기능을 알려주는 툴팁 오버레이 추가.\n" +
             "   - 화면위에 접근할수 있는 바 추가.\n" +
+            "   - ESC시 바로 종료가 아닌 종료 팝업 추가.\n" +
             "   - 콘솔추가.\n" +
-            "       - 게임 진행중에 유동적인 save/load가능.\n" +
             "   - 시작/종료 로고 사운드 추가.\n" +
             "   - Tab아래의 텍스트 깨짐 현상 수정.\n" +
             "   - Mac및 Linux사용자를 위한 권한 문제 해결용 sh파일 추가.\n" +

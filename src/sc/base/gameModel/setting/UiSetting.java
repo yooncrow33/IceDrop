@@ -7,14 +7,16 @@ public class UiSetting {
     private final Knob barFixedKnob;
     private final Knob tapSpeedKnob;
     private final Knob nonsenseKnob;
+    private final Knob overlayKnob;
 
     private boolean barFixed = false;
     private boolean nonsense = true;
+    private boolean overlay = false;
     private final int tapSpeedMin;
     private final int tapTapSpeedMax;
     private int tapSpeed;
 
-
+    private final IGameModel iGameModel;
 
     public boolean isBarFixed() {
         return barFixed;
@@ -28,10 +30,12 @@ public class UiSetting {
         return tapSpeed;
     }
 
-    public UiSetting(IGameModel iGameModel, Knob barFixKnob, Knob tapSpeedKnob, Knob nonsenseKnob) {
+    public UiSetting(IGameModel iGameModel, Knob barFixKnob, Knob tapSpeedKnob, Knob nonsenseKnob, Knob overlayKnob) {
         this.barFixedKnob = barFixKnob;
         this.tapSpeedKnob = tapSpeedKnob;
         this.nonsenseKnob = nonsenseKnob;
+        this.overlayKnob = overlayKnob;
+        this.iGameModel = iGameModel;
         tapSpeedMin = iGameModel.getTabManager().getTabSpeedMin();
         tapTapSpeedMax = iGameModel.getTabManager().getTabSpeedMax();
 
@@ -39,6 +43,8 @@ public class UiSetting {
         barFixedKnob.setShowValue(value(barFixed));
         nonsense = isTrue(nonsenseKnob);
         nonsenseKnob.setShowValue(value(nonsense));
+        overlay = overlayKnob.getCurrentValue() >= 1.0;
+        overlayKnob.setShowValue(value(overlay));
         tapSpeed =  mapToRange(tapSpeedMin,tapTapSpeedMax,tapSpeedKnob);
         tapSpeedKnob.setShowValue(Integer.toString(getTapSpeed()));
 
@@ -52,6 +58,9 @@ public class UiSetting {
         nonsenseKnob.setShowValue(value(nonsense));
         tapSpeed =  mapToRange(tapSpeedMin,tapTapSpeedMax,tapSpeedKnob);
         tapSpeedKnob.setShowValue(Integer.toString(945/getTapSpeed()));
+        overlay = overlayKnob.getCurrentValue() >= 1.0;
+        iGameModel.getOverlay().setVisible(overlay);
+        overlayKnob.setShowValue(value(overlay));
     }
 
     private String value(boolean b) {

@@ -5,6 +5,7 @@ import sc.base.gameModel.*;
 import sc.base.gameModel.quest.QuestManager;
 import sc.base.gameModel.setting.SettingManager;
 import sc.model.ExitPopup;
+import sc.model.overlay.Overlay;
 
 public interface IGameModel {
     IceManager getIceManager();
@@ -22,6 +23,7 @@ public interface IGameModel {
     ExitPopup getExitPopup();
     IPause getiPause();
     IMouse getiMouse();
+    Overlay getOverlay();
     boolean isClicked();
     boolean isShift();
     int getCurrentProfileId();

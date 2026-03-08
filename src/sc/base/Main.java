@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JPanel implements IFrameSize, IExit, IPause {
+public final class Main extends JPanel implements IFrameSize, IExit, IPause {
     JFrame frame = new JFrame("beta 1.0.0 test");
 
     private long lastTime;
@@ -128,7 +128,7 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
 
     private void update(double deltaTime) {
         systemMonitor.updateMetrics();
-        gameModel.update(deltaTime, pause);
+        gameModel.update(deltaTime);
     }
 
     @Override public int getComponentWidth() { return this.getWidth(); }
@@ -193,6 +193,9 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         gameModel.getConsole().render(g);
 
         gameModel.getBarManager().render(g);
+
+        gameModel.getOverlay().render(g);
+
         gameModel.getExitPopup().render(g);
 
         if (gameModel.getSettingManager().getGraphicSetting().isScreenShake() && gameModel.getSettingManager().getGraphicSetting().isScreenShakeActive()){

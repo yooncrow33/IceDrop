@@ -20,6 +20,10 @@ public class Info {
     int height = 150;
     int rise = 0;
 
+    Color gray = new Color(50, 60, 75);
+    Color black = new Color(20, 25, 35);
+    Color white = new Color(200,215,235);
+
     public Info(String firstLine, String secondLine, String thirdLine,int resentTick) {
         this.firstLine = firstLine;
         this.secondLine = secondLine;
@@ -49,12 +53,6 @@ public class Info {
     }
 
     public void draw(Graphics g) {
-        Color gray = new Color(50, 60, 75);
-        Color black = new Color(20, 25, 35);
-        Color green = new Color(80, 220, 160);
-        Color blue = new Color(0, 200, 255);
-        Color yellow = new Color(255, 200, 90);
-        Color white = new Color(200,215,235);
 
         g.setColor(white); // info background color
         g.fillRect(x,y + rise, width,height);

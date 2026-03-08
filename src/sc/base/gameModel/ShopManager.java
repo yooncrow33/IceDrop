@@ -1,6 +1,8 @@
 package sc.base.gameModel;
 
 import sc.lang.Lang;
+import sc.model.overlay.MessageConfig;
+import sc.model.overlay.MessageKey;
 import sc.view.IGameModel;
 
 public class ShopManager {

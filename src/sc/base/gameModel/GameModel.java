@@ -3,9 +3,9 @@ package sc.base.gameModel;
 import sc.base.Console;
 import sc.base.gameModel.quest.QuestManager;
 import sc.base.gameModel.setting.SettingManager;
-import sc.base.gameModel.setting.object.Knob;
 import sc.lang.Lang;
 import sc.model.ExitPopup;
+import sc.model.overlay.Overlay;
 import sc.view.*;
 
 public final class GameModel implements IGameModel {
@@ -26,6 +26,7 @@ public final class GameModel implements IGameModel {
     private final BarManager barManager;
     private final Console console;
     private final ExitPopup exitPopup;
+    private final Overlay overlay;
     private final IPause iPause;
     private final IMouse iMouse;
 
@@ -44,6 +45,7 @@ public final class GameModel implements IGameModel {
         shopManager = new ShopManager(this,l);
         questManager = new QuestManager(this, l);
         soundManager = new SoundManager();
+        overlay = new Overlay(iMouse,this);
         settingManager = new SettingManager(this);
         console = new Console(this);
         exitPopup = new ExitPopup(iExit,this);
@@ -51,12 +53,13 @@ public final class GameModel implements IGameModel {
         fileManager.load(currentProfileId);
     }
 
-    public void update(double dt, Boolean pause) {
+    public void update(double dt) {
         tickManager.update();
         barManager.update();
         exitPopup.update();
         settingManager.update();
-        if (pause) return;
+        overlay.update();
+        if (getiPause().isPause()) return;
         iceManager.update(dt);
         questManager.update();
         shopManager.update(dt);
@@ -81,6 +84,7 @@ public final class GameModel implements IGameModel {
     public IPause getiPause() {return iPause;}
     public IMouse getiMouse() {return iMouse;}
     public Console getConsole() {return console;}
+    public Overlay getOverlay() {return overlay;}
 
     public int getCurrentProfileId() {return currentProfileId;}
     public boolean isClicked() {return clicked;}

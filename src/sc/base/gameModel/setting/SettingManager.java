@@ -16,9 +16,9 @@ public class SettingManager {
     }
 
     private final Map<String, Knob> knobs = new LinkedHashMap<>();
-    private final String[] settings = {"BGM", "SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS", "SCREEN SHAKE"};
-    private final double[] knobsInitValue = {0.5, 1.0, 0.5, 0.0,1.0, 1.0,0.0};
-    private final boolean[] knobsToggle = {false,true,false,true,true,false,true};
+    private final String[] settings = {"BGM", "SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS", "SHAKE", "HELP OVERLAY"};
+    private final double[] knobsInitValue = {0.5, 1.0, 0.5, 0.0,1.0, 1.0,0.0,0,0};
+    private final boolean[] knobsToggle = {false,true,false,true,true,false,true,true};
 
     private final GraphicSetting graphicSetting;
     private final UiSetting uiSetting;
@@ -42,8 +42,8 @@ public class SettingManager {
         iGameModel.getSoundManager().loopBgm("698690__dantethehater__mmo-theme-bgm-music-synth-retro.wav");
         initKnobs();
 
-        graphicSetting = new GraphicSetting(knobs.get("GRAPHICS"), knobs.get("SCREEN SHAKE"));
-        uiSetting = new UiSetting(iGameModel,knobs.get("FIXED BAR"),knobs.get("TAB SPEED"),knobs.get("NONSENSE"));
+        graphicSetting = new GraphicSetting(knobs.get("GRAPHICS"), knobs.get("SHAKE"));
+        uiSetting = new UiSetting(iGameModel,knobs.get("FIXED BAR"),knobs.get("TAB SPEED"),knobs.get("NONSENSE"), knobs.get("HELP OVERLAY"));
         soundSetting = new SoundSetting(iGameModel,knobs.get("BGM"),knobs.get("SFX"));
 
         open = true;
@@ -63,7 +63,7 @@ public class SettingManager {
         int startX = centerX - ((clos - 1) * columnsGap) / 2;
         int startY = centerY - rowGap / 2;
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             int row = i / clos; // 0, 0, 0, 0, 1, 1, 1, 1
             int col = i % clos; // 0, 1, 2, 3, 0, 1, 2, 3
 

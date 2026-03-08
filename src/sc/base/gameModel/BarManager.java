@@ -1,5 +1,7 @@
 package sc.base.gameModel;
 
+import sc.model.overlay.MessageConfig;
+import sc.model.overlay.MessageKey;
 import sc.view.IExit;
 import sc.view.IGameModel;
 import sc.view.IMouse;
