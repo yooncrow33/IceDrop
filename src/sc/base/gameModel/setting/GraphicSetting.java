@@ -6,14 +6,26 @@ import java.awt.*;
 
 public class GraphicSetting {
     private final Knob knob;
+    private final Knob screenShakeKnob;
 
-    public GraphicSetting(Knob knob) {
+    public GraphicSetting(Knob knob, Knob screenShakeKnob) {
         this.knob = knob;
+        this.screenShakeKnob = screenShakeKnob;
         knob.setShowValueFont(new Font("Arial",Font.BOLD,20));
         knob.setShowValueOffset(9);
     }
 
+    public boolean isScreenShake() {
+        return screenShake;
+    }
+
+    public boolean isScreenShakeActive() {
+        return screenShakeActive;
+    }
+
     public void update() {
+        screenShakeKnob.setShowValue(value(screenShakeKnob.getCurrentValue() >= 1.0));
+        screenShakeActive = screenShakeKnob.getCurrentValue() >= 1.0;
         switch (mapToRange()) {
             case 0 :
                 allOff();
@@ -44,6 +56,7 @@ public class GraphicSetting {
                 ai = true;
                 faEffect = true;
                 aa = true;
+                screenShake = true;
                 break;
             default:
                 allOff();
@@ -52,6 +65,8 @@ public class GraphicSetting {
     }
 
     private boolean aa = false;
+    private boolean screenShake = false;
+    private boolean screenShakeActive = false;
     private boolean ai = false;
     private boolean strEffect = false;
     private boolean faEffect = false;
@@ -75,6 +90,11 @@ public class GraphicSetting {
         strEffect = false;
         faEffect = false;
     }
+
+    private String value(boolean b) {
+        return b ? "ON" : "OFF";
+    }
+
 
     public boolean isAa() {
         return aa;

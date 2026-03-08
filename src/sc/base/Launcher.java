@@ -18,11 +18,11 @@ public class Launcher {
     JButton Start = new JButton("Start >>");
     JButton fux = new JButton("Create password");
     JLabel lable = new JLabel("IceDrop Launcher");
-    JLabel lable2 = new JLabel("I hate programming.");
+    JLabel lable2 = new JLabel("Beta!");
     JButton recentNews = new JButton("Recent News");
     JButton patchNotes = new JButton("Patch Notes");
     JButton manual = new JButton("Manual");
-    JButton init = new JButton("파일 초기화");
+    JButton init = new JButton("Init file");
     JTextArea Area = new JTextArea();
     JScrollPane p = new JScrollPane(Area);
     JTextArea TitleArea = new JTextArea("Manual");
@@ -35,7 +35,7 @@ public class Launcher {
     SoundManager s = new SoundManager();
 
     String recent_news = "\n" +
-            /*
+
             "이것을 쓴 시점은 런처만 만든 시점임.\n" +
             "       2025/10/22 -yooncrow33-\n" +
             "\n" +
@@ -66,7 +66,7 @@ public class Launcher {
             "   - move forward!\n" +
             "       2026/3/7 -yooncrow33-\n" +
 
-             */
+
             "\n";
 
 
@@ -236,11 +236,20 @@ public class Launcher {
             "   [버그 수정]\n" +
             "   - IceVacuum시의 각 Ice들의 잔상이 사라지지 않는 버그수정.\n" +
             "\n" +
-            "beta 1.0.0 (예정) : (미정)\n" +
+            "beta 1.0.0 : Move Forward into the ExperienceZn" +
             "   [게임내용]\n" +
             "   - 사운드 추가.\n" +
             "   - BGM 추가.\n" +
             "   - Pause시스템 추가.\n" +
+            "   - 밸런스 패치.\n" +
+            "       - IceBasicRush 가격 상향조정 +200.\n" +
+            "       - IceRareRush 가격 하향조정 -2000.\n" +
+            "       - IceLegendary 가격 햐항조정. -5000.\n" +
+            "       - IceVacuum 가격 하향조정. -100.\n" +
+            "       - IceVacuum 쿨타입 하향조정 72000 -> 720.\n" +
+            "   [그래픽]\n" +
+            "   - 화면 흔들림 추가.\n" +
+            "   - AntiAliasing 추가.\n" +
             "   [사용자 편의/ UX]\n" +
             "   - 화면위에 접근할수 있는 바 추가.\n" +
             "   - 콘솔추가.\n" +
@@ -257,8 +266,9 @@ public class Launcher {
             "       - 과도한 인터페이스 대량 삭제.\n" +
             "   [버그 수정]\n" +
             "   - 저정파일의 암호화 추가.\n" +
+            "   - CoolTime 을 줄이는 스킬의 list length 관련버그 수정.\n" +
             "\n" +
-            "   \n";
+            "\n";
 
     String manual_text = "\n" +
             "IceDrop Launcher 사용법\n" +

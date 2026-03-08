@@ -16,6 +16,7 @@ public class Knob {
     private double rawAngle;
     private final int radius = 45;
     private boolean selected = true;
+    private final boolean toggle;
 
     private String showValue = "SC";
 
@@ -36,12 +37,13 @@ public class Knob {
     Color white = new Color(200,215,235);
 
 
-    public Knob(IMouse iMouse, IGameModel iGameModel, String name, double initValue, int x, int y) {
+    public Knob(IMouse iMouse, IGameModel iGameModel, String name, double initValue,boolean toggle, int x, int y) {
         this.iMouse = iMouse;
         this.iGameModel = iGameModel;
         this.name = name;
         this.x = x;
         this.y = y;
+        this.toggle = toggle;
 
         this.currentValue = initValue;
 
@@ -65,6 +67,17 @@ public class Knob {
     public void handleMouseWheel(int wheelRotation) {
         if (!selected) return;
 
+        if (toggle) {
+            if (wheelRotation > 0) currentValue = 0.0;
+            else if (wheelRotation < 0) currentValue = 1.0;
+
+            double startLimit = 0.75 * Math.PI;
+            double endLimit = 2.25 * Math.PI;
+            this.angle = startLimit + (currentValue * (endLimit - startLimit));
+            this.rawAngle = this.angle;
+            return;
+        }
+
         double step = iGameModel.isShift() ? (Math.PI / 600) : (Math.PI / 60);
         double targetAngle = angle - (wheelRotation * step);
 
@@ -79,7 +92,7 @@ public class Knob {
         double dx = x - iMouse.getVirtualMouseX();
         double dy = y - iMouse.getVirtualMouseY();
         double distSq = dx * dx + dy * dy;
-        double radiusSum = radius + 20;
+        double radiusSum = radius + 60;
 
         // 제곱 비교로 먼저 충돌 여부 확인 (루트 연산 아끼기)
         selected = distSq < radiusSum * radiusSum;

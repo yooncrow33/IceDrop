@@ -146,6 +146,10 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
         super.paintComponent(g);
         Graphics2D d2 = (Graphics2D) g;
 
+        if (gameModel.getSettingManager().getGraphicSetting().isScreenShake() && gameModel.getSettingManager().getGraphicSetting().isScreenShakeActive()){
+            graphicsManager.startShake(g,gameModel);
+        }
+
         if (gameModel.getSettingManager().getGraphicSetting().isAa()) RenderUtils.applyQualityHints(d2);
 
         Color black = new Color(20, 25, 35);
@@ -190,6 +194,10 @@ public class Main extends JPanel implements IFrameSize, IExit, IPause {
 
         gameModel.getBarManager().render(g);
         gameModel.getExitPopup().render(g);
+
+        if (gameModel.getSettingManager().getGraphicSetting().isScreenShake() && gameModel.getSettingManager().getGraphicSetting().isScreenShakeActive()){
+            graphicsManager.endShake(g);
+        }
     }
 
     public static void main(String[] args) {

@@ -108,6 +108,144 @@ public class BarManager {
             "Warning: System rebooting... (Just kidding)",
             "Error 404: My motivation not found.",
 
+            "Well Speak I Engligh.",
+            "Android runtime is trash of my phone all file.",
+            "I am is Developer.",
+            "Computer is very hot like my heart.",
+            "Delete your game for you happy.",
+            "No Bug, Only Special Event.",
+            "Well Sleep I Night.",
+
+            // --- [개발자 빡침 & 시스템 폭로 시리즈] ---
+            "Memory Leak is my lifestyle.",
+            "Why this code work? I don't know too.",
+            "Wait for 100 years for loading.",
+            "Your RAM is screaming, but I don't care.",
+            "Android Studio is a RAM vacuum cleaner.",
+            "Rosetta 2 is trash of the world.",
+            "Xcode is the heaviest game in the world.",
+
+            // --- [유저 킹받게 하는 시스템 메시지] ---
+            "Error: Success.",
+            "Your mouse is moving. I see it.",
+            "Don't click this. Oh wait, you can't.",
+            "Is your ramen delicious? That's your dinner.",
+
+            // --- [현실 고증 & 개학 드립] ---
+            "Monday is inevitable. Run while you can.",
+
+            // --- [You Know... 기술적 고백 시리즈] ---
+            "You know... this game is Java.",
+            "You know... actually no Game Framework here.",
+            "You know... I am mixed Java and Kotlin. Why? I don't know.",
+            "You know... this UI is only AWT JPanel. Believe it or not.",
+            "You know... single thread is power. (Maybe)",
+            "You know... this game almost became FXGL. But I failed.",
+            "You know... Swing is old but gold. Like my MacBook.",
+            "You know... Rendering is 100% manual labor.",
+
+            // --- [뇌 뺀 매치업 & 근본 없는 문장 시리즈] ---
+            "A330 vs F22 dogfight! Who win?",
+            "My doll is '돌'. It is very hard.",
+            "I am speak English very well. Trust me.",
+            "Your GPU is sleeping? Wake up!",
+            "Is this a game or a terminal? Yes.",
+            "Keyboard is 2015 HHKB. Old is better.",
+            "Don't touch my knob. It is very sensitive.",
+            "CPU Fan: I can fly! I can fly!",
+
+            // --- [F1 & 드라이버 밈] ---
+            "Box Box! Stay out! Stay out!",
+            "Checkers or wreckers.",
+            "My tires are gone! (Fastest lap incoming)",
+            "Leave me alone, I know what I'm doing.",
+            "Slow button on. Slow button on.",
+
+            // --- [브로큰 잉글리시 2탄] ---
+            "Your mouse click make me money. Thanks.",
+            "Error is my best friend. We meet everyday.",
+            "Windows is trash of my Mac life.",
+            "I finish this code in 3:00 AM. I am ghost.",
+            "Blue screen is not here. Only Black screen.",
+
+            // --- [실시간 킹받게 하기] ---
+            "Are you still clicking? Very diligent.",
+            "I know your password. It is 'password'.",
+            "Don't look at the console. It's my secret diary.",
+            "This message is 103rd. You find it!",
+
+            // --- [개발자 허세 & 미래 기술 시리즈] ---
+            "Developer : handsome guy. Trust me.",
+            "Yeah this game use the Unreal v8.0.",
+            "I am coding with 16-core my brain.",
+            "Ray-tracing enabled... inside my imagination.",
+            "This game is 8K Resolution. If you close your eyes.",
+            "My code is art. You are the museum visitor.",
+            "Developed by AI. (No, it is just my hard work)",
+
+            // --- [리눅스 & OS 공포 시리즈] ---
+            "So Linux is good OS. but scared of Install.",
+            "Ubuntu is my friend. until terminal open.",
+            "Windows Update is more scared than Ghost.",
+            "Mac OS is just expensive Linux. (Don't tell Apple)",
+            "Kernel Panic! Please run to your mom.",
+            "sudo rm -rf / ... Don't do it. Just kidding.",
+
+            // --- [뇌 뺀 매치업 & 아무말 2탄] ---
+            "Boeing 747 vs AE86 on downhill. Who win?",
+            "Water is wet. My code is dry. (Liar)",
+            "Can I eat this MacBook? It looks like Aluminum foil.",
+            "Keyboard sound is ASMR for my lonely soul.",
+            "1 + 1 = 3. My math logic is unique.",
+            "If you hungry, eat the 'Cookie' in browser.",
+
+            // --- [You know... 시리즈 2탄] ---
+            "You know... I am never use LWJGL yet.",
+            "You know... IceDrop is better than Cyberpunk 2077. (Maybe)",
+            "You know... this game have 0% bug. It is all features.",
+            "You know... I'm writing this message at 2 AM. I'm very tired.",
+
+            // --- [F1 & 킹받는 드립] ---
+            "Copy that. We are checking.",
+            "Blue Flag! Blue Flag!",
+            "Is that Glock?! Yes, it is.",
+            "Max Verstappen is 33. This game is SC 33.",
+            "Stop the car. Engine is toasted.",
+
+            "My Develop better than 'ASOBO'. Look my Knob.",
+            "MS is Terrible compony of the world. Trust Mac.",
+            "Google is watching you. But I am watching Google.",
+            "Adobe is too expensive. I use my Hand and AWT.",
+            "Intel CPU is good Heater for my room.",
+
+            // --- [뇌 뺀 매치업 & 브로큰 잉글리시 3탄] ---
+            "Boeing 747 vs My MacBook. Who is louder?",
+            "I am very Handsome. Mirror is lie to me.",
+            "Sleep is for weak. Code is for ghost.",
+            "My English is very Perfect. You are wrong.",
+            "Delicious is my dinner. Ramen is my friend.",
+            "If you delete this game, I am cry in my bed.",
+
+            // --- [You know... 기술적 허세 시리즈] ---
+            "You know... actually I am use the Quantum Computer. (Liar)",
+            "You know... this game have 1,000,000,000,000 FPS.",
+            "You know... AWT is faster than NASA system. Maybe.",
+            "You know... my code is clean like my shower feel.",
+            "You know... this game is 100% Hand-made. No Machine.",
+
+            // --- [현실 & 개학 고증 시리즈] ---
+            "School is scard of me. Because I am Developer.",
+            "Teacher: 'Stop the coding'. Me: 'Stop the teaching'.",
+            "Homework is 404 Not Found in my bag.",
+            "I want go home. But I am already home. Strange.",
+            "Black coffee is fuel of my SC project.",
+
+            // --- [F1 & 킹받는 무전] ---
+            "Gentlemen, a short view back to the past...",
+            "No Michael no! This is so not right!", // 토토 울프 빙의
+            "I am moving up and down, side to side, like a roller coaster.",
+            "Is the car okay? No, it is a pixel.",
+
             // --- [기타 짧은 것들] ---
             "404 Not Found.", "Hello World.", "SC!", "Wait...", "Look behind you.",
             "Click Save!", "Don't alt-f4.", "Processing...", "Beep boop.", "Loading awesomeness."
@@ -128,8 +266,6 @@ public class BarManager {
     private boolean open = false;
     private boolean render = false;
     private float y = -40;
-    private int moveYTime = 20;
-    private int moveYDistance = 40;
 
     public BarManager(IGameModel iGameModel, IExit iExit) {
         this.iGameModel = iGameModel;
@@ -242,7 +378,7 @@ public class BarManager {
             drawStringCenter(g,strs[i],width/2 + (i * width),20 + y);
         }
 
-        g.setFont(new Font("Arial", Font.BOLD, 24));
+        g.setFont(new Font("Arial", Font.BOLD, 21));
         if (messageCool <= 0) {
             if (iGameModel.getSettingManager().getUiSetting().isNonsense()) {
                 g.setColor(Color.black);

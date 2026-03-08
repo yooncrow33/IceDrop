@@ -47,10 +47,27 @@ public class GraphicsManager {
 
     int xpBarWidth;
 
+    int shakeX = 0;
+    int shakeY = 0;
+
     Lang l;
 
     public GraphicsManager(Lang l) {
         this.l = l;
+    }
+
+    public void startShake(Graphics g,IGameModel iGameModel) {
+
+        if (iGameModel.getSettingManager().getGraphicSetting().isAa() && iGameModel.getEffectManager().isShake()) {
+            shakeX = (int) (Math.random() * iGameModel.getEffectManager().getShakeIntensity() - (double) iGameModel.getEffectManager().getShakeIntensity() / 2);
+            shakeY = (int) (Math.random() * iGameModel.getEffectManager().getShakeIntensity() - (double) iGameModel.getEffectManager().getShakeIntensity() / 2);
+        }
+
+        g.translate(shakeX, shakeY);
+    }
+
+    public void endShake(Graphics g) {
+        g.translate(-shakeX, -shakeY);
     }
 
     public void renderBackGround(Graphics g) {

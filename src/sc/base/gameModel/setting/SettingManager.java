@@ -3,7 +3,6 @@ package sc.base.gameModel.setting;
 import sc.base.RenderUtils;
 import sc.base.gameModel.setting.object.Knob;
 import sc.view.IGameModel;
-import sc.view.IMouse;
 
 import java.awt.*;
 import java.util.LinkedHashMap;
@@ -17,8 +16,9 @@ public class SettingManager {
     }
 
     private final Map<String, Knob> knobs = new LinkedHashMap<>();
-    private final String[] settings = {"BGM", "SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS"};
-    private final double[] knobsInitValue = {0.5, 1.0, 0.5, 0.0,1.0, 1.0};
+    private final String[] settings = {"BGM", "SFX", "TAB SPEED", "FIXED BAR","NONSENSE", "GRAPHICS", "SCREEN SHAKE"};
+    private final double[] knobsInitValue = {0.5, 1.0, 0.5, 0.0,1.0, 1.0,0.0};
+    private final boolean[] knobsToggle = {false,true,false,true,true,false,true};
 
     private final GraphicSetting graphicSetting;
     private final UiSetting uiSetting;
@@ -42,9 +42,13 @@ public class SettingManager {
         iGameModel.getSoundManager().loopBgm("698690__dantethehater__mmo-theme-bgm-music-synth-retro.wav");
         initKnobs();
 
-        graphicSetting = new GraphicSetting(knobs.get("GRAPHICS"));
+        graphicSetting = new GraphicSetting(knobs.get("GRAPHICS"), knobs.get("SCREEN SHAKE"));
         uiSetting = new UiSetting(iGameModel,knobs.get("FIXED BAR"),knobs.get("TAB SPEED"),knobs.get("NONSENSE"));
         soundSetting = new SoundSetting(iGameModel,knobs.get("BGM"),knobs.get("SFX"));
+
+        open = true;
+        update();
+        open = false;
     }
 
     private void initKnobs() {
@@ -59,14 +63,14 @@ public class SettingManager {
         int startX = centerX - ((clos - 1) * columnsGap) / 2;
         int startY = centerY - rowGap / 2;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             int row = i / clos; // 0, 0, 0, 0, 1, 1, 1, 1
             int col = i % clos; // 0, 1, 2, 3, 0, 1, 2, 3
 
             int x = startX + (col * columnsGap);
             int y = startY + (row * rowGap);
 
-            knobs.put(settings[i],new Knob(iGameModel.getiMouse(),iGameModel,settings[i],knobsInitValue[i], x, y));
+            knobs.put(settings[i],new Knob(iGameModel.getiMouse(),iGameModel,settings[i],knobsInitValue[i], knobsToggle[i], x, y));
         }
 
     }

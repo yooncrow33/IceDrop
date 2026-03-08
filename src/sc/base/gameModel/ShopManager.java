@@ -29,13 +29,13 @@ public class ShopManager {
 
     boolean iceVacuumActive = false;
 
-    final int ICE_BASIC_RUSH_ITEM_COST = 1000;
-    final int ICE_RARE_RUSH_ITEM_COST = 4000;
-    final int ICE_LEGENDARY_RUSH_ITEM_COST = 10000;
+    final int ICE_BASIC_RUSH_ITEM_COST = 1200;
+    final int ICE_RARE_RUSH_ITEM_COST = 2400;
+    final int ICE_LEGENDARY_RUSH_ITEM_COST = 4000;
 
     final int ICE_AUTO_COLLECT_MAX_LEVEL = 4;
     final int ICE_AUTO_COLLECT_UPGRADE_COST[] = {3000,6000,20000,50000,100000};
-    final int ICE_VACUUM_ITEM_COST = 700;
+    final int ICE_VACUUM_ITEM_COST = 600;
 
     final int ICE_BASIC_RUSH_ENABLE_TICK = 1800; // 30 seconds
     final int ICE_RARE_RUSH_ENABLE_TICK = 3600; // 1 minute
@@ -45,7 +45,7 @@ public class ShopManager {
     final int ICE_BASIC_RUSH_COOL_DOWN_TICK = 3600; // 2 minutes
     final int ICE_RARE_RUSH_COOL_DOWN_TICK = 7200; // 3 minutes
     final int ICE_LEGENDARY_RUSH_COOL_DOWN_TICK = 18000; // 5 minutes
-    final int ICE_VACUUM_COOL_DOWN_TICK = 72000/100; // just a 10 minute 내것이 되는 시간
+    final int ICE_VACUUM_COOL_DOWN_TICK = 720; // just a 10 minute 내것이 되는 시간
 
     IGameModel iGameModel;
     Lang l;
@@ -70,6 +70,7 @@ public class ShopManager {
                 iceBasicRushItemCount--;
                 iceBasicRush = true;
                 iceBasicRushEndTick = iGameModel.getTickManager().getTick() + ICE_BASIC_RUSH_ENABLE_TICK;
+                iGameModel.getEffectManager().setShake(18,6);
                 iGameModel.getEffectManager().addInfo(l.getShopRushBasicOn(),l.getShopRushTime30(), "");
             }
         } else if (tier == 2) {
@@ -77,6 +78,7 @@ public class ShopManager {
                 iceRareRushItemCount--;
                 iceRareRush = true;
                 iceRareRushEndTick = iGameModel.getTickManager().getTick() + ICE_RARE_RUSH_ENABLE_TICK;
+                iGameModel.getEffectManager().setShake(26,10);
                 iGameModel.getEffectManager().addInfo(l.getShopRushRareOn(),l.getShopRushTime60(), "");
             }
         } else if (tier == 3) {
@@ -84,6 +86,7 @@ public class ShopManager {
                 iceLegendaryRushItemCount--;
                 iceLegendaryRush = true;
                 iceLegendaryRushEndTick = iGameModel.getTickManager().getTick() + ICE_LEGENDARY_RUSH_ENABLE_TICK;
+                iGameModel.getEffectManager().setShake(40,13);
                 iGameModel.getEffectManager().addInfo(l.getShopRushLegendaryOn(),l.getShopRushTime60(), "");
             }
         }

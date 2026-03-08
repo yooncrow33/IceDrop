@@ -199,6 +199,7 @@ public class IceManager {
         iGameModel.getSkillManager().addXp(xpGained);
 
         iGameModel.getSoundManager().play("36940__schalkalwis__eisklirr.wav");
+        iGameModel.getEffectManager().setShake(30,12);
 
         iGameModel.getEffectManager().addInfo(l.getInfoVacuumActivatedMsg(),l.getInfoGetCoinMsg() + (collectedIceBasics * ICE_BASIC_VALUE + collectedIceRares * ICE_RARE_VALUE + collectedIceLegendaryes * ICE_LEGENDARY_VALUE) + "!",l.getInfoGetXpMsg() + xpGained);
 
@@ -227,6 +228,7 @@ public class IceManager {
     public void collectIce(int tier) {
         //ㅠㅠㅎ
         iGameModel.getSoundManager().play("420884__inspectorj__impact-ice-small-b 2.wav");
+        iGameModel.getEffectManager().setShake(3,4);
         if (tier == 1) {
             iceBasicCollectedCount++;
             if (iGameModel.getQuestManager().isThirdQuestComplete()) {

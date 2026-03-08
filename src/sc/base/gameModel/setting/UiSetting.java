@@ -54,7 +54,7 @@ public class UiSetting {
         tapSpeedKnob.setShowValue(Integer.toString(945/getTapSpeed()));
     }
 
-    public String value(boolean b) {
+    private String value(boolean b) {
         return b ? "ON" : "OFF";
     }
 

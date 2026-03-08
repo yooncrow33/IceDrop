@@ -1,7 +1,6 @@
 package sc.base.gameModel;
 
 import sc.model.effects.*;
-import sc.view.IMouse;
 import sc.view.IGameModel;
 
 import java.awt.*;
@@ -12,6 +11,24 @@ public class EffectManager {
     ArrayList<StringEffect> stringEffects = new ArrayList<>();
     ArrayList<Info> infos = new ArrayList<>();
     ArrayList<Fa> fas = new ArrayList<>();
+
+    private boolean shake = false;
+    private int shakeIntensity = 4;
+    private int shakeTime = 0;
+
+    public int getShakeIntensity() {
+        return shakeIntensity;
+    }
+
+    public void setShake(int tick, int shakeIntensity) {
+        shakeTime = tick;
+        this.shakeIntensity = shakeIntensity;
+    }
+
+    public boolean isShake() {
+        return shake;
+    }
+
     ArrayList<FaUltra> faUltras = new ArrayList<>();
 
     IGameModel iGameModel;
@@ -21,6 +38,15 @@ public class EffectManager {
     }
 
     public void update(double dt) {
+        if (shakeTime <= 0) {
+            shake = false;
+            shakeTime = 0;
+        } else {
+            shakeTime --;
+            shake = true;
+        }
+
+
         for (int i = integerEffects.size() - 1; i >= 0; i--) {
             IntegerEffect integerEffect = integerEffects.get(i);
             integerEffect.update();
