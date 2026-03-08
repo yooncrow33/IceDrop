@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public final class Main extends JPanel implements IFrameSize, IExit, IPause {
-    JFrame frame = new JFrame("beta 1.0.0 test");
+    JFrame frame = new JFrame("beta 1.0.0");
 
     private long lastTime;
 

@@ -545,7 +545,7 @@ public class Launcher {
 
         p.setProperty(LangKey.TITLE_GAME_NAME, "FROZEN FIELD");
         p.setProperty(LangKey.TITLE_SUB_TEXT, "Collect the ice. Control the flow.");
-        p.setProperty(LangKey.VERSION_TEXT, "v1.13.5-alpha");
+        p.setProperty(LangKey.VERSION_TEXT, "v1.0.0-beta");
 
         p.setProperty(LangKey.TAP_INFO, "INFO");
         p.setProperty(LangKey.TAP_SHOP, "SHOP");
@@ -665,7 +665,7 @@ public class Launcher {
 
         p.setProperty(LangKey.TITLE_GAME_NAME, "프로즌 필드");
         p.setProperty(LangKey.TITLE_SUB_TEXT, "얼음을 수집하라. 흐름을 지배하라.");
-        p.setProperty(LangKey.VERSION_TEXT, "v1.13.5-알파");
+        p.setProperty(LangKey.VERSION_TEXT, "v1.0.0-베타");
 
         p.setProperty(LangKey.TAP_INFO, "정보");
         p.setProperty(LangKey.TAP_SHOP, "상점");
@@ -786,7 +786,7 @@ public class Launcher {
 
         p.setProperty(LangKey.TITLE_GAME_NAME, "FROZEN FIELD");
         p.setProperty(LangKey.TITLE_SUB_TEXT, "Collect the ice. Control the flow.");
-        p.setProperty(LangKey.VERSION_TEXT, "v1.13.5-alpha");
+        p.setProperty(LangKey.VERSION_TEXT, "v1.0.0-beta");
 
         p.setProperty(LangKey.TAP_INFO, "INFO");
         p.setProperty(LangKey.TAP_SHOP, "SHOP");
