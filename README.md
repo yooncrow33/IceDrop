@@ -49,4 +49,4 @@ chmod +x ~/SC/scrun.sh
 scrun.sh
 ```
 ## Window 실행 방법
-### sc.jar 실행.
+### sc.jar을 관리자 권한으로 실행.
