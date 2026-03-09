@@ -1,10 +1,8 @@
-package sc.base.gameModel.quest;
+package sc.base.gameModel.managers.quest;
 
-import sc.base.gameModel.quest.object.LongTimeQuest;
-import sc.base.gameModel.quest.object.Quest;
+import sc.base.gameModel.managers.quest.object.LongTimeQuest;
+import sc.base.gameModel.managers.quest.object.Quest;
 import sc.lang.Lang;
-import sc.model.overlay.MessageConfig;
-import sc.model.overlay.MessageKey;
 import sc.view.IGameModel;
 
 public class QuestManager {
@@ -49,7 +47,7 @@ public class QuestManager {
     public void update() {
         firstQuest.update(getCurrentQuestProgress(firstQuest.getQuestIndex()));
         secondQuest.update(getCurrentQuestProgress(secondQuest.getQuestIndex()));
-        thirdQuest.update(iGameModel.getIceManager().getIceBasicTotalCollectCount());
+        thirdQuest.update(iGameModel.getStatisticsManager().getIceBasicTotalCollectCount());
 
         // 추가: 퀘스트 객체의 상태를 Manager의 필드에 동기화 (저장용)
         longTimeQuestCompleted = thirdQuest.getIsCompleted();
@@ -77,11 +75,11 @@ public class QuestManager {
     public int getCurrentQuestProgress(int questId) {
         switch (questId) {
             case 1: // Collect 10 Ice_Basic
-                return iGameModel.getIceManager().getIceBasicCollectedCount() - lastIceBasicCC;
+                return iGameModel.getStatisticsManager().getIceBasicCollectedCount() - lastIceBasicCC;
             case 2: // Collect 5 Ice_Rare
-                return iGameModel.getIceManager().getIceRareCollectedCount() - lastIceRareCC;
+                return iGameModel.getStatisticsManager().getIceRareCollectedCount() - lastIceRareCC;
             case 3: // Collect 1 Ice_Legendary
-                return iGameModel.getIceManager().getIceLegendaryCollectedCount() - lastLegendaryCC;
+                return iGameModel.getStatisticsManager().getIceLegendaryCollectedCount() - lastLegendaryCC;
             case 4: // Play for 10 min (sessionPlayTime)
             case 5: // Play for 30 min (sessionPlayTime)
             case 6: // Play for 1 hour (sessionPlayTime)
@@ -101,9 +99,9 @@ public class QuestManager {
         } else {
             iGameModel.getEffectManager().addStrEffect(l.getQuestNotEnoughMoneyMsg());
         }
-        lastIceBasicCC = iGameModel.getIceManager().getIceBasicCollectedCount();
-        lastIceRareCC = iGameModel.getIceManager().getIceRareCollectedCount();
-        lastLegendaryCC = iGameModel.getIceManager().getIceLegendaryCollectedCount();
+        lastIceBasicCC = iGameModel.getStatisticsManager().getIceBasicCollectedCount();
+        lastIceRareCC = iGameModel.getStatisticsManager().getIceRareCollectedCount();
+        lastLegendaryCC = iGameModel.getStatisticsManager().getIceLegendaryCollectedCount();
         lastSessionPlayTime = iGameModel.getTickManager().getSessionPlayTime();
     }
     public int getRefreshCost() {

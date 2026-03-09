@@ -76,25 +76,5 @@ public class Info {
 
         g.setColor(black);
         g.drawRect(x,y + rise, width,height);
-
-/*
-        g.setColor(new Color(191,222,255)); // info background color
-        g.fillRect(x,y + rise, 400,height);
-        g.setColor(new Color(0,74,153)); // info top bar color
-        g.fillRect(x, y + rise, 400,20);
-        g.setColor(new Color(15,135,255)); // info right square color
-        g.fillRect(x + width - 20, y + rise, 20,20);
-
-        g.setFont(new Font("Arial", Font.BOLD, 16));
-        g.setColor(Color.white);
-        g.drawString("Info System", 20, y + 15 + rise);
-
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.setColor(Color.black); // info = 920
-        g.drawString(firstLine, 20, y + 50 + rise);
-        g.drawString(secondLine, 20, y + 80 + rise);
-        g.drawString(thirdLine, 20, y + 110 + rise);
-
- */
     }
 }

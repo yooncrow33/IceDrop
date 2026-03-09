@@ -1,11 +1,7 @@
-package sc.base.gameModel;
+package sc.base.gameModel.managers;
 
-import sc.model.overlay.MessageConfig;
-import sc.model.overlay.MessageKey;
 import sc.view.IExit;
 import sc.view.IGameModel;
-import sc.view.IMouse;
-import sc.view.IPause;
 
 import java.awt.*;
 import java.util.Random;

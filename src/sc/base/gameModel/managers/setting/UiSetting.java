@@ -1,6 +1,6 @@
-package sc.base.gameModel.setting;
+package sc.base.gameModel.managers.setting;
 
-import sc.base.gameModel.setting.object.Knob;
+import sc.base.gameModel.managers.setting.object.Knob;
 import sc.view.IGameModel;
 
 public class UiSetting {

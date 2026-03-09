@@ -1,8 +1,10 @@
 package sc.base.gameModel;
 
 import sc.base.Console;
-import sc.base.gameModel.quest.QuestManager;
-import sc.base.gameModel.setting.SettingManager;
+import sc.base.gameModel.managers.*;
+import sc.base.gameModel.managers.quest.QuestManager;
+import sc.base.gameModel.managers.setting.SettingManager;
+import sc.base.gameModel.managers.stastics.StatisticsManager;
 import sc.lang.Lang;
 import sc.model.ExitPopup;
 import sc.model.overlay.Overlay;
@@ -27,6 +29,7 @@ public final class GameModel implements IGameModel {
     private final Console console;
     private final ExitPopup exitPopup;
     private final Overlay overlay;
+    private final StatisticsManager statisticsManager;
     private final IPause iPause;
     private final IMouse iMouse;
 
@@ -49,6 +52,7 @@ public final class GameModel implements IGameModel {
         settingManager = new SettingManager(this);
         console = new Console(this);
         exitPopup = new ExitPopup(iExit,this);
+        statisticsManager = new StatisticsManager(this);
 
         fileManager.load(currentProfileId);
     }
@@ -85,6 +89,7 @@ public final class GameModel implements IGameModel {
     public IMouse getiMouse() {return iMouse;}
     public Console getConsole() {return console;}
     public Overlay getOverlay() {return overlay;}
+    public StatisticsManager getStatisticsManager() {return statisticsManager;}
 
     public int getCurrentProfileId() {return currentProfileId;}
     public boolean isClicked() {return clicked;}

@@ -1,4 +1,4 @@
-package sc.base.gameModel;
+package sc.base.gameModel.managers;
 
 import sc.view.IGameModel;
 
@@ -38,7 +38,7 @@ public class TickManager {
 
     public void update() {
         sessionPlayTick++;
-        sessionPlayTime = (int) Math.ceil(sessionPlayTick / 3600f);
+        sessionPlayTime = (int) Math.ceil(sessionPlayTick / 62.5f*62.5f);
         totalPlayTime = lastPlayTime + sessionPlayTime;
         if (iGameModel.getiPause().isPause()) return;
         tick++;

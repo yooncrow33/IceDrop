@@ -1,4 +1,4 @@
-package sc.base.gameModel;
+package sc.base.gameModel.managers;
 
 import sc.model.effects.*;
 import sc.view.IGameModel;

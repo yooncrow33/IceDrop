@@ -1,4 +1,4 @@
-package sc.base.gameModel;
+package sc.base.gameModel.managers;
 
 import javax.sound.sampled.*;
 import java.io.File;

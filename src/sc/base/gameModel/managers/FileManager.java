@@ -1,4 +1,4 @@
-package sc.base.gameModel;
+package sc.base.gameModel.managers;
 
 import sc.view.IGameModel;
 
@@ -43,9 +43,6 @@ public class FileManager {
 
         props.setProperty("coin", String.valueOf(iGameModel.getShopManager().getCoin()));
         props.setProperty("last", String.valueOf(iGameModel.getTickManager().getLastPlayTime() + iGameModel.getTickManager().getSessionPlayTime()));
-        props.setProperty("lastIceBasicCollectCount", String.valueOf(iGameModel.getIceManager().getLastIceBasicCollectCount() + iGameModel.getIceManager().getIceBasicCollectedCount()));
-        props.setProperty("lastIceRareCollectCount", String.valueOf(iGameModel.getIceManager().getLastIceRareCollectCount() + iGameModel.getIceManager().getIceRareCollectedCount()));
-        props.setProperty("lastIceLegendaryCollectCount", String.valueOf(iGameModel.getIceManager().getLastIceLegendaryCollectCount() + iGameModel.getIceManager().getIceLegendaryCollectedCount()));
         props.setProperty("thirdQuestCompleted", String.valueOf(iGameModel.getQuestManager().getThirdQuest().getIsCompleted()));
         props.setProperty("level", String.valueOf(iGameModel.getSkillManager().getLevel()));
         props.setProperty("xp", String.valueOf(iGameModel.getSkillManager().getXp()));
@@ -63,39 +60,28 @@ public class FileManager {
         props.setProperty("iceVacuumCount", String.valueOf(iGameModel.getShopManager().getIceVacuumCount()));
         props.setProperty("thirdQuestReward", String.valueOf(iGameModel.getQuestManager().getThirdQuest().getIsRewarded()));
 
-        String homeDir = System.getProperty("user.home")+ File.separator + "SC" + File.separator + "save";
-
-        String fullPath1 = homeDir + File.separator + "IceDropSaveProfile1.properties";
-        String fullPath2 = homeDir + File.separator + "IceDropSaveProfile2.properties";
-        String fullPath3 = homeDir + File.separator + "IceDropSaveProfile3.properties";
-        String paths[] = {"empty", fullPath1, fullPath2, fullPath3};
-
         try {
-
             StringWriter writer = new StringWriter();
             props.store(writer, "User Save Data"); // 메모리상에 먼저 텍스트로 씀
             String encryptedData = encrypt(writer.toString()); // 통째로 암호화
 
-            Files.writeString(Path.of(paths[currentProfileId]), encryptedData); // 파일에 저장
+            Files.writeString(Path.of(profilePath(currentProfileId)), encryptedData); // 파일에 저장
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "저장 실패: " + e.getMessage() + "\n경로: " + paths[currentProfileId]);
+            JOptionPane.showMessageDialog(null, "저장 실패: " + e.getMessage() + "\n경로: " + profilePath(currentProfileId));
         }
 
     }
 
+    public String profilePath(int id) {
+        String homeDir = System.getProperty("user.home")+ File.separator + "SC" + File.separator + "save";
+        return String.format(homeDir + File.separator + "IceDropSaveFile%d",id);
+    }
+
     public void load(int currentProfileId) {
         Properties props = new Properties();
-        String homeDir = System.getProperty("user.home")+ File.separator + "SC" + File.separator + "save";
-
-        String fullPath1 = homeDir + File.separator + "IceDropSaveProfile1.properties";
-        String fullPath2 = homeDir + File.separator + "IceDropSaveProfile2.properties";
-        String fullPath3 = homeDir + File.separator + "IceDropSaveProfile3.properties";
-
-        String paths[] = {"empty", fullPath1, fullPath2, fullPath3};
-
-        try (FileInputStream in = new FileInputStream(paths[currentProfileId])) {
-            String encryptedData = Files.readString(Path.of(paths[currentProfileId]));
+        try (FileInputStream in = new FileInputStream(profilePath(currentProfileId))) {
+            String encryptedData = Files.readString(Path.of(profilePath(currentProfileId)));
 
             // 2. 복호화 진행
             String decryptedData = decrypt(encryptedData);
@@ -106,14 +92,10 @@ public class FileManager {
 
             // 3. 복호화된 문자열을 Properties 객체에 로드
             props.load(new StringReader(decryptedData));
-            props.load(in);
 
             iGameModel.getTickManager().init();
             iGameModel.getShopManager().loadCoin(Integer.parseInt(props.getProperty("coin", "7")));
             iGameModel.getTickManager().loadLastPlayTime(Integer.parseInt(props.getProperty("last", "0")));
-            iGameModel.getIceManager().loadLastIceBasicCollectCount(Integer.parseInt(props.getProperty("lastIceBasicCollectCount", "0")));
-            iGameModel.getIceManager().loadLastIceRareCollectCount(Integer.parseInt(props.getProperty("lastIceRareCollectCount", "0")));
-            iGameModel.getIceManager().loadLastIceLegendaryCollectCount(Integer.parseInt(props.getProperty("lastIceLegendaryCollectCount", "0")));
             iGameModel.getSkillManager().loadLevel(Integer.parseInt(props.getProperty("level", "1")));
             iGameModel.getSkillManager().loadXp(Integer.parseInt(props.getProperty("xp", "0")));
             iGameModel.getSkillManager().loadSkillPoint(Integer.parseInt(props.getProperty("skillPoint", "0")));

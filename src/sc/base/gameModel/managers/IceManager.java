@@ -1,11 +1,10 @@
-package sc.base.gameModel;
+package sc.base.gameModel.managers;
 
 import sc.lang.Lang;
 import sc.model.ice.Ice;
 import sc.model.ice.IceBasic;
 import sc.model.ice.IceLegendary;
 import sc.model.ice.IceRare;
-import sc.view.IMouse;
 import sc.view.IGameModel;
 
 import java.awt.*;
@@ -20,31 +19,6 @@ public class IceManager {
     final int ICE_BASIC_XP = 10;
     final int ICE_RARE_XP = 20;
     final int ICE_LEGENDARY_XP = 40;
-
-    int iceBasicCollectedCount = 0;
-    int iceRareCollectedCount = 0;
-    int iceLegendaryCollectedCount = 0;
-
-    int lastIceBasicCollectCount;
-    int lastIceRareCollectCount;
-    int lastIceLegendaryCollectCount;
-
-    public void loadLastIceBasicCollectCount(int lastIceBasicCollectCount) {
-        this.lastIceBasicCollectCount = lastIceBasicCollectCount;
-    }
-
-    public int getLastIceBasicCollectCount() {
-        return lastIceBasicCollectCount;
-    }
-    public int getLastIceRareCollectCount() {
-        return lastIceRareCollectCount;
-    }
-    public int getLastIceLegendaryCollectCount() {
-        return lastIceLegendaryCollectCount;
-    }
-
-    public void loadLastIceRareCollectCount(int lastIceRareCollectCount) {this.lastIceRareCollectCount = lastIceRareCollectCount;}
-    public void loadLastIceLegendaryCollectCount(int lastIceLegendaryCollectCount) {this.lastIceLegendaryCollectCount = lastIceLegendaryCollectCount;}
 
     double iceAutoCollectChance[] = {0,0.001,0.005,0.01,0.05,0.07};
 
@@ -172,17 +146,17 @@ public class IceManager {
             switch (ice.getTier()) {
                 case 1: // Basic
                     collectedIceBasics++;
-                    addIceBasicCollectCount();
+                    iGameModel.getStatisticsManager().addIceBasicCollectCount();
                     xpGained += ICE_BASIC_XP;
                     break;
                 case 2: // Rare
                     collectedIceRares++;
-                    addIceRareCollectCount();
+                    iGameModel.getStatisticsManager().addIceRareCollectCount();
                     xpGained += ICE_RARE_XP;
                     break;
                 case 3: // Legendary
                     collectedIceLegendaryes++;
-                    addIceLegendaryCollectCount();
+                    iGameModel.getStatisticsManager().addIceLegendaryCollectCount();
                     xpGained += ICE_LEGENDARY_XP;
                     break;
             }
@@ -205,32 +179,12 @@ public class IceManager {
 
     }
 
-    private void addIceBasicCollectCount() {
-        iceBasicCollectedCount++;
-    }
-    private void addIceRareCollectCount() {
-        iceRareCollectedCount++;
-    }
-    private void addIceLegendaryCollectCount() {
-        iceLegendaryCollectedCount++;
-    }
-    public int getIceBasicCollectedCount() {
-        return iceBasicCollectedCount;
-    }
-    public int getIceRareCollectedCount() {
-        return  iceRareCollectedCount;
-    }
-    public int getIceLegendaryCollectedCount() {
-        return iceLegendaryCollectedCount;
-    }
-    public int getIceBasicTotalCollectCount() {return iceBasicCollectedCount + lastIceBasicCollectCount; }
-
     public void collectIce(int tier) {
         //ㅠㅠㅎ
         iGameModel.getSoundManager().play("420884__inspectorj__impact-ice-small-b 2.wav");
         iGameModel.getEffectManager().setShake(4,4);
         if (tier == 1) {
-            iceBasicCollectedCount++;
+            iGameModel.getStatisticsManager().addIceBasicCollectCount();
             if (iGameModel.getQuestManager().isThirdQuestComplete()) {
                 iGameModel.getShopManager().addCoin(ICE_BASIC_VALUE);
                 iGameModel.getShopManager().addCoin(ICE_BASIC_VALUE + iGameModel.getQuestManager().getBonus());
@@ -238,7 +192,7 @@ public class IceManager {
                 iGameModel.getShopManager().addCoin(ICE_BASIC_VALUE);
             }
         } else if (tier == 2) {
-            iceRareCollectedCount++;
+            iGameModel.getStatisticsManager().addIceRareCollectCount();
             iGameModel.getSkillManager().addXp(ICE_RARE_VALUE/2);
             if (iGameModel.getQuestManager().isThirdQuestComplete()) {
                 iGameModel.getShopManager().addCoin(ICE_RARE_VALUE);
@@ -247,7 +201,7 @@ public class IceManager {
                 iGameModel.getShopManager().addCoin(ICE_RARE_VALUE);
             }
         } else if (tier == 3) {
-            iceLegendaryCollectedCount++;
+            iGameModel.getStatisticsManager().addIceLegendaryCollectCount();
             iGameModel.getSkillManager().addXp(ICE_LEGENDARY_VALUE/2);
             if (iGameModel.getQuestManager().isThirdQuestComplete()) {
                 iGameModel.getShopManager().addCoin(ICE_LEGENDARY_VALUE);

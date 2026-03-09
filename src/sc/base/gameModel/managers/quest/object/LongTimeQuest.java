@@ -1,4 +1,4 @@
-package sc.base.gameModel.quest.object;
+package sc.base.gameModel.managers.quest.object;
 
 import sc.lang.Lang;
 import sc.view.IGameModel;

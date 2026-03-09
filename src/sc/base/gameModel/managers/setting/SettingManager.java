@@ -1,7 +1,7 @@
-package sc.base.gameModel.setting;
+package sc.base.gameModel.managers.setting;
 
 import sc.base.RenderUtils;
-import sc.base.gameModel.setting.object.Knob;
+import sc.base.gameModel.managers.setting.object.Knob;
 import sc.view.IGameModel;
 
 import java.awt.*;

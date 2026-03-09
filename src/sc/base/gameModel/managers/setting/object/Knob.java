@@ -1,4 +1,4 @@
-package sc.base.gameModel.setting.object;
+package sc.base.gameModel.managers.setting.object;
 
 import sc.base.RenderUtils;
 import sc.model.overlay.MessageConfig;
@@ -18,6 +18,7 @@ public class Knob {
     private double rawAngle;
     private final int radius = 45;
     private boolean selected = true;
+    private boolean wheel = false;
     private final boolean toggle;
 
     private String showValue = "SC";
@@ -79,20 +80,30 @@ public class Knob {
         if (!selected) return;
 
         if (toggle) {
-            if (wheelRotation > 0) currentValue = 0.0;
-            else if (wheelRotation < 0) currentValue = 1.0;
+            if (wheelRotation > 0) {
+                if (currentValue != 0.0) {
+                    currentValue = 0.0;
+                    iGameModel.getSoundManager().play("144194__lolamadeus__knob-click-1.wav");
+                }
+            }
+            else if (wheelRotation < 0) {
+                if (currentValue != 1.0) {
+                    currentValue = 1.0;
+                    iGameModel.getSoundManager().play("144194__lolamadeus__knob-click-1.wav");
+                }
+            }
 
             double startLimit = 0.75 * Math.PI;
             double endLimit = 2.25 * Math.PI;
             this.angle = startLimit + (currentValue * (endLimit - startLimit));
             this.rawAngle = this.angle;
-            return;
+        } else {
+            double step = iGameModel.isShift() ? (Math.PI / 600) : (Math.PI / 60);
+            double targetAngle = angle - (wheelRotation * step);
+
+            wheel = true;
+            setRawAngle(targetAngle);
         }
-
-        double step = iGameModel.isShift() ? (Math.PI / 600) : (Math.PI / 60);
-        double targetAngle = angle - (wheelRotation * step);
-
-        setRawAngle(targetAngle);
     }
 
     private void setRawAngle(double angle) {
@@ -129,6 +140,11 @@ public class Knob {
             } else {
                 normalized = (adjustedAngle > 1.5 * Math.PI) ? 1.0 : 0.0;
             }
+        }
+
+        if (!(currentValue >= 1.0) && !(currentValue <= 0.0) && wheel) {
+            iGameModel.getSoundManager().play("144194__lolamadeus__knob-click-1.wav");
+            wheel = false;
         }
 
         currentValue = Math.max(0.0, Math.min(1.0, normalized));

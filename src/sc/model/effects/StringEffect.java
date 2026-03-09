@@ -27,7 +27,7 @@ public class StringEffect {
 
     public void draw(Graphics g) {
         g.setColor(new Color(120, 255, 200, alpha));
-        g.setFont(new Font("굴림", Font.BOLD, 36));
+        g.setFont(new Font("Arial", Font.BOLD, 36));
         RenderUtils.drawStringCenter(g,str, x, y - rise);
     }
 }

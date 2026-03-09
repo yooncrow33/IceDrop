@@ -1,6 +1,6 @@
 package sc.base;
 
-import sc.base.gameModel.SoundManager;
+import sc.base.gameModel.managers.SoundManager;
 import sc.base.splashScreen.StartSplashScreen;
 import sc.lang.LangKey;
 

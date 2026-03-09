@@ -29,7 +29,7 @@ public class IceAfterImage {
         } else if (tier == 3) {
             g.setColor(new Color(255, 120, 120, alpha));   // Legendary - 핫 레드
         }
-        g.setFont(new Font("굴림", Font.BOLD, 36));
+        g.setFont(new Font("Arial", Font.BOLD, 36));
         g.fillRect(x, y, 30 ,30);
     }
 }

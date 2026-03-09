@@ -457,7 +457,7 @@ public class GraphicsManager {
 
         firstQuestProgress = (int) ((iGameModel.getQuestManager().getCurrentQuestProgress(iGameModel.getQuestManager().getFirstQuest().getQuestIndex()) / (float) iGameModel.getQuestManager().getFirstQuest().getGoal()) * 905);
         secondQuestProgress = (int) ((iGameModel.getQuestManager().getCurrentQuestProgress(iGameModel.getQuestManager().getSecondQuest().getQuestIndex()) / (float) iGameModel.getQuestManager().getSecondQuest().getGoal()) * 905);
-        thirdQuestProgress = (int) (((iGameModel.getIceManager().getLastIceBasicCollectCount() + iGameModel.getIceManager().getIceBasicTotalCollectCount())/ (float) iGameModel.getQuestManager().getThirdQuest().getQuestGoal()) * 905);
+        thirdQuestProgress = (int) (((iGameModel.getStatisticsManager().getLastIceBasicCollectCount() + iGameModel.getStatisticsManager().getIceBasicTotalCollectCount())/ (float) iGameModel.getQuestManager().getThirdQuest().getQuestGoal()) * 905);
         if (firstQuestProgress >= 905) firstQuestProgress = 905;
         if (secondQuestProgress >= 905) secondQuestProgress = 905;
         if (thirdQuestProgress >= 905) thirdQuestProgress = 905;
