@@ -1,3 +1,53 @@
+# IceDrop Execution Guide
+
+This guide explains how to install and run **'IceDrop'** on various operating system environments.
+
+---
+
+## Prerequisites
+* **Java 21 JDK** or a higher version must be installed on your system.
+
+---
+
+## Execution Guide for macOS / Linux
+
+### 1. File Placement
+* Move the downloaded `SC` folder to your **User Home Directory** (`~/`).
+* The `SC` folder should be located where you first land when opening the terminal.
+
+### 2. Environment Variable (PATH) Setup
+Configure your system so that you can run the game by simply typing `scrun.sh` from any directory.
+
+1. Open the terminal and enter the following command:
+    ```bash
+    nano ~/.zshrc
+    ```
+    *(Linux users, please enter `nano ~/.bashrc` instead.)*
+
+2. Copy and paste the following line at the very bottom of the file (be careful with the quotes):
+    ```bash
+    export PATH="$PATH:$HOME/SC"
+    ```
+
+3. **Save and Exit**:
+    * Press `Control + X`
+    * Press `Y`
+    * Press `Enter`
+
+4. Apply the changes to your current session:
+    ```bash
+    source ~/.zshrc
+    ```
+
+### 3. Granting Permissions and Starting the Game
+You only need to grant execution permission to the script file once.
+```bash
+# Grant execution permission
+chmod +x ~/SC/scrun.sh
+
+# Run the game
+scrun.sh
+
 # IceDrop 실행 가이드
 
 본 가이드는 **'IceDrop'** 를 각 운영체제 환경에서 설치하고 실행하는 방법을 설명합니다.
