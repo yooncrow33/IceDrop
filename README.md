@@ -47,6 +47,7 @@ chmod +x ~/SC/scrun.sh
 
 # Run the game
 scrun.sh
+```
 
 # IceDrop 실행 가이드
 
